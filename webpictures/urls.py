@@ -15,10 +15,16 @@ Including another URLconf
 """
 from django.urls import path, include
 from django.contrib import admin
-from core import urls
+from django.conf import settings
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path( '', include('core.urls'))
+    path( '', include('core.urls')),
+    path('pages/', include('pages.urls')),
 ]
+
+if settings.DEBUG:
+       from django.conf.urls.static import static
+       urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

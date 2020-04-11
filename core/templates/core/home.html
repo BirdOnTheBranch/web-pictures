@@ -12,8 +12,6 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'core/favicon.ico' %}"/>
    <!-- Main -->
     <link href="{% static 'core/css/main.css' %}" rel="stylesheet">
-      
-    </style>
 </head>
 
 <body>
@@ -36,11 +34,11 @@
                             <div class="tabs is-right">
                                 <ul>
                                     <li class="is-active"><a>Home</a></li>
-                                    <li><a href="">Examples</a></li>
+                                    <li><a href="{% url 'pages' %}">pages</a></li>
                                     <li><a href="">Features</a></li>
                                     <li><a href="">Team</a></li>
                                     <li><a href="">Help</a></li>
-                                </ul>
+                                </ul> 
                             </div>
                         </div>
                     </div>
@@ -83,28 +81,17 @@
                 </div>
             </div>
         </div>
-            <div class="hero-foot">
-                <div class="container">
-                    <div class="tabs is-centered">
-                        <ul>
-                            <li><a>And this is the bottom</a></li>
-                        </ul>
-                    </div>
+        <div class="hero-foot">
+            <div class="container">
+                <div class="tabs is-centered">
+                    <ul>
+                        <li><a>And this is the bottom</a></li>
+                    </ul>
                 </div>
             </div>
-        </section>
-    <script src="../js/bulma.js"></script>
+        </div>
+    </section>
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-      
+    
