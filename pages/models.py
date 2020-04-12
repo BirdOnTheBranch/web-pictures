@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=50)
-    hastag = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
