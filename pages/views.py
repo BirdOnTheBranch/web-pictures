@@ -2,14 +2,14 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
-from .models import Pages
+from .models import Page
 
 
 # Create your views here.
 class PageListView(ListView):
-    model = Pages
+    model = Page
 
 
 class PageDetailView(DetailView):
-    model = Pages
+    model = Page
    

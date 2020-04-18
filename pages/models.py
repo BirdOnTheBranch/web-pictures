@@ -8,7 +8,6 @@ class Category(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categorys'
@@ -19,7 +18,7 @@ class Category(models.Model):
 
 
 
-class Pages(models.Model):
+class Page(models.Model):
     image = models.ImageField(upload_to='pages')
     title = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -27,11 +26,11 @@ class Pages(models.Model):
     categories = models.ManyToManyField(Category)
     created = models.DateTimeField( auto_now_add=True)
     updated = models.DateTimeField( auto_now=True)
-
     
     class Meta:
         verbose_name = 'Page'
         verbose_name_plural = 'Pages'
         ordering =  ['-created']
+    
     def __str__(self):
         return self.title 
