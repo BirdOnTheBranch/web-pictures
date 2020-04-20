@@ -7,18 +7,17 @@ class Category(models.Model):
     name = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
+    
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categorys'
         ordering =  ['-created']
-        
+    
     def __str__(self):
         return self.name
 
 
-
-class Page(models.Model):
+class Page(models.Model):    
     image = models.ImageField(upload_to='pages')
     title = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
