@@ -16,14 +16,15 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
-
+from pages.urls import pages_patterns
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path( '', include('core.urls')),
-    path('pages/', include('pages.urls')),
+    path('pages/', include(pages_patterns)),
 ]
+
 
 if settings.DEBUG:
        from django.conf.urls.static import static

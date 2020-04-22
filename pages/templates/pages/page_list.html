@@ -1,4 +1,4 @@
-{% extends 'pages/index.html'%}
+{% extends 'core/index.html'%}
 {% block title %}Web Pictures Pics{% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
                                     </figure>
                                 </div>
                                 <div class="media-content">
-                                    <a href="{% url 'page' page.id page.title|slugify %}" ><p class="title is-4" >{{page.author}}</p></a>
+                                    <a href="{% url 'pages:page' page.id page.title|slugify %}" ><p class="title is-4" >{{page.author}}</p></a>
                                     <p class="subtitle is-6">{{page.title}}</p>
                                 </div>
                             </div>
@@ -56,8 +56,10 @@
                                     <strong>32 Likes</strong>
                                 </p>
                                 <p>{{page.comment}}</p>
-                                <a>{{page.author}}</a>.
-                                <a href="#">#{{page.categories}}</a>
+                                <a>{{page.author}}</a>
+                                    {% for  category in page.categories.all %}
+                                        <a href="{% url 'pages:category' category.id %}" >#{{category.name}} </a>
+                                    {% endfor %}
                                 <br>
                                 <time datetime="{{page.created}}">{{page.created}}</time>
                             </div>
@@ -65,14 +67,17 @@
                             <div class="card-footer">
                                 <input class="input is-medium" type="text" placeholder="Add a comment . . .">
                             </div>
+                            <br>
+                            {% if request.user.is_staff %}
+                                <a href="{% url 'pages:update' page.id %}">Edit</a>
+                            {% endif %}
                         </div>
-                    
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <br><br>
+    <br>
     {% endfor %}
 
 {% endblock  %}

@@ -1,9 +1,9 @@
 {% extends 'core/index.html'%}
-{% block title %}Web Pictures My Pic {% endblock %}
+{% block title %}Category{% endblock %}
 
 {% block content %}
 
-    {% for page in  page_list %}
+    {% for page in category.get_page.all %}
     <main role="main">
         <div class="container mb-4 col-8">
             <div class="columns body-columns">
@@ -79,6 +79,5 @@
     </main>
     <br>
     {% endfor %}
-
 
 {% endblock %}

@@ -1,38 +1,31 @@
- 
 
 {% load static %}
+
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 <link href="{% static 'pages/css/custom_ckeditor.css' %}" rel="stylesheet">
 {% if request.user.is_staff %}
+<div class="container">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="../">
+            <img src="{% static 'core/img/web.png' %}" alt="Logo">
+            <strong> Web Pictures</strong>
+        </a>
+        <span class="navbar-burger burger" data-target="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+        <ul>
+            <li class="is-active"><a href="{% url 'pages:pages' %}">Home</a></li>
+            <li><a href="{% url 'pages:create' %}">Upload</a></li>
+            <li><a href="">Search</a></li>
+            <li><a href="">Like</a></li>
+            <li><a href="">Perfil</a></li>
+        </ul> 
+    </div>
+</div>
+<br>
+<br>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <span class="navbar-brand" href="#"><i>Administrar</i></span>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nep" aria-controls="nep" aria-expanded="false">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nep">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href=""><i>Crear página</i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href=""><i>Listar páginas</i></a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<div class="container is-fluid">
-  <div class="content has-text-centered">
-        <p>
-        <strong>Bulma</strong> by
-        
-        <a href="http://jgthms.com">Crear página</a>. The source code is licensed
-        <a href="http://opensource.org/licenses/mit-license.php">Listar pagina</a>. The website content is licensed
-        <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Ir a perfil</a>.
-        </p>
-    </div>
-  </div>
-{% endif %}
+  {% endif  %}
