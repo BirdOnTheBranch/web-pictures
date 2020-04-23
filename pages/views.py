@@ -19,7 +19,7 @@ class PageDetailView(DetailView):
    
 class PageCreateView(CreateView):
     model = Page
-    form_class = PageForms
+    fields = ['image','title','comment','categories']
     success_url = reverse_lazy('pages:pages')
 
     def form_valid(self, form):
