@@ -1,23 +1,23 @@
-{% extends 'pages/index.html'%}
+{% extends 'core/index.html'%}
 {% block title %}Update{% endblock %}
 
 {% block content %}
- <div class="container">
-    <div class="card">
-      <div class="card-image">
-        <figure class="image is-4by3">
-            <img src="{{page.image.url}}" alt="Placeholder image">
-        </figure>
-      </div>
-    <form action="" method="post" enctype="multipart/form-data" >{% csrf_token %}
-        <table>
-          {{ form.as_table }}
-        </table>
+{% load crispy_forms_tags %}
+
+<section class="container">
+  <div class="row justify-content-center">
+    <div class="col-8 ">
+      <img src="{{page.image.url}}" class="img-fluid" alt="Responsive image" width="100%">
+      <form action="" method="post" enctype="multipart/form-data" >{% csrf_token %}
+          {{ form|crispy }}
       <div class="text-center">
         <p>Are you sure you want to delete"{{ object }}"?</p>
         <input type="submit" class="btn btn-primary btn-block" value="Confirm" />
       </div>
-    </form>
+      </form>
+     
+   </div>
   </div>
-</div>
+</section>
+
 {% endblock %}

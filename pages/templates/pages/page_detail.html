@@ -1,17 +1,17 @@
-{% extends 'pages/index.html'%}
+{% extends 'core/index.html'%}
 {% block title %}Web Pictures My Pic {% endblock %}
 
 {% block content %}
 
-        <main role="main">
-        <div class="container mb-4 col-8">
-            <div class="columns body-columns">
-                <div class="column is-9 is-offset-1">
-                    <div class="card" >
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8 ">
+                <div class="card" >
+
                         <div class="header">
                             <div class="media">
                                 <div class="media-left">
-                                    <figure class="image is-48x48">
+                                    <figure class="image is-64x64">
                                         <img src="https://source.unsplash.com/random/96x96" alt="Placeholder image">
                                     </figure>
                                 </div>
@@ -67,13 +67,19 @@
                             </div>
                             <br>
                             {% if request.user.is_staff %}
-                                <a href="{% url 'pages:update' page.id %}">Edit</a>
+                            <ul class="nav navbar-nav d-inline-flex">
+                                <li class="nav-item">
+                                <ul class="list-inline-mb-0">
+                                    <li class="list-inline-item"><a href="{% url 'pages:update' page.id %}">Edit </a></li>
+                                    <li class="list-inline-item"><a href="{% url 'pages:delete' page.id %}"> Delete</a></li>          
+                                </ul>
+                            </ul>
                             {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+        <br><br>
 {% endblock %}
 

@@ -1,7 +1,8 @@
-{% extends 'pages/index.html'%}
+{% extends 'core/index.html'%}
 {% block title %}Update{% endblock %}
 
 {% block content %}
+{% load crispy_forms_tags %}
 
 <section class="container">
   <div class="row justify-content-center">
@@ -14,13 +15,15 @@
       {% endif %}
       <br><br>
         <img src="{{page.image.url}}" class="img-fluid" alt="Responsive image" width="100%">
+      
       <form action="" method="post" enctype="multipart/form-data" >{% csrf_token %}
-          {{ form }}
+            {{ form|crispy }}
         <div class="text-center">
-          <input type="submit" class="btn btn-primary btn-block" value="Update" />
+          <input type="submit" class="btn btn-secondary btn-lg btn-block" value="Update" />
         </div>
           <a href="{% url 'pages:delete' page.id %}">Delete</a>
       </form>
+    
     </div>
   </div>
 </section>
