@@ -1,0 +1,45 @@
+{% extends 'core/index.html'%}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h1 style="margin: 80px"></h1>
+    <div class="container has-text-centered">
+        <div class="columns is-vcentered">
+            <div class="column is-6 ">
+                <figure class="image is-5by4">
+                    <img src="https://picsum.photos/800/600/?random" alt="Description">
+                </figure>
+            </div>
+            <div class="column is-5 ">
+                <h1 class="title is-2">
+                    Web Pictures 
+                </h1>
+                <h2 class="subtitle is-4">
+                    The photos are the protagonists.
+                </h2>
+                <div class="row d-flex justify-content-center">
+                    <style>.errorlist{color:red;} label{display:none} </style>
+                <main role="main">
+                    <div class="container">
+                        <div class="row mt-6">
+                            <div class="btn-group-vertical">
+                                <div style="text-align:center">
+                                    <style>.errorlist{color:red;}</style>
+                                    <form action="" method="post">{% csrf_token %}
+                                    {{form|crispy}}
+                                    <p><input type="submit" class="btn btn-secondary" value="Register"></p>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

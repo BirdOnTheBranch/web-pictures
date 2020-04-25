@@ -130,3 +130,16 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#Auth redirect 
+LOGIN_REDIRECT_URL = 'pages:pages'
+LOGOUT_REDIRECT_URL = 'home'
+
+
+#Send emails in DEBUG mode
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+else:
+#Configure real email in production
+    pass

@@ -13,6 +13,4 @@ class PageForms(forms.ModelForm):
             'comment': forms.Textarea(attrs={'placeholder':'Comment', 'class':'form-control'}),
             'categories': forms.NumberInput(attrs={'placeholder':'Category', 'class':'form-control'}),
         }
-        labels = {
-            'title':'', 'comment':'', 'categories':'',
-        }
+

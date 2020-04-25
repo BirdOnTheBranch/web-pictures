@@ -2,9 +2,7 @@
 {% block title %}Web Pictures Pics{% endblock %}
 
 {% block content %}
-{% if request.user.is_staff %}
-{% include 'pages/includes/pages_menu.html' %}
-{% endif %}
+
 <br>
 {% for page in  page_list %}
 <div class="container">
@@ -20,7 +18,7 @@
                             </figure>
                         </div>
                         <div class="media-content">
-                            <a href="{% url 'pages:page' page.id page.title|slugify %}" ><p class="title is-4" >{{page.author}}</p></a>
+                            <a href="{% url 'profile' %}" ><p class="title is-4" >{{page.author}}</p></a>
                             <p class="subtitle is-6">{{page.title}}</p>
                         </div>
                     </div>
@@ -70,7 +68,7 @@
                         <input class="input is-medium" type="text" placeholder="Add a comment . . .">
                     </div>
                     <br>
-                    {% if request.user.is_staff %}
+                    {% if user.is_authenticated and user == page.author %}
                     <ul class="nav navbar-nav d-inline-flex">
                         <li class="nav-item">
                         <ul class="list-inline-mb-0">

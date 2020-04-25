@@ -1,36 +1,73 @@
+{% extends 'core/index.html'%}
+{% block title %}Home{% endblock %}
 
+{% block content %}
 {% load crispy_forms_tags %}
 
-{% if request.user.is_authenticated %}
-    <script>window.location.href = '/accounts/profile/'; </script>
-{% endif %}
-<style>.errorlist{color:red;}</style>
-<main role="main">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto mb-5">
-        {% if 'register' in request.GET %}
-          <p style="color:green;">Usuario registrado correctamente, ya puedes identificarte.</p>
-        {% endif %}
-        <form action="" method="post">{% csrf_token %}
-          <h6 class="mb-4">Iniciar sesión</h6>
-          {% if form.non_field_errors %}
-            <p style="color:red">Usuario o contraseña incorrectos, prueba de nuevo.</p>
-          {% endif %}
-          <p>
-            <input type="text" name="username" autofocus maxlength="254" required
-              id="id_username" class="form-control" placeholder="Nombre de usuario"/>
-          </p>
-          <p>
-            <input type="password" name="password" required
-              id="id_password" class="form-control" placeholder="Contraseña"/>
-          </p>
-          <p><input type="submit" class="btn btn-secondary" value="Acceder"></p>
-        </form>
-        <p>
-          ¿Ha olvidado su clave? Puede restaurarla <a href="{% url 'password_reset' %}">aquí</a>.
-        </p>
-      </div>
+<h1 style="margin: 72.5px"></h1>
+    <div class="container has-text-centered">
+        <div class="columns is-vcentered">
+            
+            <div class="column is-6 ">
+                <figure class="image is-5by4">
+                    <img src="https://picsum.photos/800/600/?random" alt="Description">
+                </figure>
+            </div>
+
+            <div class="column is-5 ">
+                <h1 class="title is-2">
+                <br>
+                    Web Pictures 
+                </h1>
+                <h2 class="subtitle is-4">
+                    The photos are the protagonists.
+                </h2>
+
+                <div class="row d-flex justify-content-center">
+                    <style>.errorlist{color:red;} label{display:none}</style>
+                <main role="main">
+                    <div class="container">
+                        <div class="row mt-3">
+                            <div class="col-md-9 mx-auto mb-5">
+                                <div class="btn-group-vertical">
+                                <div style="text-align:center">
+
+                                    {% if request.user.is_authenticated %}
+                                        <script>window.location.href = '/accounts/profile/'; </script>
+                                    {% endif %}
+                                        <style>.errorlist{color:red;}</style>
+                                    {% if 'register' in request.GET %}
+                                        <p style="color:green;">User registered correctly, now you can login.</p>
+                                    {% endif %}
+
+                                    <form action="" method="post">{% csrf_token %}
+                                        <h6 class="mb-4">Iniciar sesión</h6>
+                                    {% if form.non_field_errors %}
+                                        <p style="color:red">User or password is not correct.</p>
+                                    {% endif %}
+                                        <p>
+                                        <input type="text" name="username" autofocus maxlength="254" required
+                                        id="id_username" class="form-control" placeholder="Nombre de usuario"/>
+                                        </p>
+                                        <p>
+                                        <input type="password" name="password" required
+                                        id="id_password" class="form-control" placeholder="Contraseña"/>
+                                        </p>
+                                        <p><input type="submit" class="btn btn-secondary" value="Acceder"></p>
+                                    </form>
+
+                                        <p>
+                                        ¿Forgot your password? You can restart <a href="{% url 'password_reset' %}">here</a>.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
     </div>
-  </div>
-</main>
+</div>
+
+{% endblock %}

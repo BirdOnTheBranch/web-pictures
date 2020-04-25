@@ -23,10 +23,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path( '', include('core.urls')),
     path('pages/', include(pages_patterns)),
+    #path auth
     path('accounts/', include('django.contrib.auth.urls')),
+    #path register
+    path('accounts/', include('registration.urls')),
+
 ]
 
-
+#Logic whit server media files in debug mode
 if settings.DEBUG:
        from django.conf.urls.static import static
        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
