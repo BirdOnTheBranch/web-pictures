@@ -4,7 +4,7 @@
 {% block content %}
 
 <br>
-{% for page in  page_list %}
+{% for page in page_list %}
 <div class="container">
     <br><br><br>
     <div class="row justify-content-center">
@@ -14,11 +14,12 @@
                 <div class="header">
                     <div class="media">
                         <div class="media-left">
-                            <figure class="image is-64x64">
-                                <img src="https://source.unsplash.com/random/96x96" alt="Placeholder image">
-                            </figure>
+                            <div style="width: 96px; height: 96px;">
+                                <img src="" style="width: 96px; height: 96px;" alt="Placeholder image">
+                            </div>
                         </div>
                         <div class="media-content">
+                            <p></p>
                             <a href="{% url 'profile' %}" ><p class="title is-4" >{{page.author}}</p></a>
                             <p class="subtitle is-6">{{page.title}}</p>
                         </div>
@@ -56,7 +57,7 @@
                         <p>
                             <strong>32 Likes</strong>
                         </p>
-                        <p>{{page.comment}}</p>
+                        <p>{{page.comment|truncatechars:"300"}}</p>
                         <a>{{page.author}}</a>
                             {% for  category in page.categories.all %}
                                 <a href="{% url 'pages:category' category.id %}" >#{{category.name}} </a>

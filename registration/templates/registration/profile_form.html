@@ -3,7 +3,7 @@
 {% block title %}Perfil{% endblock %}
 
 {% block content %}
-<br><br>
+<h1 style="margin: 1px"></h1>
   <style>.errorlist{color:red;} label{display:none}</style>
     <div class="justify-content-center">
     
@@ -11,24 +11,25 @@
           <!-- Previa del avatar -->
           <div class="row justify-content-center">
             <div class="col-sm-2">
-              {% if request.user.profile.avatar %}
+            {% if request.user.profile.avatar %}
               <figure class="image is-5by4">
                 <img src="{{request.user.profile.avatar.url}}" class="img-fluid">
+              {% else %}
+              <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid">
+              {% endif %}
               </figure>
                 <p class="mt-1">¿Delete? <input type="checkbox" id="avatar-clear" name="avatar-clear" /></p>
-              {% else %}
-                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid">
-              {% endif %}
+                
             </div>
             <!-- Formulario -->
-            <div class="col-sm-4">
+            <div class="col-sm-3">
               <input type="file" name="avatar" class="form-control" id="id_avatar">
               {{ form.bio  }}
               {{ form.link }}
               <input type="email" value="{{request.user.email}}" class="form-control" readonly>
               <p >
                 If you want change your email click <a href="{% url 'profile_email' %}">here</a>.<br>
-                And if you want to change your password click <a href="">here</a>.
+                And if you want to change your password click <a href="{% url 'password_change' %}">here</a>.
               </p>
               <input type="submit" class="btn btn-secondary btn-lg btn-block" value="Upgrade">
             </div>

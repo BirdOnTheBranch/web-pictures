@@ -17,7 +17,7 @@ from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 from pages.urls import pages_patterns
-
+from profiles.urls import profiles_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +27,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     #path register
     path('accounts/', include('registration.urls')),
+    #path profiles
+    path('profiles/', include(profiles_patterns)),
 
 ]
 

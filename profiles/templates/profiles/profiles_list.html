@@ -1,0 +1,31 @@
+{% extends 'core/index.html'%}
+{% block title %}Profiles{% endblock %}
+{% load static %}
+{% block content %}
+<h1 style="margin: 90px"></h1>
+  <section class="container">
+    <div class="row justify-content-center">
+      <div class="col-8 ">
+        {% for profile in profile_list %}
+            <div class="col-md-4 mt-2 mb-3 ">
+                <div class="row p-1">
+                    <div class="col-md-12">
+                        {% if profile.avatar %}
+                        <img src="{{profile.avatar.url}}" class="img-fluid profile-avatar">
+                        {% else %}
+                        <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid profile-avatar">
+                        {% endif %}
+                        <p class="profile-data">
+                        <b>{{profile.user|truncatechars:"16"}}</b><br>
+                        <a href="{% url 'profiles:detail' profile.user %}">Ver perfil</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

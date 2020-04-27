@@ -4,10 +4,10 @@
 {% block content %}
 
 {% load crispy_forms_tags %}
-
+<h1 style="margin: 54px"></h1>
 <section class="container">
   <div class="row justify-content-center">
-    <div class="col-8 ">
+    <div class="col-7">
       <img src="{{page.image.url}}" class="img-fluid" alt="Responsive image" width="100%">
       <form action="" method="post" enctype="multipart/form-data" >{% csrf_token %}
           {{ form|crispy }}

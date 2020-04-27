@@ -1,0 +1,46 @@
+{% extends 'core/index.html'%}
+
+{% block title %}Profile{% endblock %}
+{% load static %}
+
+{% block content %}
+<h1 style="margin: 98px"></h1>
+  <section class="container">
+    <div class="row justify-content-center">
+    
+      <div class="col-10 ">
+
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+          <div class="row justify-content-center">
+            <!-- Avatar -->
+            <div class="col-md-4">
+              {% if profile.avatar %}
+                <img src="{{profile.avatar.url}}" class="img-fluid">
+              {% else %}
+                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid">
+              {% endif %}
+            </div>
+            <!-- Campos -->
+            <div class="col-md-6">
+              
+              <h3>{{profile.user}}</h3>
+              </p>
+              {% if profile.bio %}<p>{{profile.bio|truncatechars:"220"}}</p>{% endif %}
+            </div>
+          </div>
+        </form>
+        </div>
+    </div>
+</section>
+{% for post in post %}
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="..." alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+  </div>
+  {% endfor %}
+
+{% endblock %}

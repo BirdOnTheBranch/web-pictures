@@ -5,9 +5,11 @@
 
 {% load crispy_forms_tags %}
 <style>.errorlist{color:red;} label{display:none}</style>
+<h1 style="margin: 30px"></h1>
+
   <section class="container">
     <div class="row justify-content-center">
-      <div class="col-8 ">
+      <div class="col-7">
         {% if 'ok' in request.GET %}
         <p style="color:green;">
           Page edited correctly!.
@@ -20,7 +22,7 @@
         <form action="" method="post" enctype="multipart/form-data" >{% csrf_token %}
               {{ form|crispy }}
           <div class="text-center">
-            <input type="submit" class="btn btn-secondary btn-lg" value="Update" />
+            <input type="submit" class="btn btn-secondary btn-lg" value="Upgrade" />
             <a class="btn btn-secondary btn-lg" href="{% url 'pages:delete' page.id %}">Delete</a>
           </div>
 
@@ -29,5 +31,5 @@
       </div>
     </div>
   </section>
-<br><br>
+<br><br><br>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 def custom_upload_to(instance, filename):
@@ -15,3 +16,9 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True )
     bio = models.TextField(null=True, blank=True)
 
+#signal
+@receiver(post_save, sender=User)
+def ensure_profile_exists(sender, instance, **kwargs):
+    """Created a user and their linked profile"""
+    if kwargs.get('created', False):
+        Profile.objects.get_or_create(user=instance)
