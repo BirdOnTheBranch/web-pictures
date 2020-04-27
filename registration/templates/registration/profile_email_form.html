@@ -1,0 +1,21 @@
+{% extends 'core/index.html'%}
+{% block title %}Email{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<br><br><br><br><br>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-6 col-xs-12">
+        <style>.errorlist{color:red;} label{display:none}</style>
+            <h3>Email</h3>Edit:
+            <br>
+            <form action="" method="post">{% csrf_token %}
+            {{form|crispy}}
+            <p><input type="submit" class="btn btn-secondary btn-lg btn-block" value="Edit"></p>
+            </form>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}

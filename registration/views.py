@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django import forms
 
 from .models import Profile
-from .forms import UCFWithEmail, ProfileForm
+from .forms import UCFWithEmail, ProfileForm, EmailForm
 
 
 #create your views here.
@@ -29,6 +29,7 @@ class SignUpView(CreateView):
         return form
 
 
+
 @method_decorator(login_required, name='dispatch')
 class ProfileView(UpdateView):
     form_class = ProfileForm
@@ -39,3 +40,22 @@ class ProfileView(UpdateView):
         """Retrieve the object that will be editable."""
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
+
+
+
+@method_decorator(login_required, name='dispatch')
+class EmailUpdate(UpdateView):
+    form_class = EmailForm
+    template_name = "registration/profile_email_form.html"
+    success_url = reverse_lazy('profile')
+
+    def get_object(self):
+        """Retrieve the user."""
+        return self.request.user
+
+    def get_form(self, form_class=None):
+        """Modified form in real time."""
+        form = super().get_form()
+        form.fields['email'].widget = forms.EmailInput(attrs={'class':'form-control','placeholder':'Email'})
+        return form
+        

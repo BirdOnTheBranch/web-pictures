@@ -20,7 +20,7 @@
 <body>
     <div class="hero is-fullheight is-default is-bold">
     <div class="hero-head">
-        <nav class="navbar">
+        <nav class="navbar bg-light" style="background-color: grey;">
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="../">
@@ -32,26 +32,32 @@
                         <span></span>
                     </span>
                 </div>
-                <div id="navbarMenu" class="navbar-menu">
                     <div class="navbar-end">
                         <div class="tabs is-right">
                             <ul>
-                                <li class="is-active"><a href="{% url 'home' %}">Home</a></li>
+                            {% if request.path == '/' %}<li class="is-active">{% endif %}
+                                <a href="{% url 'home' %}">Home</a></li>
+                            {% if request.path == '/pages/' %}<li class="is-active">{% endif %}
+                                <a href="{% url 'pages:pages' %}">Pictures</a></li>
                             {% if request.user.is_authenticated %}
-                                <li><a href="{% url 'pages:create' %}">Upload</a></li>
-                                <li><a href="{% url 'profile' %}">Profile</a></li>
-                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                                {% if request.path == '/pages/create/' %}<li class="is-active">{% endif %}
+                                <a href="{% url 'pages:create' %}">Upload</a></li>
+                                {% if request.path == '/accounts/profile/' %}<li class="is-active">{% endif %}
+                                <a href="{% url 'profile' %}">Profile</a></li>
+                                {% if request.path == '/accounts/logout/' %}<li class="is-active">{% endif %}
+                                <a href="{% url 'logout' %}">Logout</a></li>
                             {% else %}
-                                <li><a href="{% url 'login' %}">Login</a></li>
-                                <li><a href="{% url 'signup' %}">Signup</a></li>
+                                {% if request.path == '/accounts/login/' %}<li class="is-active">{% endif %}
+                                <a href="{% url 'login' %}">Login</a></li>
+                                {% if request.path == '/accounts/signup/' %}<li class="is-active">{% endif %}
+                                <a href="{% url 'signup' %}">Signup</a></li>
                             {% endif %}
                             </ul> 
                         </div>
                     </div>
                 </div>
-            </div>
-        </nav>
-    </div>
+            </nav>
+        </div>
 
        {% block content %}{% endblock  %}
 
@@ -65,7 +71,6 @@
             </div>
         </div>
     </div>    
-    <br>
     <br>
 </body>
 

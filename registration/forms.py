@@ -8,7 +8,7 @@ from .models import Profile
 # Extend original form
 class UCFWithEmail(UserCreationForm):
     """Add email field to UserCreationForm."""
-    email = forms.EmailField(required=True,)
+    email = forms.EmailField(required=True, help_text="Required. Maxim 259 characters and must be valid.")
 
     class Meta:
         model = User
@@ -36,9 +36,21 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['avatar','bio']
         widgets = {
-            'avatar': forms.ClearableFileInput(attrs={'class':'form-control mt-3'}),
-            'bio': forms.Textarea(attrs={'placeholder':'Biografia', 'class':'form-control'}),
+            'avatar': forms.ClearableFileInput(attrs={'class':'form-control'}),
+            'bio': forms.Textarea(attrs={'placeholder':'Bio', 'class':'form-control'}),
         }
 
-
-        
+class EmailForm(forms.ModelForm):
+    email = forms.EmailField(required=True, help_text="Required. Maxim 259 characters and must be valid.")
+    
+    class Meta:
+        model = User
+        fields = ['email']
+    
+    def clean_email(self):
+        """Recovery email field and after modify it, check not exist in database."""
+        email = self.cleaned_data.get('email')
+        if 'email' in self.changed_data:
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError("This email already exists")
+        return email
