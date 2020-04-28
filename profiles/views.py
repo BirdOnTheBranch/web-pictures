@@ -18,9 +18,11 @@ class ProfileDetailView(DetailView):
     template_name = 'profiles/profiles_detail.html'
 
     def get_object(self):
-     return get_object_or_404(Profile, user__username=self.kwargs['username'])
+        """Get username model field for use in path."""
+        return get_object_or_404(Profile, user__username=self.kwargs['username'])
 
     def get_context_data(self, *args, **kwargs):
+        """Create dict context."""
         context = super().get_context_data(*args, **kwargs)
-        context['projects_list'] = Page.objects.filter(author=self.request.user)
+        context['projects_list'] = Page.objects.all()
         return context

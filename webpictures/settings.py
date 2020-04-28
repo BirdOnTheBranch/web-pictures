@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'core',
+    'messenger',
     'pages.apps.PagesConfig',
     'profiles',
     'django_cleanup.apps.CleanupConfig',
