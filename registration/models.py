@@ -4,6 +4,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 
+
 def custom_upload_to(instance, filename):
     """Delete old file image in media repository."""
     old_instance = Profile.objects.get(pk=instance.pk)

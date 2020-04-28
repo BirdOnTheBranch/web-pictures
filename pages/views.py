@@ -6,18 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 
+from registration.models import Profile
 from .models import Page, Category
 from .forms import PageForms
 
 
 # Create your views here.
-class StaffrequiredMixin(object):
-    """This mixin requires user is staff member."""
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
-
 class PageListView(ListView):
     model = Page
 

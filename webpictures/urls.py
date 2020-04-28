@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from pages.urls import pages_patterns
 from profiles.urls import profiles_patterns
+from messenger.urls import messenger_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +30,8 @@ urlpatterns = [
     path('accounts/', include('registration.urls')),
     #path profiles
     path('profiles/', include(profiles_patterns)),
-
+    #path messenger
+    path('messenger/', include(messenger_patterns)),
 ]
 
 #Logic whit server media files in debug mode

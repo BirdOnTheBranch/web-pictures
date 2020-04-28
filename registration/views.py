@@ -47,7 +47,7 @@ class ProfileView(UpdateView):
 class EmailUpdate(UpdateView):
     form_class = EmailForm
     template_name = "registration/profile_email_form.html"
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('profiles:profile')
 
     def get_object(self):
         """Retrieve the user."""

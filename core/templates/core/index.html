@@ -42,6 +42,8 @@
                             {% if request.user.is_authenticated %}
                                 {% if request.path == '/pages/create/' %}<li class="is-active">{% endif %}
                                 <a href="{% url 'pages:create' %}">Upload</a></li>
+                                {% if request.path == '/messenger/' %}<li class="is-active">{% endif %}
+                                <a href="{% url 'messenger:list' %}">Messenger</a></li>
                                 {% if request.path == '/accounts/profile/' %}<li class="is-active">{% endif %}
                                 <a href="{% url 'profile' %}">Profile</a></li>
                                 {% if request.path == '/accounts/logout/' %}<li class="is-active">{% endif %}
