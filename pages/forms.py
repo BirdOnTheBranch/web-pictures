@@ -1,7 +1,6 @@
 from django import forms
 from .models import Page
 
-
 class PageForms(forms.ModelForm):
     
     class Meta:
@@ -13,3 +12,4 @@ class PageForms(forms.ModelForm):
             'comment': forms.Textarea(attrs={'placeholder':'Comment', 'class':'form-control'}),
             'categories': forms.NumberInput(attrs={'placeholder':'Category', 'class':'form-control'}),
         }
+        

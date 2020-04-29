@@ -2,3 +2,4 @@ Django==3.0.3
 Pillow==7.0.0
 django-crispy-forms==1.9.
 django-cleanup==4.0.0
+django-like-button==0.0.7

@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy 
 
 from registration.models import Profile
 from .models import Page, Category
@@ -14,6 +14,12 @@ from .forms import PageForms
 # Create your views here.
 class PageListView(ListView):
     model = Page
+
+    def get_context_data(self, *args, **kwargs):
+        """Create dict context."""
+        context = super().get_context_data(*args, **kwargs)
+        context['avatar_list'] = Profile.objects.all()
+        return context
 
 
 class PageDetailView(DetailView):

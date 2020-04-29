@@ -20,6 +20,7 @@ from pages.urls import pages_patterns
 from profiles.urls import profiles_patterns
 from messenger.urls import messenger_patterns
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path( '', include('core.urls')),

@@ -3,19 +3,23 @@
 
 {% block content %}
 
-<br>
+<br><br><br><br>
+<div class="container">
 {% for page in page_list %}
 <div class="container">
-    <br><br><br>
     <div class="row justify-content-center">
         <div class="col-8 ">
             <div class="card" >
-                
                 <div class="header">
                     <div class="media">
                         <div class="media-left">
                             <div style="width: 96px; height: 96px;">
-                                <img src="{{user.profile.avatar}}" style="width: 96px; height: 96px;" alt="Placeholder image">
+                            <!-- Show avatar for user post-->
+                            {% for users in avatar_list %}
+                                {% if page.author == users.user %}
+                                    <img src="{{users.avatar.url}}" style="width: 96px; height: 96px;" alt="Placeholder image">
+                                {% endif %}
+                            {% endfor %}
                             </div>
                         </div>
                         <div class="media-content">
@@ -79,12 +83,14 @@
                         </ul>
                     </ul>
                     {% endif %}
+                    <!-- Logic of comment likes-->
+                    
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<br><br>
+    <br><br>
 {% endfor %}
 
 {% endblock  %}

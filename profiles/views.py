@@ -14,7 +14,7 @@ class ProfileListView(ListView):
 
 
 class ProfileDetailView(DetailView):
-    model = Profile, Page
+    model = Profile
     template_name = 'profiles/profiles_detail.html'
 
     def get_object(self):

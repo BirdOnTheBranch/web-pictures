@@ -15,12 +15,12 @@
         <div class="row">
           <!--conversation threads -->
           <div class="col-md-4">
-            <!-- With a reverse search user.threads we can also get the threads of a user -->
+            <!-- Reverse search user.threads we can also get the threads of a user -->
             {% for thread in request.user.thread.all %}
-              <!-- We will only show a Thread if you have at least 1 message-->
+              <!-- Only show a Thread if you have at least 1 message-->
               {% if thread.messages.all|length > 0 %}
                 <div class="mb-3">
-                  <!-- We loop through the thread members minus the request.user itself -->
+                  <!-- We loop the thread members excepts request.user-->
                   {% for user in thread.users.all %}
                     {% if user != request.user %}     
                       <!-- Show avatar of user-->                
@@ -29,7 +29,7 @@
                       {% else %}
                         <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar">
                       {% endif %}
-                      <!-- Show information of menber --> 
+                      <!-- Show information menber --> 
                       <div>
                         <a href="{% url 'messenger:detail' thread.pk %}">{{user}}</a><br>
                         <small><i>Hace {{thread.messages.last.created|timesince}}</i></small>

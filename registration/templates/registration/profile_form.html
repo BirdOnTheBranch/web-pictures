@@ -27,7 +27,8 @@
               {{ form.bio  }}
               {{ form.link }}
               <input type="email" value="{{request.user.email}}" class="form-control" readonly>
-              <p >
+              <br>
+              <p>
                 If you want change your email click <a href="{% url 'profile_email' %}">here</a>.<br>
                 And if you want to change your password click <a href="{% url 'password_change' %}">here</a>.
               </p>

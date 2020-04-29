@@ -30,8 +30,6 @@
           </div>
         </form>
         
-        
-          
         {% for  project in projects_list%}
         </div class="row">
         <div class="col-md-3">
@@ -39,7 +37,16 @@
         {% endfor %}
         </div>
         </div>
-      
+         {% if user.is_authenticated and user == page.author %}
+          <ul class="nav navbar-nav d-inline-flex">
+              <li class="nav-item">
+              <ul class="list-inline-mb-0">
+                  <li class="list-inline-item"><a href="{% url 'profile' %}">Edit </a></li>
+
+                  <li class="list-inline-item"><a href="{% url 'pages:delete' page.id %}"> Delete</a></li>          
+              </ul>
+          </ul>
+                    {% endif %}
     </div>
 </section>
 
