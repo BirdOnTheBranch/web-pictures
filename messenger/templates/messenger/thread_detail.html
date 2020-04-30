@@ -59,6 +59,47 @@
               {% endfor %}
             </div>
             <!-- Create form here -->
+            <textarea class='form-control mb-2' id="content" rows="2" placeholder="Write your message here"></textarea>
+
+            <button id="send" class="btn btn-secondary btn-sm btn-block" disabled>Peticion asincrona de prueba</button>
+            <script>
+              var send = document.getElementById("send");
+              send.addEventListener('click', function(){
+                var content = encodeURIComponent(document.getElementById("content").value);
+                if (content.length > 0){
+                const url = "{% url 'messenger:add' thread.pk %}"+"?content="+content;
+                fetch(url, {'credentials':'include'}).then(response => response.json()).then(function(data){
+                // If message created correctly
+                if (data.created) {
+                var message = document.createElement('div');
+                message.classList.add('mine','mb-3');
+                message.innerHTML = '<small><i>Hace unos segundo</i></small><br>'+decodeURIComponent(content);
+                document.getElementById('thread').appendChild(message);
+                ScrollBottomInThread();               
+                } else {
+                
+                // Debugg
+                console.log("Algo ha fallado y el mensaje no se ha podido añadir.")
+                })
+                }
+              })
+
+              //Button activated if there is a message.
+              var content = document.getElementById("content");
+              content.addEventListener("keyup", function(){
+                if (!this.checkValidity() || !this.value){
+                  send.disabled = true;
+                } else {
+                  send.disabled = false;
+                }
+              })
+
+              function ScrollBottonInThread(){
+                var thread = document.getElementById("thread");
+                thread.scrollTop = thread.scrollHeight;
+              }
+              ScrollBottomInThread();
+            </script>  
           </div>
         </div>
     </div>

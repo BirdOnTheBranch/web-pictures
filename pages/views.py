@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy 
 
 from registration.models import Profile
-from .models import Page, Category
+from .models import Page, Category, Like
 from .forms import PageForms
 
 
@@ -58,3 +58,26 @@ class PageDeleteView(DeleteView):
 def category_view(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     return render(request, 'pages/category.html', {'category':category})
+
+
+def like_post(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_page = Page.objects.get(id=post_id)
+
+        if  user in post_page.liked.all():
+            post_page.liked.remove(user)
+        else:
+            post_page.liked.add(user)
+        
+        like, created = Like.objects.get_or_create(user=user, page_id=post_id)
+        
+        if not created:
+            if like.value == 'Like':
+                like.value = 'Unlike'
+            else:
+                like.value = 'Like'
+            like.save()
+
+    return redirect('pages:pages')

@@ -23,26 +23,29 @@
                             </div>
                         </div>
                         <div class="media-content">
-                            <p></p>
-                            <a href="{% url 'profile' %}" ><p class="title is-4" >{{page.author}}</p></a>
-                            <p class="subtitle is-6">{{page.title}}</p>
+                            </p>
+                            <a href="{% url 'profiles:detail' request.user %}" ><p class="title is-4" >{{page.author}}</p></a>
+                            </p>
+                            <p class="subtitle is-5">{{page.title}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-image">
                     <figure class="image is-4by3">
                         <img src="{{page.image.url}}" alt="Placeholder image">
                     </figure>
-                    </div>
-                </div>
                 <div class="card-content">
                     <div class="level is-mobile">
                         <div class="level-left">
                             <div class="level-item has-text-centered">
-                                <a href="">
-                                    <i class="material-icons">favorite_border</i>
-                                </a>
+                                <form action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
+                                <input type='hidden' name='post_id' value="{{page.id}}">
+                                {% if user not in page.liked.all %}
+                                    <button class="ui button" type="submit">Like</button>
+                                {% else %}
+                                     <button class="ui button negative" type="submit">Like</button>
+                                {% endif %}
+                                <strong></strong>
+                                </form>
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
@@ -59,7 +62,7 @@
 
                     <div class="content">
                         <p>
-                            <strong>32 Likes</strong>
+                            <strong>{{ page.liked.all.count }} Likes</strong>
                         </p>
                         <p>{{page.comment|truncatechars:"300"}}</p>
                         <a>{{page.author}}</a>
@@ -79,7 +82,7 @@
                         <li class="nav-item">
                         <ul class="list-inline-mb-0">
                             <li class="list-inline-item"><a href="{% url 'pages:update' page.id %}">Edit </a></li>
-                            <li class="list-inline-item"><a href="{% url 'pages:delete' page.id %}"> Delete</a></li>          
+                            <li class="list-inline-item"><a href="{% url 'pages:delete' page.id %}">Delete</a></li>          
                         </ul>
                     </ul>
                     {% endif %}
