@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import ThreadTemplateView, ThreadDetailView, add_message
-
+from .views import ThreadList, ThreadDetail, add_message, start_thread
 
 messenger_patterns = ([
-    path('', ThreadTemplateView.as_view(), name='list'),
-    path('thread/<int:pk>/', ThreadDetailView.as_view(), name='detail'),
-    path('thread/add/<int:pk>/', add_message, name='add'),
-], 'messenger')
+    path('', ThreadList.as_view(), name="list"),
+    path('thread/<int:pk>/', ThreadDetail.as_view(), name="detail"),
+    path('thread/<int:pk>/add/', add_message, name="add"),
+    path('thread/start/<username>/', start_thread, name="start"),
+], "messenger")

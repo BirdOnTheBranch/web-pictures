@@ -5,44 +5,41 @@
 <style>
   .avatar  { width:160px; height:160px; float:left; margin-right:10px; }
 </style>
-<main role="main">
+<h1 style="margin: 80px"></h1>
   <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto mb-5">
-        <div class="row">
-          <!-- Hilos de conversación -->
-          <div class="col-md-4">
-            <!-- Recorremos los Threads y sólo mostramos los que tienen como mínimo 1 mensaje -->
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <!--Combersation threads-->
+            <!-- Show thread if you have at least one message -->
             {% for thread in request.user.threads.all %}
               {% if thread.messages.all|length > 0 %}
-                <div class="mb-3">
-                  <!-- Recorremos los miembros del hilo menos el propio request.user -->
+                  <!--Iterate all users of thread minus request.user-->
                   {% for user in thread.users.all %}
                     {% if user != request.user %}   
-                      <!-- Mostramos el avatar del miembro -->  
+                      <!-- Show avatar menber -->  
                       {% if user.profile.avatar %}
                         <img src="{{user.profile.avatar.url}}" class="avatar">
                       {% else %}
                         <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar">
                       {% endif %}
-                      <!-- Mostramos la información del miembro -->
-                      <div>
+                      <!-- Show information menbem-->
                         <a href="{% url 'messenger:detail' thread.pk %}">{{user}}</a><br>
-                        <small><i>Hace {{thread.messages.last.created|timesince}}</i></small>
-                      </div>
+                        <small><i>{{thread.messages.last.created|timesince}} ago.</i></small>
                     {% endif %}
                   {% endfor %}
-                </div>
+
               {% endif %}
             {% endfor %}
+
+          <!-- Conversation threads -->
+            <div class="row">
+              <div class="col text-align-self-end">
+                <p class="text-right">Select a conversation thread from your left panel.</p>
+              </div>
+            </div>
           </div>
-          <!-- Hilos de conversación -->
-          <div class="col-md-8">
-            <p><i>Selecciona un hilo de conversación de tu panel izquierdo.</i></p>
-          </div>
-        </div>
+
       </div>
     </div>
-  </div>
-</main>
-{% endblock %}
+  </div>  
+  {% endblock %}

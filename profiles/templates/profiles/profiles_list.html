@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 <h1 style="margin: 90px"></h1>
-  <section class="container">
+  <section class="container">   
     <div class="row justify-content-center">
       <div class="col-8 ">
         {% for profile in profile_list %}
@@ -16,9 +16,15 @@
                         <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid profile-avatar">
                         {% endif %}
                         <p class="profile-data">
-                        <b>{{profile.user|truncatechars:"16"}}</b><br>
-                        <a href="{% url 'profiles:detail' profile.user %}">Ver perfil</a>
+                        
+                        <a href="{% url 'profiles:detail' profile.user %}"><b>{{profile.user|truncatechars:"16"}}</b></a>
                         </p>
+                        {% if request.user != profile.user %}
+                         <a href="{% url 'messenger:start' profile.user.username %}" class="btn btn-secondary btn-sm btn-block mt-3">
+                        Send Message
+                        </a>
+                       
+                        {% endif %}
                     </div>
                 </div>
             </div>

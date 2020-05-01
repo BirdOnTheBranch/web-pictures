@@ -76,8 +76,8 @@ def like_post(request):
         if not created:
             if like.value == 'Like':
                 like.value = 'Unlike'
-            else:
-                like.value = 'Like'
+        else:
+            like.value = 'Like'
             like.save()
 
     return redirect('pages:pages')

@@ -33,8 +33,7 @@ class Page(models.Model):
         verbose_name_plural = 'Pages'
         ordering =  ['-created']
     
-    def __str__(self):
-        return self.title 
+
 
     @property
     def run_likes(self):
@@ -51,7 +50,4 @@ class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
     value = models.CharField(choices=LIKE_CHOICES, default='Like', max_length=10)
-    
-    def __str__(self):
-        return self.page
     

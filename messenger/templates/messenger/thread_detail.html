@@ -13,26 +13,26 @@
     <div class="row mt-3">
       <div class="col-md-9 mx-auto mb-5">
         <div class="row">
-          <!--conversation threads -->
+          <!-- Comversation threads-->
           <div class="col-md-4">
-            <!-- Reverse search user.threads we can also get the threads of a user -->
-            {% for thread in request.user.thread.all %}
-              <!-- Only show a Thread if you have at least 1 message-->
+            <!-- With inverse search in user.threads too we get the threads of one user -->
+            {% for thread in request.user.threads.all %}
+            <!-- Show thread if you have at least one message -->
               {% if thread.messages.all|length > 0 %}
                 <div class="mb-3">
-                  <!-- We loop the thread members excepts request.user-->
+                  <!--Iterate all users of thread minus request.user-->
                   {% for user in thread.users.all %}
                     {% if user != request.user %}     
-                      <!-- Show avatar of user-->                
+                      <!-- Shows avatarś of member -->                
                       {% if user.profile.avatar %}
                         <img src="{{user.profile.avatar.url}}" class="avatar">
                       {% else %}
                         <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar">
                       {% endif %}
-                      <!-- Show information menber --> 
+                      <!-- show the time information --> 
                       <div>
                         <a href="{% url 'messenger:detail' thread.pk %}">{{user}}</a><br>
-                        <small><i>Hace {{thread.messages.last.created|timesince}}</i></small>
+                        <small><i>{{thread.messages.last.created|timesince}}</i></small>
                       </div>
                     {% endif %}
                   {% endfor %}
@@ -40,51 +40,57 @@
               {% endif %}
             {% endfor %}
           </div>
-          <!-- combersation thread  -->
+          <!-- Comversation threads-->
           <div class="col-md-8">
-            <!-- We loop through the thread members minus the request.user itself  -->
+            <!--Iterate all users of thread minus request.user-->
             {% for user in thread.users.all %}
               {% if user != request.user %}       
                 <h4 class="mb-4">Mensajes con <a href="{% url 'profiles:detail' user %} ">{{user}}</a></h4>
               {% endif %}
             {% endfor %}
-            <!-- Show the menssages in label overflow vertical of  300 píxeles -->
+            <!-- Sow the messages with vertical overflow of 300 píxeles -->
             <div class="thread" id="thread">
               {% for message in object.messages.all %}
-                <!-- Depending on the user, we assign a class with a background color or another in the message -->
+                <!-- Difenrent color for users -->
                 <div {% if request.user == message.user %}class="mine mb-3"{% else %}class="other mb-3"{% endif %}>
-                  <small><i>Hace {{thread.messages.last.created|timesince}}</i></small><br>
+                  <small><i>Hace {{message.created|timesince}}</i></small><br>
                   {{message.content}}
                 </div>
               {% endfor %}
             </div>
-            <!-- Create form here -->
-            <textarea class='form-control mb-2' id="content" rows="2" placeholder="Write your message here"></textarea>
-
-            <button id="send" class="btn btn-secondary btn-sm btn-block" disabled>Peticion asincrona de prueba</button>
+            <!-- Create form-->
+            <textarea id="content" class="form-control mb-2" rows="2" placeholder="Escribe tu mensaje aquí"></textarea>
+            <button id="send" class="btn btn-primary btn-sm btn-block" disabled>Enviar mensaje</button>
             <script>
               var send = document.getElementById("send");
-              send.addEventListener('click', function(){
-                var content = encodeURIComponent(document.getElementById("content").value);
+              send.addEventListener("click", function(){
+                var content = encodeURIComponent(document.getElementById("content").value); // &
                 if (content.length > 0){
-                const url = "{% url 'messenger:add' thread.pk %}"+"?content="+content;
-                fetch(url, {'credentials':'include'}).then(response => response.json()).then(function(data){
-                // If message created correctly
-                if (data.created) {
-                var message = document.createElement('div');
-                message.classList.add('mine','mb-3');
-                message.innerHTML = '<small><i>Hace unos segundo</i></small><br>'+decodeURIComponent(content);
-                document.getElementById('thread').appendChild(message);
-                ScrollBottomInThread();               
-                } else {
-                
-                // Debugg
-                console.log("Algo ha fallado y el mensaje no se ha podido añadir.")
-                })
+                  document.getElementById("content").value = '';
+                  send.disabled = true;
+                  const url = "{% url 'messenger:add' thread.pk %}" + "?content="+content;
+                  fetch(url, {'credentials':'include'}).then(response => response.json()).then(function(data){
+                    // If message benn created correctly...
+                    if (data.created) {
+                      // If is the first message of thread, apear to the lefth
+                      if (data.first) {
+                        window.location.href = "{% url 'messenger:detail' thread.pk %}";
+                      }
+                      // If not redirect create new label whit message
+                      var message = document.createElement('div');
+                      message.classList.add('mine', 'mb-3');
+                      message.innerHTML = '<small><i>Hace unos segundos</i></small><br>'+decodeURIComponent(content);
+                      document.getElementById("thread").appendChild(message);   // Lo añadimos a la div thread
+                      ScrollBottomInThread();  // Move the scroll all down
+                    } else {
+                      //Debuggs
+                      console.log("Something is failed, the message dont will add to the thread.")
+                    }
+                  })
                 }
               })
 
-              //Button activated if there is a message.
+              // Evento que activa o desactiva el botón dependiendo de si hay o no mensaje
               var content = document.getElementById("content");
               content.addEventListener("keyup", function(){
                 if (!this.checkValidity() || !this.value){
@@ -93,13 +99,15 @@
                   send.disabled = false;
                 }
               })
-
-              function ScrollBottonInThread(){
+              
+              // Forzar el Scroll abajo del todo
+              function ScrollBottomInThread(){
                 var thread = document.getElementById("thread");
                 thread.scrollTop = thread.scrollHeight;
               }
+
               ScrollBottomInThread();
-            </script>  
+            </script>
           </div>
         </div>
     </div>
