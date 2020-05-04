@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy 
+from django.http import JsonResponse
 
 from registration.models import Profile
 from .models import Page, Category, Like
@@ -62,6 +63,7 @@ def category_view(request, category_id):
 
 def like_post(request):
     user = request.user
+    #like = {'content': 'like'}
     if request.method == 'POST':
         post_id = request.POST.get('post_id')
         post_page = Page.objects.get(id=post_id)
@@ -76,8 +78,12 @@ def like_post(request):
         if not created:
             if like.value == 'Like':
                 like.value = 'Unlike'
+                #like['content'] = 'Unlike'
+                 
         else:
             like.value = 'Like'
+            #like['content'] = 'Like'
             like.save()
-
+    
     return redirect('pages:pages')
+    #return  JsonResponse(like)

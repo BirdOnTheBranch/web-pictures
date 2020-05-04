@@ -4,16 +4,17 @@
 {% load static %}
 
 {% block content %}
-<h1 style="margin: 80px"></h1>
-  <section class="container">
+<h1 style="margin: 60px"></h1>
+ <div class="container">
     <div class="row justify-content-center">
-      <div class="col-11">
+        <div class="col-9">
 
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
           <div class="row justify-content-center">
             <!-- Avatar -->
             <div class="col-md-3">
               {% if profile.avatar %}
+              <br>
                 <img src="{{profile.avatar.url}}" style="width: 180px; height: 120px;" class="img-fluid" alt="Responsive image">
               {% else %}
                 <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid">
@@ -22,6 +23,7 @@
             
             <!-- Campos -->
             <div class="col-md-6">
+             <br>
               <h3>{{profile.user}}</h3>
               </p>
               {% if profile.bio %}<p>{{profile.bio|truncatechars:"200"}}</p>{% endif %}
@@ -47,8 +49,8 @@
               {% if project.author == profile.user %}
                   <div class="col-md-4 xs-4">
                   <div class="row">
-                  <div style="width: 265px; height: 150px;">
-                    <img src="{{project.image.url}}" style="width: 265px; height: 150px;" class="img-fluid" alt="Responsive image">
+                  <div style="width: 200px; height: 130px;">
+                    <img src="{{project.image.url}}" style="width: 200px; height: 130px;" class="img-fluid" alt="Responsive image">
                   </div> 
                   </div> 
                   </div>
@@ -59,8 +61,10 @@
           </div>
         </div> 
 
+      </div>
       </div> 
-    </div>
-  </section>
+      </div>
+  </div>
+  </div>
 
 {% endblock %}

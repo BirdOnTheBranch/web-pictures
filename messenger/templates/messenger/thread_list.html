@@ -8,7 +8,7 @@
 <h1 style="margin: 80px"></h1>
   <div class="container">
       <div class="row justify-content-center">
-        <div class="col-8">
+        <div class="col-7">
           <!--Combersation threads-->
             <!-- Show thread if you have at least one message -->
             {% for thread in request.user.threads.all %}
@@ -23,7 +23,7 @@
                         <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar">
                       {% endif %}
                       <!-- Show information menbem-->
-                        <a href="{% url 'messenger:detail' thread.pk %}">{{user}}</a><br>
+                        <a href="{% url 'messenger:detail' thread.pk %}">{{user|title}}</a><br>
                         <small><i>{{thread.messages.last.created|timesince}} ago.</i></small>
                     {% endif %}
                   {% endfor %}

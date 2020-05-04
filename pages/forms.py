@@ -13,3 +13,4 @@ class PageForms(forms.ModelForm):
             'categories': forms.NumberInput(attrs={'placeholder':'Category', 'class':'form-control'}),
         }
         
+        from django import forms

@@ -1,14 +1,15 @@
 {% extends 'core/index.html'%}
 {% load static %}
-{% block title %}Perfil{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block content %}
-<h1 style="margin: 1px"></h1>
   <style>.errorlist{color:red;} label{display:none}</style>
-    <div class="justify-content-center">
+    <div class="row justify-content-center">
+      <div class="col-10">
+    
     
       <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-          <!-- Previa del avatar -->
+          <!-- avatar -->
           <div class="row justify-content-center">
             <div class="col-sm-2">
             {% if request.user.profile.avatar %}
@@ -34,8 +35,11 @@
               </p>
               <input type="submit" class="btn btn-secondary btn-lg btn-block" value="Upgrade">
             </div>
+
           </div>
       </form>
+
     </div>
+  </div>
 <br>
 {% endblock %}

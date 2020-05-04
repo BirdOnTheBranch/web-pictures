@@ -55,7 +55,7 @@
                                 {% if request.path == '/messenger/' %}<li class="is-active">{% endif %}
                                 <a href="{% url 'messenger:list' %}">Messenger</a></li>
                                 {% if request.path == '/accounts/profile/' %}<li class="is-active">{% endif %}
-                                <a href="{% url 'profiles:detail' request.user %}">{{request.user|truncatechars:"12"}}</a></li>
+                                <a href="{% url 'profiles:detail' request.user %}">{{request.user|truncatechars:"12"|title}}</a></li>
                                 {% if request.path == '/accounts/logout/' %}<li class="is-active">{% endif %}
                                 <a href="{% url 'logout' %}">Logout</a></li>
                             {% else %}

@@ -43,3 +43,4 @@ def start_thread(request, username):
     user = get_object_or_404(User, username=username)
     thread = Thread.objects.find_or_create(user, request.user)
     return redirect(reverse_lazy('messenger:detail', args=[thread.pk]))
+    

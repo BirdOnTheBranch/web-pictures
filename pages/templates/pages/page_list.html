@@ -4,11 +4,10 @@
 {% block content %}
 
 <br><br><br><br>
-<div class="container">
 {% for page in page_list %}
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-8 ">
+        <div class="col-7">
             <div class="card" >
                 <div class="header">
                     <div class="media">
@@ -16,7 +15,7 @@
                             <div style="width: 96px; height: 96px;">
                             <!-- Show avatar for user post-->
                             {% for users in avatar_list %}
-                                {% if page.author == users.user %}
+                                {% if page.author == users.user and users.avatar %}
                                     <img src="{{users.avatar.url}}" style="width: 96px; height: 96px;" alt="Placeholder image">
                                 {% endif %}
                             {% endfor %}
@@ -24,7 +23,7 @@
                         </div>
                         <div class="media-content">
                             </p>
-                            <a href="{% url 'profiles:detail' request.user %}" ><p class="title is-4" >{{page.author}}</p></a>
+                            <a href="{% url 'profiles:detail' request.user %}" ><p class="title is-4" >{{page.author|title}}</p></a>
                             </p>
                             <p class="subtitle is-5">{{page.title}}</p>
                         </div>
@@ -37,15 +36,48 @@
                     <div class="level is-mobile">
                         <div class="level-left">
                             <div class="level-item has-text-centered">
+                                
+                                <!--input type='hidden' id="content" name='post_id' value="{{page.id}}">
+                                {% if user not in page.liked.all %}
+                                    <button id="clic" class="ui button" type="submit">Like</button>
+                                {% else %}
+                                     <button id="clic" class="ui button negative" type="submit">Like</button>
+                                {% endif %}
+                                <script>
+                                var clic = document.getElementById("clic");
+
+                                clic.addEventListener("click", function(){
+                                
+                                    var content = encodeURIComponent(document.getElementById("content").value);
+                                    
+                                    const url = "{% url 'pages:like-post' %}" + "?content="+content;   
+                                
+                                    fetch(url,  {'credentials':'include'}).then(response => response.json()).then(function(data){
+                                
+                                    alert(data);   
+                                
+                                    })
+                                })
+                                
+                                </script-->
+                                
+                                
                                 <form action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
                                 <input type='hidden' name='post_id' value="{{page.id}}">
+
+
                                 {% if user not in page.liked.all %}
                                     <button class="ui button" type="submit">Like</button>
+
                                 {% else %}
                                      <button class="ui button negative" type="submit">Like</button>
+
                                 {% endif %}
+
                                 <strong></strong>
                                 </form>
+
+
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>

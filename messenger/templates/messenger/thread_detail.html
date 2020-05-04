@@ -8,11 +8,12 @@
   .mine    { padding:0 0.5em 0.25em; background-color:rgba(230,242,245,.5); width:92%; margin-left:8%; }
   .other   { padding:0 0.5em 0.25em; background-color:#f2f3f5; width:92%; }
 </style>
-<main role="main">
+<h1 style="margin: 80px"></h1>
   <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto mb-5">
+    <div class="row justify-content-center">
+      <div class="col-7">
         <div class="row">
+
           <!-- Comversation threads-->
           <div class="col-md-4">
             <!-- With inverse search in user.threads too we get the threads of one user -->
@@ -31,7 +32,7 @@
                       {% endif %}
                       <!-- show the time information --> 
                       <div>
-                        <a href="{% url 'messenger:detail' thread.pk %}">{{user}}</a><br>
+                        <a href="{% url 'messenger:detail' thread.pk %}">{{user|title}}</a><br>
                         <small><i>{{thread.messages.last.created|timesince}}</i></small>
                       </div>
                     {% endif %}
@@ -45,7 +46,7 @@
             <!--Iterate all users of thread minus request.user-->
             {% for user in thread.users.all %}
               {% if user != request.user %}       
-                <h4 class="mb-4">Mensajes con <a href="{% url 'profiles:detail' user %} ">{{user}}</a></h4>
+                <h4 class="mb-4">Mensajes con <a href="{% url 'profiles:detail' user %} ">{{user|title}}</a></h4>
               {% endif %}
             {% endfor %}
             <!-- Sow the messages with vertical overflow of 300 píxeles -->
@@ -112,5 +113,5 @@
         </div>
     </div>
   </div>
-</main>
+</div>
 {% endblock %}
