@@ -25,12 +25,15 @@
                   {% for user in thread.users.all %}
                     {% if user != request.user %}     
                       <!-- Shows avatarś of member -->                
+                      <div style="width: 145px; height: 120px;">  
                       {% if user.profile.avatar %}
-                        <img src="{{user.profile.avatar.url}}" class="avatar">
+                        <img src="{{user.profile.avatar.url}}" style="width: 145px; height: 120px;" class="avatar">
                       {% else %}
-                        <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar">
+                        <img src="{% static 'registration/img/no-avatar.jpg' %}" style="width: 145px; height: 120px;" class="avatar">
                       {% endif %}
                       <!-- show the time information --> 
+                      </div>
+
                       <div>
                         <a href="{% url 'messenger:detail' thread.pk %}">{{user|title}}</a><br>
                         <small><i>{{thread.messages.last.created|timesince}}</i></small>
@@ -46,7 +49,7 @@
             <!--Iterate all users of thread minus request.user-->
             {% for user in thread.users.all %}
               {% if user != request.user %}       
-                <h4 class="mb-4">Mensajes con <a href="{% url 'profiles:detail' user %} ">{{user|title}}</a></h4>
+                <h4 class="mb-4">Messages with <a href="{% url 'profiles:detail' user %} ">{{user|title}}</a></h4>
               {% endif %}
             {% endfor %}
             <!-- Sow the messages with vertical overflow of 300 píxeles -->
@@ -54,14 +57,14 @@
               {% for message in object.messages.all %}
                 <!-- Difenrent color for users -->
                 <div {% if request.user == message.user %}class="mine mb-3"{% else %}class="other mb-3"{% endif %}>
-                  <small><i>Hace {{message.created|timesince}}</i></small><br>
+                  <small><i>{{message.created|timesince}} Ago.</i></small><br>
                   {{message.content}}
                 </div>
               {% endfor %}
             </div>
             <!-- Create form-->
-            <textarea id="content" class="form-control mb-2" rows="2" placeholder="Escribe tu mensaje aquí"></textarea>
-            <button id="send" class="btn btn-primary btn-sm btn-block" disabled>Enviar mensaje</button>
+            <textarea id="content" class="form-control mb-2" rows="2" placeholder="Write your message"></textarea>
+            <button id="send" class="btn btn-primary btn-sm btn-block" disabled>Send message</button>
             <script>
               var send = document.getElementById("send");
               send.addEventListener("click", function(){
@@ -80,7 +83,7 @@
                       // If not redirect create new label whit message
                       var message = document.createElement('div');
                       message.classList.add('mine', 'mb-3');
-                      message.innerHTML = '<small><i>Hace unos segundos</i></small><br>'+decodeURIComponent(content);
+                      message.innerHTML = '<small><i>Many seconds ago.</i></small><br>'+decodeURIComponent(content);
                       document.getElementById("thread").appendChild(message);   // Lo añadimos a la div thread
                       ScrollBottomInThread();  // Move the scroll all down
                     } else {

@@ -5,7 +5,7 @@ class PageForms(forms.ModelForm):
     
     class Meta:
         model = Page
-        fields = ['title','comment','categories']
+        fields = ['title','comment','categories',]
 
         widgets = {
             'title': forms.TextInput(attrs={'placeholder':'Títle', 'class':'form-control'}),
@@ -13,4 +13,3 @@ class PageForms(forms.ModelForm):
             'categories': forms.NumberInput(attrs={'placeholder':'Category', 'class':'form-control'}),
         }
         
-        from django import forms

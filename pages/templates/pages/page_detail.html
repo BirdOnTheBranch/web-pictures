@@ -3,17 +3,20 @@
 
 {% block content %}
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-8 ">
-                <div class="card" >
+<h1 style="margin: 35px"></h1>
+{% for page in page_list %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-7">
+            <div class="card" >
 
-                        <div class="header">
-                            <div class="media">
-                                <div class="media-left">
-                                    <figure class="image is-64x64">
-                                        <img src="https://source.unsplash.com/random/96x96" alt="Placeholder image">
-                                    </figure>
+                            <div style="width: 90px; height: 90px;">
+                            <!-- Show avatar for user post-->
+                            {% for users in avatar_list %}
+                                {% if page.author == users.user and users.avatar %}
+                                    <img src="{{users.avatar.url}}" style="width: 90px; height: 90px;" alt="Placeholder image">
+                                {% endif %}
+                            {% endfor %}
                                 </div>
                                 <div class="media-content">
                                      <a href="{% url 'profile' %}" ><p class="title is-4" >{{page.author}}</p></a>

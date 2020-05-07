@@ -25,6 +25,7 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.user
+
 #signal
 @receiver(post_save, sender=User)
 def ensure_profile_exists(sender, instance, **kwargs):

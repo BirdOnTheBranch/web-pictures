@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import User
 
 
@@ -51,5 +50,3 @@ class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
     value = models.CharField(choices=LIKE_CHOICES, default='Like', max_length=10)
-
-    

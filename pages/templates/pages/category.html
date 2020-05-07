@@ -2,82 +2,102 @@
 {% block title %}Category{% endblock %}
 
 {% block content %}
+{% for page in category.get_page.all %}
 
-    {% for page in category.get_page.all %}
-    <main role="main">
-        <div class="container mb-4 col-8">
-            <div class="columns body-columns">
-                <div class="column is-9 is-offset-1">
-                    <div class="card" >
-                        <div class="header">
-                            <div class="media">
-                                <div class="media-left">
-                                    <figure class="image is-48x48">
-                                        <img src="https://source.unsplash.com/random/96x96" alt="Placeholder image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <a href="{% url 'pages:page' page.id page.title|slugify %}" ><p class="title is-4" >{{page.author}}</p></a>
-                                    <p class="subtitle is-6">{{page.title}}</p>
-                                </div>
+<h1 style="margin: 35px"></h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-7">
+            <div class="card" >
+                <div class="header">
+
+                    <div class="media">
+                        
+                        <div class="media-left">
+                            <div style="width: 90px; height: 90px;">
+                            <!-- Show avatar for user post-->
+                                {% for users in avatar_list %}
+                                {% if page.author == users.user and users.avatar %}
+                                    <img src="{{users.avatar.url}}" style="width: 90px; height: 90px;" alt="Placeholder image">
+                                {% endif %}
+                            {% endfor %}
                             </div>
                         </div>
-                        <br>
-                        <div class="card">
-                            <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="{{page.image.url}}" alt="Placeholder image">
-                            </figure>
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <div class="level is-mobile">
-                                <div class="level-left">
-                                    <div class="level-item has-text-centered">
-                                        <a href="">
-                                            <i class="material-icons">favorite_border</i>
-                                        </a>
-                                    </div>
-                                    <div class="level-item has-text-centered">
-                                        <div>
-                                            <i class="material-icons">chat_bubble_outline</i>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-centered">
-                                        <div>
-                                            <i class="material-icons">send</i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="content">
-                                <p>
-                                    <strong>32 Likes</strong>
-                                </p>
-                                <p>{{page.comment}}</p>
-                                <a>{{page.author}}</a>
-                                    {% for  category in page.categories.all %}
-                                        <a href="{% url 'pages:category' category.id %}" >#{{category.name}} </a>
-                                    {% endfor %}
-                                <br>
-                                <time datetime="{{page.created}}">{{page.created}}</time>
-                            </div>
-                            
-                            <div class="card-footer">
-                                <input class="input is-medium" type="text" placeholder="Add a comment . . .">
-                            </div>
-                            <br>
-                            {% if request.user.is_staff %}
-                                <a href="{% url 'pages:update' page.id %}">Edit</a>
-                            {% endif %}
+                        <div class="media-content">
+                            </p>
+                            <a href="{% url 'profiles:detail' request.user %}" ><p class="title is-4" >{{page.author|title}}</p></a>
+                            </p>
+                            <p class="subtitle is-5">{{page.title}}</p>
                         </div>
                     </div>
                 </div>
+                    <figure class="image is-4by3">
+                        <img src="{{page.image.url}}" alt="Placeholder image">
+                    </figure>
+                <div class="card-content">
+                    <div class="level is-mobile">
+                        <div class="level-left">
+                            <div class="level-item has-text-centered">
+                                <form class="form-product-ajax" action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
+                                <input type='hidden' name='page_id' value="{{page.id}}">
+
+
+                                {% if user not in page.liked.all %}
+                                    <button class="ui button" value="{{page.id}}" type="submit">Like</button>
+
+                                {% else %}
+                                     <button class="ui button negative" type="submit">Like</button>
+
+                                {% endif %}
+
+                                </form>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <i class="material-icons">chat_bubble_outline</i>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <i class="material-icons">send</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <p>
+                            <strong>{{ page.liked.all.count }} Likes</strong>
+                        </p>
+                        <p>{{page.comment|truncatechars:"300"}}</p>
+                        <a>{{page.author}}</a>
+                            {% for  category in page.categories.all %}
+                                <a href="{% url 'pages:category' category.id %}" >#{{category.name}} </a>
+                            {% endfor %}
+                        <br>
+                        <time datetime="{{page.created}}">{{page.created}}</time>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <input class="input is-medium" type="text" placeholder="Add a comment . . .">
+                    </div>
+                    <br>
+                    {% if user.is_authenticated and user == page.author %}
+                    <ul class="nav navbar-nav d-inline-flex">
+                        <li class="nav-item">
+                        <ul class="list-inline-mb-0">
+                            <li class="list-inline-item"><a href="{% url 'pages:update' page.id %}">Edit </a></li>
+                            <li class="list-inline-item"><a href="{% url 'pages:delete' page.id %}">Delete</a></li>          
+                        </ul>
+                    </ul>
+                    {% endif %}
+                    <!-- Logic of comment likes-->
+                    
+                    </div>
+                </div>
+
             </div>
         </div>
-    </main>
-    <br>
+    </div>
     {% endfor %}
-
 {% endblock %}

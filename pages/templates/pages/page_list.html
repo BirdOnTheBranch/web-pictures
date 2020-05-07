@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<br><br><br><br>
+<h1 style="margin: 35px"></h1>
 {% for page in page_list %}
 <div class="container">
     <div class="row justify-content-center">
@@ -12,11 +12,11 @@
                 <div class="header">
                     <div class="media">
                         <div class="media-left">
-                            <div style="width: 96px; height: 96px;">
+                            <div style="width: 90px; height: 90px;">
                             <!-- Show avatar for user post-->
                             {% for users in avatar_list %}
                                 {% if page.author == users.user and users.avatar %}
-                                    <img src="{{users.avatar.url}}" style="width: 96px; height: 96px;" alt="Placeholder image">
+                                    <img src="{{users.avatar.url}}" style="width: 90px; height: 90px;" alt="Placeholder image">
                                 {% endif %}
                             {% endfor %}
                             </div>
@@ -37,45 +37,54 @@
                         <div class="level-left">
                             <div class="level-item has-text-centered">
                                 
-                                <!--input type='hidden' id="content" name='post_id' value="{{page.id}}">
-                                {% if user not in page.liked.all %}
-                                    <button id="clic" class="ui button" type="submit">Like</button>
-                                {% else %}
-                                     <button id="clic" class="ui button negative" type="submit">Like</button>
-                                {% endif %}
-                                <script>
-                                var clic = document.getElementById("clic");
 
-                                clic.addEventListener("click", function(){
                                 
-                                    var content = encodeURIComponent(document.getElementById("content").value);
-                                    
-                                    const url = "{% url 'pages:like-post' %}" + "?content="+content;   
-                                
-                                    fetch(url,  {'credentials':'include'}).then(response => response.json()).then(function(data){
-                                
-                                    alert(data);   
-                                
-                                    })
-                                })
-                                
-                                </script-->
-                                
-                                
-                                <form action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
-                                <input type='hidden' name='post_id' value="{{page.id}}">
+                                <form class="form-product-ajax" action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
+                                <input type='hidden' name='page_id' value="{{page.id}}">
 
 
                                 {% if user not in page.liked.all %}
-                                    <button class="ui button" type="submit">Like</button>
+                                    <button class="ui button" value="{{page.id}}" type="submit">Like</button>
 
                                 {% else %}
                                      <button class="ui button negative" type="submit">Like</button>
 
                                 {% endif %}
 
-                                <strong></strong>
                                 </form>
+
+                            <!--script>
+                                $(document).ready(function(){
+                                    var productForm = $(".form-product-ajax")
+                               
+
+                                    productForm.submit(function(event){
+                                        event.preventDefault();
+                                        console.log("Form is not send")
+                                        var thisForm = $(this)
+                                        var actionEndPoint = thisForm.attr("action");
+                                        var httpMethod = thisForm.attr("method");
+                                        var formData = thisForm.serialize();
+                                        
+
+
+                                        $.ajax({
+                                            url: actionEndPoint,
+                                            method: httpMethod,
+                                            data: formData,
+                                            success: function(data){
+                                                console.log(data)
+                                            },
+                                            error: function(errorData){
+                                                console.log("Error")
+
+                                            }
+
+                                        })
+
+                                     })
+                                    })
+                            </script-->
 
 
                             </div>

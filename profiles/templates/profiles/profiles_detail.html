@@ -24,7 +24,7 @@
             <!-- Campos -->
             <div class="col-md-6">
              <br>
-              <h3>{{profile.user}}</h3>
+              <h3>{{profile.user|title}}</h3>
               </p>
               {% if profile.bio %}<p>{{profile.bio|truncatechars:"200"}}</p>{% endif %}
             </div>
