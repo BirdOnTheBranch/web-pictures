@@ -2,26 +2,25 @@
 {% load static %}
 {% block title %}Mensajes{% endblock %}
 {% block content %}
-<style>
-  .avatar  { width:160px; height:160px; float:left; margin-right:10px; }
-</style>
 <h1 style="margin: 80px"></h1>
-  <div class="container">
-      <div class="row justify-content-center">
+<div class="container">
+    <div class="row justify-content-center">
         <div class="col-7">
           <!--Combersation threads-->
             <!-- Show thread if you have at least one message -->
-            {% for thread in request.user.threads.all %}
-              {% if thread.messages.all|length > 0 %}
+          <div class='row'>
+            <div class="col-3">
+              {% for thread in request.user.threads.all %}
+                {% if thread.messages.all|length > 0 %}
                   <!--Iterate all users of thread minus request.user-->
                   {% for user in thread.users.all %}
                     {% if user != request.user %}   
                       <!-- Show avatar menber -->  
                       {% if user.profile.avatar %}
                      <div style="width: 145px; height: 120px;">
-                        <img src="{{user.profile.avatar.url}}" style="width: 145px; height: 120px;" class="avatar">
+                        <img src="{{user.profile.avatar.url}}" style="width: 145px; height: 120px;" >
                       {% else %}
-                        <img src="{% static 'registration/img/no-avatar.jpg' %}" style="width: 145px; height: 120px;"   class="avatar">
+                        <img src="{% static 'registration/img/no-avatar.jpg' %}" style="width: 145px; height: 120px;">
                       {% endif %}
                     </div>
                       <!-- Show information menbem-->
@@ -29,19 +28,17 @@
                         <small><i>{{thread.messages.last.created|timesince}} ago.</i></small>
                     {% endif %}
                   {% endfor %}
-
-              {% endif %}
-            {% endfor %}
-
-          <!-- Conversation threads -->
-            <div class="row">
-              <div class="col text-align-self-end">
-                <p class="text-right">Select a conversation thread from your left panel.</p>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <!-- Conversation threads -->
+            <div class="col-7">
+              <div class="row justify-content-center">
+               <p class="text-right">Select a conversation thread from your left panel.</p>
               </div>
             </div>
-          </div>
-
-      </div>
+          </div>  
+      </div>    
     </div>
   </div>  
   {% endblock %}

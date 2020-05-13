@@ -2,7 +2,7 @@ from django.views.generic import CreateView
 from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy 
+from django.urls import reverse_lazy, reverse 
 from django import forms
 
 from .models import Profile
@@ -47,7 +47,9 @@ class ProfileView(UpdateView):
 class EmailUpdate(UpdateView):
     form_class = EmailForm
     template_name = "registration/profile_email_form.html"
-    success_url = reverse_lazy('profiles:profile')
+
+    def get_success_url(self):
+        return reverse('profiles:detail', kwargs={'username': self.request.user } )
 
     def get_object(self):
         """Retrieve the user."""

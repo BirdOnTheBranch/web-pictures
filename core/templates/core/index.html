@@ -32,7 +32,7 @@
     <div class="hero is-fullheight is-default is-bold">
     <div class="hero-head">
         <nav class="navbar bg-light" style="background-color: grey;">
-            <div class="container">
+            <div class="container"> 
                 <div class="navbar-brand">
                     <a class="navbar-item" href="../">
                         <img src="{% static 'core/img/web.png' %}" alt="Logo">
@@ -46,7 +46,6 @@
                     <div class="navbar-end">
                         <div class="tabs is-right">
                             <ul>
- 
                             {% if request.path == '/pages/' %}<li class="is-active">{% endif %}
                                 <a href="{% url 'pages:pages' %}">Home</a></li>
                             {% if request.user.is_authenticated %}
@@ -72,7 +71,6 @@
                             </ul> 
                         </div>
                     </div>
-                </div>
             </nav>
         </div>
 
