@@ -26,14 +26,13 @@
                     {% if user != request.user %}     
                       <!-- Shows avatarś of member -->                
                       <div style="width: 145px; height: 120px;">  
-                      {% if user.profile.avatar %}
-                        <img src="{{user.profile.avatar.url}}" style="width: 145px; height: 120px;" class="avatar">
-                      {% else %}
-                        <img src="{% static 'registration/img/no-avatar.jpg' %}" style="width: 145px; height: 120px;" class="avatar">
-                      {% endif %}
-                      <!-- show the time information --> 
+                        {% if user.profile.avatar %}
+                          <img src="{{user.profile.avatar.url}}" style="width: 145px; height: 120px;" class="avatar">
+                        {% else %}
+                          <img src="{% static 'registration/img/no-avatar.jpg' %}" style="width: 145px; height: 120px;" class="avatar">
+                        {% endif %}
+                        <!-- show the time information --> 
                       </div>
-
                       <div>
                         <a href="{% url 'messenger:detail' thread.pk %}">{{user|title}}</a><br>
                         <small><i>{{thread.messages.last.created|timesince}}</i></small>

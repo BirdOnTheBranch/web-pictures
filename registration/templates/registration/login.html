@@ -4,16 +4,14 @@
 {% block content %}
 {% load crispy_forms_tags %}
 
-<h1 style="margin: 92.5px"></h1>
+<h1 style="margin: 90px"></h1>
     <div class="container has-text-centered">
         <div class="columns is-vcentered">
-            
             <div class="column is-6 ">
                 <figure class="image is-5by4">
                     <img src="https://picsum.photos/800/600/?random" alt="Description">
                 </figure>
             </div>
-
             <div class="column is-7">
                 <h1 class="title is-2">
                 <br>
@@ -31,7 +29,6 @@
                             <div class="col-md-9 mx-auto mb-5">
                                 <div class="btn-group-vertical">
                                 <div style="text-align:center">
-
                                     {% if request.user.is_authenticated %}
                                         <script>window.location.href = '/accounts/profile/'; </script>
                                     {% endif %}
@@ -39,7 +36,6 @@
                                     {% if 'register' in request.GET %}
                                         <p style="color:green;">User registered correctly, now you can login.</p>
                                     {% endif %}
-
                                     <form action="" method="post">{% csrf_token %}
                                         <h6 class="mb-4">Iniciar sesión</h6>
                                     {% if form.non_field_errors %}
@@ -55,7 +51,6 @@
                                         </p>
                                         <p><input type="submit" class="btn btn-secondary" value="Acceder"></p>
                                     </form>
-
                                         <p>
                                         ¿Forgot your password? You can restart <a href="{% url 'password_reset' %}">here</a>.
                                         </p>
