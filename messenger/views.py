@@ -8,9 +8,11 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 
+
 @method_decorator(login_required, name="dispatch")
 class ThreadList(TemplateView):
     template_name = "messenger/thread_list.html"
+
 
 @method_decorator(login_required, name="dispatch")
 class ThreadDetail(DetailView):
@@ -21,6 +23,7 @@ class ThreadDetail(DetailView):
         if self.request.user not in obj.users.all():
             raise Http404()
         return obj
+
 
 def add_message(request, pk):
     json_response = {'created':False}
@@ -37,7 +40,8 @@ def add_message(request, pk):
         raise Http404("User is not authenticated")
 
     return JsonResponse(json_response)
-
+    
+    
 @login_required
 def start_thread(request, username):
     user = get_object_or_404(User, username=username)

@@ -32,13 +32,31 @@
         </form>
         <br>
 
-        {% if user.is_authenticated  %}
+        {% if user.is_authenticated and profile.user == user %}
         <div class="row justify-content-center">
           <div class="col-9">
             <a class="btn btn-secondary btn-lg btn-block" href="{% url 'profile' %}">Edit profile</a></li>
           </div>
         </div>
         <br>
+        {% endif %}
+        {% if user.is_authenticated and profile.user != user %}
+        <!-- Si ya es amigo, en vez de añadir, eliminar -->
+        {% comment %} {% if not profile.user.isFriend(profile.user) %} {% endcomment %}
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <a class="btn btn-secondary btn-lg btn-block" href="{% url 'add_friend' profile.user %}">Add friend</a></li>
+          </div>
+        </div>
+        <br>
+          {% comment %} {% else %} {% endcomment %}
+          <div class="row justify-content-center">
+            <div class="col-9">
+              <a class="btn btn-secondary btn-lg btn-block" href="{% url 'delete_friend' profile.user %}">Delete friend</a></li>
+            </div>
+          </div>
+          <br>
+          {% comment %} {% endif %} {% endcomment %}
         {% endif %}
     
         <div class="row justify-content-center">
@@ -48,15 +66,14 @@
             {% for  project in projects_list%}
               {% if project.author == profile.user %}
                   <div class="col-md-4 xs-4">
-                  <div class="row">
-                  <div style="width: 200px; height: 130px;">
-                    <img src="{{project.image.url}}" style="width: 200px; height: 130px;" class="img-fluid" alt="Responsive image">
-                  </div> 
-                  </div> 
+                    <div class="row">
+                      <div style="width: 200px; height: 130px;">
+                        <img src="{{project.image.url}}" style="width: 200px; height: 130px;" class="img-fluid" alt="Responsive image">
+                      </div> 
+                    </div> 
                   </div>
               {% endif %}
             {% endfor %}
-    
             </div> 
           </div>
         </div> 

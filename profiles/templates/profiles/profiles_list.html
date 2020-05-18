@@ -5,27 +5,26 @@
 <h1 style="margin: 90px"></h1>
   <section class="container">   
     <div class="row justify-content-center">
-      <div class="col-8 ">
+      <div class="col-7 ">
         {% for profile in profile_list %}
-            <div class="col-md-4 mt-2 mb-3 ">
-                <div class="row p-1">
-                    <div class="col-md-12">
-                        {% if request.user != profile.user %}
-                        {% if profile.avatar %}
-                        <img src="{{profile.avatar.url}}" class="img-fluid profile-avatar">
-                        {% else %}
-                        <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid profile-avatar">
-                        {% endif %}
-                        <p class="profile-data">
-                        <a href="{% url 'profiles:detail' profile.user %}"><b>{{profile.user|truncatechars:"16"}}</b></a>
-                        </p>
-                         <a href="{% url 'messenger:start' profile.user.username %}" class="btn btn-secondary btn-sm btn-block mt-3">
-                        Send Message
-                        </a>
-                        {% endif %}
-                    </div>
+        <div class='row'>
+            <div class="col-4">
+                {% if request.user != profile.user %}
+                {% if profile.avatar %}
+                <img src="{{profile.avatar.url}}" class="img-fluid profile-avatar">
+                {% else %}
+                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid profile-avatar">
+                {% endif %}
+                <p class="profile-data">
+                    <a href="{% url 'profiles:detail' profile.user %}" class="btn btn-secondary btn-sm btn-block mt-3"><b>Profile {{profile.user|title |truncatechars:"16"}}</b></a>
+                    <a href="{% url 'messenger:start' profile.user.username %}" class="btn btn-secondary btn-sm btn-block mt-3">
+                Send Message
+                </a>
+                <hr>
+                {% endif %}
                 </div>
             </div>
+
         {% endfor %}
         </div>
     </div>

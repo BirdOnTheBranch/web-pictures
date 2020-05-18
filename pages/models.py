@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from registration.models import Profile
+
 
 # Create your models here.
 class Category(models.Model):
@@ -20,7 +22,7 @@ class Category(models.Model):
 class Page(models.Model):    
     image = models.ImageField(upload_to='pages')
     title = models.CharField(max_length=100)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='get_pofiles')
     comment = models.TextField(max_length=3000, null=True, blank=True)
     liked = models.ManyToManyField(User, blank=True, default=None, related_name='liked')
     categories = models.ManyToManyField(Category, blank=True, related_name='get_page')

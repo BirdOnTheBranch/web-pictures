@@ -4,9 +4,11 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse 
 from django import forms
-
-from .models import Profile
+from django.http import HttpResponseRedirect
+from .models import Profile, Friendship
 from .forms import UCFWithEmail, ProfileForm, EmailForm
+from django.contrib.auth.models import User
+
 
 
 #create your views here.
@@ -61,3 +63,50 @@ class EmailUpdate(UpdateView):
         form.fields['email'].widget = forms.EmailInput(attrs={'class':'form-control','placeholder':'Email'})
         return form
         
+        
+
+def add_friend(request, username):
+    if request.user.is_authenticated and request.user != username:
+        friendUser = User.objects.get(username=username)
+        friendProfile = Profile.objects.get(user=friendUser)
+        myProfile = Profile.objects.get(user=request.user)
+        print(f"Soy {myProfile}")
+        print(f"Soy {friendProfile}")
+        model = Friendship.objects.create(creator=myProfile, following=friendProfile)
+        model.save()
+        
+    return HttpResponseRedirect(reverse_lazy('pages:pages'))
+
+
+
+def delete_friend(request, username):
+    if request.user.is_authenticated and request.user != username:
+        friendUser = User.objects.get(username=username)
+        friendProfile = Profile.objects.get(user=friendUser)
+        myProfile = Profile.objects.get(user=request.user)
+        print(f"Soy {myProfile}")
+        print(f"Soy {friendProfile}")
+        Friendship.objects.filter(creator=myProfile, following=friendProfile).delete()        
+        
+    return HttpResponseRedirect(reverse_lazy('pages:pages'))
+
+
+
+def is_friend(user1, user2):
+    user1 = User.objects.get(username=user1)
+    user2 = User.objects.get(username=user2)
+    friends = Friendship.objects.filter(creator=user1, following=user2)
+    if (friends):
+        return True
+    else:
+        return False
+
+
+
+def get_friends(request, username):
+    if request.user.is_authenticated:
+        friendUser = User.objects.get(username=username)
+        friends = Friendship.objects.filter(creator=friendUser)
+        return friends
+    
+    return HttpResponseRedirect(reverse_lazy('pages:pages'))

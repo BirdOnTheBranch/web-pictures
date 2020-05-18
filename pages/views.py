@@ -11,22 +11,13 @@ from .models import Page, Category, Like
 from .forms import PageForms
 
 
-
 # Create your views here.
 class PageListView(ListView):
     model = Page
 
-    def get_context_data(self, *args, **kwargs):
-        """Create dict context."""
-        context = super().get_context_data(*args, **kwargs)
-        context['avatar_list'] = Profile.objects.all()
-        return context
-
-
 
 class PageDetailView(DetailView):
     model = Page
-
 
 
 @method_decorator(login_required, name='dispatch')
@@ -37,9 +28,9 @@ class PageCreateView(CreateView):
 
     def form_valid(self, form):
         #Asing self.user.request for default to author model instance.
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+        form.instance.author = Profile.objects.get(user=self.request.user)
 
+        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -63,9 +54,7 @@ class PageDeleteView(DeleteView):
 
 def category_view(request, category_id):
     category = get_object_or_404(Category, id=category_id)
-    avatar_list = Profile.objects.all()
-    return render(request, 'pages/category.html', {'category':category,
-                                                    'avatar_list':avatar_list})
+    return render(request, 'pages/category.html', {'category':category})
 
 
 

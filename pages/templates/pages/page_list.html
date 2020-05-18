@@ -14,16 +14,14 @@
                         <div class="media-left">
                             <div style="width: 90px; height: 90px;">
                             <!-- Show avatar for user post-->
-                            {% for users in avatar_list %}
-                                {% if page.author == users.user and users.avatar %}
-                                    <img src="{{users.avatar.url}}" style="width: 90px; height: 90px;" alt="Placeholder image">
-                                {% endif %}
-                            {% endfor %}
+                            {% if page.author.avatar %}
+                                <img src="{{page.author.avatar.url}}" style="width: 90px; height: 90px;" alt="Placeholder image">
+                            {% endif %}
                             </div>
                         </div>
                         <div class="media-content">
                             </p>
-                            <a href="{% url 'profiles:detail' request.user %}" ><p class="title is-4" >{{page.author|title}}</p></a>
+                            <a href="{% url 'profiles:detail' page.author %}" ><p class="title is-4" >{{page.author|title}}</p></a>
                             </p>
                             <p class="subtitle is-5">{{page.title}}</p>
                         </div>
@@ -37,11 +35,8 @@
                         <div class="level-left">
                             <div class="level-item has-text-centered">
                                 
-
-                                
                                 <form class="form-product-ajax" action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
                                 <input type='hidden' name='page_id' value="{{page.id}}">
-
 
                                 {% if user not in page.liked.all %}
                                     <button class="ui button" value="{{page.id}}" type="submit">Like</button>
@@ -52,40 +47,6 @@
                                 {% endif %}
 
                                 </form>
-
-                            <!--script>
-                                $(document).ready(function(){
-                                    var productForm = $(".form-product-ajax")
-                               
-
-                                    productForm.submit(function(event){
-                                        event.preventDefault();
-                                        console.log("Form is not send")
-                                        var thisForm = $(this)
-                                        var actionEndPoint = thisForm.attr("action");
-                                        var httpMethod = thisForm.attr("method");
-                                        var formData = thisForm.serialize();
-                                        
-
-
-                                        $.ajax({
-                                            url: actionEndPoint,
-                                            method: httpMethod,
-                                            data: formData,
-                                            success: function(data){
-                                                console.log(data)
-                                            },
-                                            error: function(errorData){
-                                                console.log("Error")
-
-                                            }
-
-                                        })
-
-                                     })
-                                    })
-                            </script-->
-
 
                             </div>
                             <div class="level-item has-text-centered">
@@ -118,7 +79,7 @@
                         <input class="input is-medium" type="text" placeholder="Add a comment . . .">
                     </div>
                     <br>
-                    {% if user.is_authenticated and user == page.author %}
+                    {% if request.user.is_authenticated and page.author.user == request.user %} 
                     <ul class="nav navbar-nav d-inline-flex">
                         <li class="nav-item">
                         <ul class="list-inline-mb-0">
@@ -128,7 +89,6 @@
                     </ul>
                     {% endif %}
                     <!-- Logic of comment likes-->
-                    
                     </div>
                 </div>
             </div>

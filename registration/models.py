@@ -10,7 +10,6 @@ def custom_upload_to(instance, filename):
     old_instance = Profile.objects.get(pk=instance.pk)
     old_instance.avatar.delete()
     return 'profile/' + filename
-
     
 
 
@@ -24,7 +23,21 @@ class Profile(models.Model):
         verbose_name_plural = 'Profiles'
     
     def __str__(self):
-        return self.user
+        return self.user.username
+        
+
+
+class Friendship(models.Model):
+    creator = models.ForeignKey(Profile, related_name="friendship_creator_set", on_delete=models.CASCADE)
+    following = models.ForeignKey(Profile, related_name="friend_set", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Friendship'
+        verbose_name_plural = 'Friendships'
+    
+    def __str__(self):
+        return f"{self.creator.user.username} is friend of {self.following.user.username}"
+
 
 #signal
 @receiver(post_save, sender=User)
@@ -32,3 +45,4 @@ def ensure_profile_exists(sender, instance, **kwargs):
     """Created a user and their linked profile"""
     if kwargs.get('created', False):
         Profile.objects.get_or_create(user=instance)
+        
