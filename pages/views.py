@@ -3,11 +3,13 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy 
+from django.http import JsonResponse
 
 from registration.models import Profile
 from .models import Page, Category, Like
+from messenger.models import Thread
 from .forms import PageForms
 
 
@@ -60,6 +62,7 @@ def category_view(request, category_id):
 
 def like_post(request):
     user = request.user
+    json_response = {'value':False}
     if request.user.is_authenticated:
         page_id = request.POST.get('page_id',)
         page_page = Page.objects.get(id=page_id)
@@ -73,11 +76,13 @@ def like_post(request):
         if not created:
             if like.value == 'Like':
                 like.value = 'Unlike'
+                json_response['value'] = 'Unlike'
                  
         else:
             like.value = 'Like'
             like.save()
+            json_response['value'] = 'like'
 
     
-    return redirect('pages:pages')
+    return JsonResponse(json_response)
     

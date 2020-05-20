@@ -56,7 +56,9 @@
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
-                                    <i class="material-icons">send</i>
+                                {% if request.user != page.author.user %}
+                                    <a href="{% url 'messenger:start' page.author.user.username %}"><i class="material-icons">send</i></a><br>
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -76,8 +78,31 @@
                     </div>
                     
                     <div class="card-footer">
-                        <input class="input is-medium" type="text" placeholder="Add a comment . . .">
+                    
+                    <!-- Prove -->
+                    <div class="box">
+			            <form action='#' method="POST" id="formulario" onsubmit="return false;">
+                        <input id="input" class="input is-medium" type="text" placeholder="Add a comment . . .">
+                        <p id="span">
+                        <span> </span>
+                        </p>
+                        <input type="submit" value="Enviar" id="submit"/>
+                        </form>
+                        <script>
+                        var formulario = document.querySelector("#formulario");
+                            formulario.addEventListener('submit', function(){
+                                var input = document.querySelector('#input').value;
+                                console.log(input)
+                        var span = document.querySelector("#span span")
+                        console.log(input)
+                        span.innerHTML = input;
+                            });
+
+                        
+                        </script>
                     </div>
+                    
+                    
                     <br>
                     {% if request.user.is_authenticated and page.author.user == request.user %} 
                     <ul class="nav navbar-nav d-inline-flex">

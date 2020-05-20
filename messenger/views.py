@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 @method_decorator(login_required, name="dispatch")
 class ThreadList(TemplateView):
     template_name = "messenger/thread_list.html"
+    
 
 
 @method_decorator(login_required, name="dispatch")
