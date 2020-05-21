@@ -35,19 +35,46 @@
                         <div class="level-left">
                             <div class="level-item has-text-centered">
                                 
-                                <form class="form-product-ajax" action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
+                                <form class="likeform" action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
                                 <input type='hidden' name='page_id' value="{{page.id}}">
-
                                 {% if user not in page.liked.all %}
                                     <button class="ui button" value="{{page.id}}" type="submit">Like</button>
-
                                 {% else %}
                                      <button class="ui button negative" type="submit">Like</button>
-
                                 {% endif %}
-
                                 </form>
+                            <script>
+                           $(document).on('submit', '.likeform', function(e) {
+                            e.preventDefault();
 
+                            // Get the currently submitted form and find the inputs
+                            // inside the form necessary to send the data with.
+                            var $form = $(this); 
+                            var $pageId = $form.find('input[name="page_id"]');
+                            var $csrf = $form.find('input[name="csrfmiddlewaretoken"]');
+                            var $button = $form.find('button');
+
+                            $.ajax({
+                                type: 'POST',
+                                url: "{% url 'pages:like-post' %}",
+                                dataType: 'text',
+                                data: {
+                                post_id: $pageId.val(),
+                                csrfmiddlewaretoken: $csrf.val()
+                                },
+
+                                success: function(response) {
+                                    console.log(response)
+
+                                // Replace the current text of the button with a new
+                                // text based on if it was liked or disliked.
+                                $button.text(response);
+
+                                }
+                            });
+
+                            });
+                            </script>   
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
@@ -75,7 +102,20 @@
                             {% endfor %}
                         <br>
                         <time datetime="{{page.created}}">{{page.created}}</time>
+                    </p>
+
+                    <!--Taggit-->
+                    
+                    {% for tag in tags  %}
+                        {% if tag in page.tags.all %}
+                        <a href="{% url 'pages:tagged' tag.slug %}">#{{tag.name}}</a>
+                        {% endif %}
+                    {% empty %}
+                        <li>No tags</li>
+                    {% endfor %}
+                    </p>
                     </div>
+                    <!--End Taggit-->
                     
                     <div class="card-footer">
                     
@@ -101,9 +141,8 @@
                         
                         </script>
                     </div>
-                    
-                    
-                    <br>
+                </div>
+
                     {% if request.user.is_authenticated and page.author.user == request.user %} 
                     <ul class="nav navbar-nav d-inline-flex">
                         <li class="nav-item">

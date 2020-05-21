@@ -1,33 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
+from taggit.managers import TaggableManager
 
 from registration.models import Profile
 
 
 # Create your models here.
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categorys'
-        ordering =  ['-created']
-    
-    def __str__(self):
-        return self.name
-
-
 class Page(models.Model):    
     image = models.ImageField(upload_to='pages')
     title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=200, blank=True)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='get_pofiles')
     comment = models.TextField(max_length=3000, null=True, blank=True)
     liked = models.ManyToManyField(User, blank=True, default=None, related_name='liked')
-    categories = models.ManyToManyField(Category, blank=True, related_name='get_page')
     created = models.DateTimeField( auto_now_add=True)
     updated = models.DateTimeField( auto_now=True)
+
+    tags = TaggableManager(blank=True)
     
     class Meta:
         verbose_name = 'Page'

@@ -8,24 +8,40 @@ from django.urls import reverse_lazy
 from django.http import JsonResponse
 
 from registration.models import Profile
-from .models import Page, Category, Like
-from messenger.models import Thread
+from .models import Page, Like
 from .forms import PageForms
+from taggit.models import Tag
+
 
 
 # Create your views here.
-class PageListView(ListView):
+class TagMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tags"] = Tag.objects.all()
+        return context
+
+
+class PageListView(TagMixin, ListView):
     model = Page
 
 
-class PageDetailView(DetailView):
+class PageDetailView(TagMixin, DetailView):
     model = Page
 
+
+class TagIndexView(TagMixin, ListView):
+    template_name = 'pages/pages_list.html'
+    model = Page
+
+    def get_queryset(self):
+        return Page.objects.filter(tags__slug=self.kwargs.get('slug'))
+    
 
 @method_decorator(login_required, name='dispatch')
 class PageCreateView(CreateView):
     model = Page
-    fields = ['image','title','comment','categories']
+    fields = ['image','title','comment','tags']
     success_url = reverse_lazy('pages:pages')
 
     def form_valid(self, form):
@@ -51,13 +67,6 @@ class PageUpdateView(UpdateView):
 class PageDeleteView(DeleteView):
     model = Page
     success_url = reverse_lazy('pages:pages')
-
-
-
-def category_view(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
-    return render(request, 'pages/category.html', {'category':category})
-
 
 
 def like_post(request):

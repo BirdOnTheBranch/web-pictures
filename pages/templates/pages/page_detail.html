@@ -1,88 +1,135 @@
 {% extends 'core/index.html'%}
-{% block title %}Web Pictures My Pic {% endblock %}
+{% block title %}Web Pictures detail pic{% endblock %}
 
 {% block content %}
 
 <h1 style="margin: 35px"></h1>
-{% for page in page_list %}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-7">
             <div class="card" >
-
+                <div class="header">
+                    <div class="media">
+                        <div class="media-left">
                             <div style="width: 90px; height: 90px;">
                             <!-- Show avatar for user post-->
-                            {% for users in avatar_list %}
-                                {% if page.author == users.user and users.avatar %}
-                                    <img src="{{users.avatar.url}}" style="width: 90px; height: 90px;" alt="Placeholder image">
-                                {% endif %}
-                            {% endfor %}
-                                </div>
-                                <div class="media-content">
-                                     <a href="{% url 'profile' %}" ><p class="title is-4" >{{page.author}}</p></a>
-                                    <p class="subtitle is-6">{{page.title}}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="{{page.image.url}}" alt="Placeholder image">
-                            </figure>
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <div class="level is-mobile">
-                                <div class="level-left">
-                                    <div class="level-item has-text-centered">
-                                        <a href="">
-                                            <i class="material-icons">favorite_border</i>
-                                        </a>
-                                    </div>
-                                    <div class="level-item has-text-centered">
-                                        <div>
-                                            <i class="material-icons">chat_bubble_outline</i>
-                                        </div>
-                                    </div>
-                                    <div class="level-item has-text-centered">
-                                        <div>
-                                            <i class="material-icons">send</i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="content">
-                                <p>
-                                    <strong>32 Likes</strong>
-                                </p>
-                                <p>{{page.comment}}</p>
-                                <a>{{page.author}}</a>
-                                    {% for  category in page.categories.all %}
-                                        <a href="{% url 'pages:category' category.id %}" >#{{category.name}} </a>
-                                    {% endfor %}
-                                <br>
-                                <time datetime="{{page.created}}">{{page.created}}</time>
-                            </div>
-                            
-                            <div class="card-footer">
-                                <input class="input is-medium" type="text" placeholder="Add a comment . . .">
-                            </div>
-                            <br>
-                            {% if user.is_authenticated and user == page.author %}
-                            <ul class="nav navbar-nav d-inline-flex">
-                                <li class="nav-item">
-                                <ul class="list-inline-mb-0">
-                                    <li class="list-inline-item"><a href="{% url 'pages:update' page.id %}">Edit </a></li>
-                                    <li class="list-inline-item"><a href="{% url 'pages:delete' page.id %}"> Delete</a></li>          
-                                </ul>
-                            </ul>
+                            {% if page.author.avatar %}
+                                <img src="{{page.author.avatar.url}}" style="width: 90px; height: 90px;" alt="Placeholder image">
                             {% endif %}
+                            </div>
                         </div>
+                        <div class="media-content">
+                            </p>
+                            <a href="{% url 'profiles:detail' page.author %}" ><p class="title is-4" >{{page.author|title}}</p></a>
+                            </p>
+                            <p class="subtitle is-5">{{page.title}}</p>
+                        </div>
+                    </div>
+                </div>
+                    <figure class="image is-4by3">
+                        <img src="{{page.image.url}}" alt="Placeholder image">
+                    </figure>
+                <div class="card-content">
+                    <div class="level is-mobile">
+                        <div class="level-left">
+                            <div class="level-item has-text-centered">
+                                
+                                <form class="form-product-ajax" action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
+                                <input type='hidden' name='page_id' value="{{page.id}}">
+
+                                {% if user not in page.liked.all %}
+                                    <button class="ui button" value="{{page.id}}" type="submit">Like</button>
+
+                                {% else %}
+                                     <button class="ui button negative" type="submit">Like</button>
+
+                                {% endif %}
+
+                                </form>
+
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <i class="material-icons">chat_bubble_outline</i>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                {% if request.user != page.author.user %}
+                                    <a href="{% url 'messenger:start' page.author.user.username %}"><i class="material-icons">send</i></a><br>
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <p>
+                            <strong>{{ page.liked.all.count }} Likes</strong>
+                        </p>
+                        <p>{{page.comment|truncatechars:"300"}}</p>
+                        <a>{{page.author}}</a>
+                            {% for  category in page.categories.all %}
+                                <a href="{% url 'pages:category' category.id %}" >#{{category.name}} </a>
+                            {% endfor %}
+                        <br>
+                        <time datetime="{{page.created}}">{{page.created}}</time>
+                    </p>
+
+                    <!--Taggit-->
+                    
+                    {% for tag in tags  %}
+                        {% if tag in page.tags.all %}
+                        <a href="{% url 'pages:tagged' tag.slug %}">#{{tag.name}}</a>
+                        {% endif %}
+                    {% empty %}
+                        <li>No tags</li>
+                    {% endfor %}
+                    </p>
+                    </div>
+                    <!--End Taggit-->
+                    
+                    <div class="card-footer">
+                    
+                    <!-- Prove -->
+                    <div class="box">
+			            <form action='#' method="POST" id="formulario" onsubmit="return false;">
+                        <input id="input" class="input is-medium" type="text" placeholder="Add a comment . . .">
+                        <p id="span">
+                        <span> </span>
+                        </p>
+                        <input type="submit" value="Enviar" id="submit"/>
+                        </form>
+                        <script>
+                        var formulario = document.querySelector("#formulario");
+                            formulario.addEventListener('submit', function(){
+                                var input = document.querySelector('#input').value;
+                                console.log(input)
+                        var span = document.querySelector("#span span")
+                        console.log(input)
+                        span.innerHTML = input;
+                            });
+
+                        
+                        </script>
+                    </div>
+                </div>
+
+                    {% if request.user.is_authenticated and page.author.user == request.user %} 
+                    <ul class="nav navbar-nav d-inline-flex">
+                        <li class="nav-item">
+                        <ul class="list-inline-mb-0">
+                            <li class="list-inline-item"><a href="{% url 'pages:update' page.id %}">Edit </a></li>
+                            <li class="list-inline-item"><a href="{% url 'pages:delete' page.id %}">Delete</a></li>          
+                        </ul>
+                    </ul>
+                    {% endif %}
+                    <!-- Logic of comment likes-->
                     </div>
                 </div>
             </div>
         </div>
-        <br><br>
-{% endblock %}
+    </div>
+    <br><br>
 
+{% endblock  %}

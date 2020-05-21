@@ -20,7 +20,6 @@
                 <h2 class="subtitle is-4">
                     The photos are the protagonists.
                 </h2>
-
                 <div class="row d-flex justify-content-center">
                     <style>.errorlist{color:red;} label{display:none}</style>
                 <main role="main">
@@ -30,7 +29,7 @@
                                 <div class="btn-group-vertical">
                                 <div style="text-align:center">
                                     {% if request.user.is_authenticated %}
-                                        <script>window.location.href = '/accounts/profile/'; </script>
+                                        <script>window.location.href = '/pages/'; </script>
                                     {% endif %}
                                         <style>.errorlist{color:red;}</style>
                                     {% if 'register' in request.GET %}

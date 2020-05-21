@@ -27,7 +27,11 @@
                                 <p>
                                 Login <a href="{% url 'login' %}">here</a>.
                                 </p>
-                                Have you don't account? Register  <a href="{% url 'signup' %}">here</a>.
+                                Have you don't account? Register  
+                                {% if request.user.is_authenticated %}
+                                    <script>window.location.href = '/pages/'; </script>
+                                {% endif %}
+                                <a href="{% url 'signup' %}">here</a>.
                             </div>
                             </div>
                         </div>
