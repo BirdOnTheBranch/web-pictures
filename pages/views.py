@@ -5,10 +5,12 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy 
-from django.http import JsonResponse
+from django.http import HttpResponse
+
+import json
 
 from registration.models import Profile
-from .models import Page, Like
+from .models import Page
 from .forms import PageForms
 from taggit.models import Tag
 
@@ -24,7 +26,6 @@ class TagMixin(object):
 
 class PageListView(TagMixin, ListView):
     model = Page
-
 
 class PageDetailView(TagMixin, DetailView):
     model = Page
@@ -69,29 +70,17 @@ class PageDeleteView(DeleteView):
     success_url = reverse_lazy('pages:pages')
 
 
-def like_post(request):
+@login_required(login_url='/user')
+def like_button(request):
     user = request.user
-    json_response = {'value':False}
-    if request.user.is_authenticated:
-        page_id = request.POST.get('page_id',)
-        page_page = Page.objects.get(id=page_id)
-        if  user in page_page.liked.all():
-            page_page.liked.remove(user)
+    id = request.POST.get('pk', None)
+    page = get_object_or_404(Page, pk=id)
+    if request.method == 'POST':
+        if page.likes.filter(id=user.id).exists():
+            page.likes.remove(user)
         else:
-            page_page.liked.add(user)
-        
-        like, created = Like.objects.get_or_create(user=user, page_id=page_id)
+            page.likes.add(user)
 
-        if not created:
-            if like.value == 'Like':
-                like.value = 'Unlike'
-                json_response['value'] = 'Unlike'
-                 
-        else:
-            like.value = 'Like'
-            like.save()
-            json_response['value'] = 'like'
-
-    
-    return JsonResponse(json_response)
+    context = {'likes_count': page.total_likes}
+    return HttpResponse(json.dumps(context), content_type='application/json')
     

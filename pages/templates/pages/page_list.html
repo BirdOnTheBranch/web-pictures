@@ -34,47 +34,7 @@
                     <div class="level is-mobile">
                         <div class="level-left">
                             <div class="level-item has-text-centered">
-                                
-                                <form class="likeform" action="{% url 'pages:like-post' %}" method='POST'>{% csrf_token %}
-                                <input type='hidden' name='page_id' value="{{page.id}}">
-                                {% if user not in page.liked.all %}
-                                    <button class="ui button" value="{{page.id}}" type="submit">Like</button>
-                                {% else %}
-                                     <button class="ui button negative" type="submit">Like</button>
-                                {% endif %}
-                                </form>
-                            <script>
-                           $(document).on('submit', '.likeform', function(e) {
-                            e.preventDefault();
-
-                            // Get the currently submitted form and find the inputs
-                            // inside the form necessary to send the data with.
-                            var $form = $(this); 
-                            var $pageId = $form.find('input[name="page_id"]');
-                            var $csrf = $form.find('input[name="csrfmiddlewaretoken"]');
-                            var $button = $form.find('button');
-
-                            $.ajax({
-                                type: 'POST',
-                                url: "{% url 'pages:like-post' %}",
-                                dataType: 'text',
-                                data: {
-                                post_id: $pageId.val(),
-                                csrfmiddlewaretoken: $csrf.val()
-                                },
-
-                                success: function(response) {
-                                    console.log(response)
-
-                                // Replace the current text of the button with a new
-                                // text based on if it was liked or disliked.
-                                $button.text(response);
-
-                                }
-                            });
-
-                            });
-                            </script>   
+                            <input type="button" class="ui button negative" id="like" name="{{ page.id }}" value="Like" />
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
@@ -89,14 +49,38 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        </div>
+                            <div id="total_likes"></div>
+                        <script>
+                            var count = ({{ page.total_likes }})
+                            var likes = document.querySelector('#total_likes');
+                            likes.innerHTML="<strong>Likes "+count+"<strong>";
 
+                            $('#like').click(function(){
+                            var pk = $(this).attr('name');
+                            $.ajax({
+                                    type: "POST",
+                                    url: "{% url 'pages:like_button' %}",
+                                    data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                                    dataType: "json",
+                                    success: function(response) {
+                                        var count = response.likes_count
+                                        var likes = document.querySelector('#total_likes');
+                                		likes.innerHTML="<strong>Likes "+count+"<strong>";
+                                        },
+
+                                    error: function(rs, e) {
+                                            alert('Something went wrong.');
+                                    }
+                                });
+                            })
+                        </script> 
                     <div class="content">
-                        <p>
-                            <strong>{{ page.liked.all.count }} Likes</strong>
                         </p>
                         <p>{{page.comment|truncatechars:"300"}}</p>
-                        <a>{{page.author}}</a>
+                        <strong>
+                        <a>{{page.author|title}}</a>
+                        </strong>
                             {% for  category in page.categories.all %}
                                 <a href="{% url 'pages:category' category.id %}" >#{{category.name}} </a>
                             {% endfor %}
@@ -128,6 +112,7 @@
                         </p>
                         <input type="submit" value="Enviar" id="submit"/>
                         </form>
+
                         <script>
                         var formulario = document.querySelector("#formulario");
                             formulario.addEventListener('submit', function(){
@@ -137,9 +122,8 @@
                         console.log(input)
                         span.innerHTML = input;
                             });
-
-                        
                         </script>
+
                     </div>
                 </div>
 

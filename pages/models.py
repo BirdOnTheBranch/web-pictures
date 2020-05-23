@@ -7,17 +7,18 @@ from registration.models import Profile
 
 # Create your models here.
 class Page(models.Model):    
-    image = models.ImageField(upload_to='pages')
-    title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=200, blank=True)
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='get_pofiles')
-    comment = models.TextField(max_length=3000, null=True, blank=True)
-    liked = models.ManyToManyField(User, blank=True, default=None, related_name='liked')
-    created = models.DateTimeField( auto_now_add=True)
-    updated = models.DateTimeField( auto_now=True)
+    image   =   models.ImageField(upload_to='pages')
+    title   =   models.CharField(max_length=100)
+    slug    =   models.SlugField(max_length=200, blank=True)
+    author  =   models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='get_pofiles')
+    comment =   models.TextField(max_length=3000, null=True, blank=True)
+    likes   =   models.ManyToManyField(User, related_name="likes")
+    created =   models.DateTimeField( auto_now_add=True)
+    updated =   models.DateTimeField( auto_now=True)
 
     tags = TaggableManager(blank=True)
     
+
     class Meta:
         verbose_name = 'Page'
         verbose_name_plural = 'Pages'
@@ -27,17 +28,5 @@ class Page(models.Model):
         return self.title
 
     @property
-    def run_likes(self):
-        return self.liked.all().count()
-
-
-LIKE_CHOICES = (
-    ('Like', 'Like'),
-    ('Unlike', 'Unlike'),
-)
-
-
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    page = models.ForeignKey(Page, on_delete=models.CASCADE)
-    value = models.CharField(choices=LIKE_CHOICES, default='Like', max_length=10)
+    def total_likes(self):
+        return self.likes.count()

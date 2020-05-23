@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Page, Like
+from .models import Page
 
 
 # Register your models here.
@@ -8,4 +8,3 @@ class PagesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Page, PagesAdmin)
-admin.site.register(Like)

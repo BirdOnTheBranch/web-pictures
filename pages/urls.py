@@ -1,6 +1,6 @@
 from django.urls import path 
 from . import views
-from .views import PageListView, PageDetailView, PageCreateView, PageUpdateView, PageDeleteView, like_post, TagIndexView
+from .views import PageListView, PageDetailView, PageCreateView, PageUpdateView, PageDeleteView, like_button, TagIndexView
 
 pages_patterns = ([
     path('', PageListView.as_view(), name='pages'),
@@ -9,5 +9,5 @@ pages_patterns = ([
     path('update/<int:pk>', PageUpdateView.as_view(), name='update'),
     path('delete/<int:pk>', PageDeleteView.as_view(), name='delete'),
     path('tags/<slug:slug>/', TagIndexView.as_view(), name='tagged'),
-    path('like/', like_post, name='like-post'),
+    path('like/', like_button, name='like_button'),
     ], 'pages')
