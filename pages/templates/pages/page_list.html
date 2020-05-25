@@ -35,9 +35,9 @@
                         <div class="level-left">
                             <div class="level-item has-text-centered">
                                 {% if user not in page.likes.all %}
-                                    <input type="button" class="like ui button" name="{{ page.id }}" value="Like" />
+                                    <input type="button" id="btn" class="like ui button" name="{{ page.id }}" value="Like" />
                                 {% else %}
-                                    <input type="button" class="like button negative"  name="{{ page.id }}" value="Like" />
+                                    <input type="button" id="btn" class="like ui button negative"  name="{{ page.id }}" value="Like"/>
                                 {% endif %}
                             </div>
                             <div class="level-item has-text-centered">
@@ -56,9 +56,8 @@
                         </div>
                             <div class="total_likes"></div>
                         <script>
-                            var count = ({{ page.total_likes }})
                             var likes = document.querySelector('.total_likes');
-                            likes.innerHTML="<strong>Likes "+count+"<strong>";
+                            likes.innerHTML="<strong>Likes "+{{ page.total_likes }}+"<strong>";
                             $('.like').click(function(){
                             var pk = $(this).attr('name');
                             $.ajax({    
@@ -67,28 +66,13 @@
                                     data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                                     dataType: "json",
                                     success: function(response) {
-                                        var count = response.likes_count
-                                        var likes = document.querySelector('.total_likes');
-                                		likes.innerHTML="<strong>Likes "+count+"<strong>";
-                                        console.log(count)
-                                        },
-                                    });
-                                })
-                                {% if request.user.is_authenticated %}
-                                var boton = document.querySelector(".like")
-                                function cambiarColor(){
-                                    if(boton.className ==  "like ui button negative" ){
-                                        boton.className = "like ui button";
-                                    }else if( boton.className == "like ui button" ){
-                                        boton.className = "like ui button negative"
-                                        }
-                                    return true;
-	                                }
-                                boton.addEventListener('click', function(){
-                                    cambiarColor();
+                                        $('.total_likes').html("<strong>Likes "+response.likes_count+"<strong>");
+
+                                    },
                                 });
-                                {% endif %}
+                            })
                         </script> 
+                        
                     <div class="content">
                         </p>
                         <p>{{page.comment|truncatechars:"300"}}</p>
