@@ -33,6 +33,7 @@ urlpatterns = [
     path('profiles/', include(profiles_patterns)),
     #path messenger
     path('messenger/', include(messenger_patterns)),
+    #path messenger
 ]
 
 #Logic whit server media files in debug mode

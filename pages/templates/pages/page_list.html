@@ -34,7 +34,11 @@
                     <div class="level is-mobile">
                         <div class="level-left">
                             <div class="level-item has-text-centered">
-                            <input type="button" class="ui button negative" id="like" name="{{ page.id }}" value="Like" />
+                                {% if user not in page.likes.all %}
+                                    <input type="button" class="like ui button" name="{{ page.id }}" value="Like" />
+                                {% else %}
+                                    <input type="button" class="like button negative"  name="{{ page.id }}" value="Like" />
+                                {% endif %}
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
@@ -50,30 +54,40 @@
                             </div>
                         </div>
                         </div>
-                            <div id="total_likes"></div>
+                            <div class="total_likes"></div>
                         <script>
                             var count = ({{ page.total_likes }})
-                            var likes = document.querySelector('#total_likes');
+                            var likes = document.querySelector('.total_likes');
                             likes.innerHTML="<strong>Likes "+count+"<strong>";
-
-                            $('#like').click(function(){
+                            $('.like').click(function(){
                             var pk = $(this).attr('name');
-                            $.ajax({
+                            $.ajax({    
                                     type: "POST",
                                     url: "{% url 'pages:like_button' %}",
                                     data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                                     dataType: "json",
                                     success: function(response) {
                                         var count = response.likes_count
-                                        var likes = document.querySelector('#total_likes');
+                                        var likes = document.querySelector('.total_likes');
                                 		likes.innerHTML="<strong>Likes "+count+"<strong>";
+                                        console.log(count)
                                         },
-
-                                    error: function(rs, e) {
-                                            alert('Something went wrong.');
-                                    }
+                                    });
+                                })
+                                {% if request.user.is_authenticated %}
+                                var boton = document.querySelector(".like")
+                                function cambiarColor(){
+                                    if(boton.className ==  "like ui button negative" ){
+                                        boton.className = "like ui button";
+                                    }else if( boton.className == "like ui button" ){
+                                        boton.className = "like ui button negative"
+                                        }
+                                    return true;
+	                                }
+                                boton.addEventListener('click', function(){
+                                    cambiarColor();
                                 });
-                            })
+                                {% endif %}
                         </script> 
                     <div class="content">
                         </p>
@@ -81,13 +95,8 @@
                         <strong>
                         <a>{{page.author|title}}</a>
                         </strong>
-                            {% for  category in page.categories.all %}
-                                <a href="{% url 'pages:category' category.id %}" >#{{category.name}} </a>
-                            {% endfor %}
-                        <br>
                         <time datetime="{{page.created}}">{{page.created}}</time>
                     </p>
-
                     <!--Taggit-->
                     
                     {% for tag in tags  %}
@@ -100,33 +109,7 @@
                     </p>
                     </div>
                     <!--End Taggit-->
-                    
                     <div class="card-footer">
-                    
-                    <!-- Prove -->
-                    <div class="box">
-			            <form action='#' method="POST" id="formulario" onsubmit="return false;">
-                        <input id="input" class="input is-medium" type="text" placeholder="Add a comment . . .">
-                        <p id="span">
-                        <span> </span>
-                        </p>
-                        <input type="submit" value="Enviar" id="submit"/>
-                        </form>
-
-                        <script>
-                        var formulario = document.querySelector("#formulario");
-                            formulario.addEventListener('submit', function(){
-                                var input = document.querySelector('#input').value;
-                                console.log(input)
-                        var span = document.querySelector("#span span")
-                        console.log(input)
-                        span.innerHTML = input;
-                            });
-                        </script>
-
-                    </div>
-                </div>
-
                     {% if request.user.is_authenticated and page.author.user == request.user %} 
                     <ul class="nav navbar-nav d-inline-flex">
                         <li class="nav-item">
@@ -146,7 +129,3 @@
 {% endfor %}
 
 {% endblock  %}
-
-
-
-

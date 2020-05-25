@@ -13,7 +13,6 @@ class ProfileListView(ListView):
     template_name = 'profiles/profiles_list.html'
 
 
-
 class ProfileDetailView(DetailView):
     model = Profile
     template_name = 'profiles/profiles_detail.html'
@@ -22,10 +21,9 @@ class ProfileDetailView(DetailView):
         """Get username model field for use in path."""
         return get_object_or_404(Profile, user__username=self.kwargs['username'])
 
-    def get_friends(self, request, username):
-        if request.user.is_authenticated:
-            friendUser = User.objects.get(username=username)
-            friends = Friendship.objects.filter(creator=friendUser)
+    def _get_friends(self):
+        if self.request.user.is_authenticated:
+            friends = Friendship.objects.filter(creator=self.request.user)
             return friends
         return []
 
@@ -33,5 +31,5 @@ class ProfileDetailView(DetailView):
         """Create dict context."""
         context = super().get_context_data(*args, **kwargs)
         context['projects_list'] = Page.objects.all()
-        context['friends_list'] = Friendship.objects.all()
+        context['friends_list'] = self._get_friends()
         return context

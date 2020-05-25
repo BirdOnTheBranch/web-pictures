@@ -14,9 +14,9 @@ def custom_upload_to(instance, filename):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True )
-    bio = models.TextField(null=True, blank=True)
+    user    =   models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar  =   models.ImageField(upload_to=custom_upload_to, null=True, blank=True )
+    bio     =   models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Profile'
@@ -26,17 +26,16 @@ class Profile(models.Model):
         return self.user.username
         
 
-
 class Friendship(models.Model):
-    creator = models.ForeignKey(Profile, related_name="friendship_creator_set", on_delete=models.CASCADE)
-    following = models.ForeignKey(Profile, related_name="friend_set", on_delete=models.CASCADE)
+    creator     =   models.ForeignKey(User, related_name="friendship_creator_set", on_delete=models.CASCADE)
+    following   =   models.ForeignKey(User, related_name="friend_set", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Friendship'
         verbose_name_plural = 'Friendships'
     
     def __str__(self):
-        return f"{self.creator.user.username} is friend of {self.following.user.username}"
+        return self.creator.username
 
 
 #signal

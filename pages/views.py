@@ -15,7 +15,6 @@ from .forms import PageForms
 from taggit.models import Tag
 
 
-
 # Create your views here.
 class TagMixin(object):
     def get_context_data(self, **kwargs):
@@ -72,15 +71,15 @@ class PageDeleteView(DeleteView):
 
 @login_required(login_url='/user')
 def like_button(request):
-    user = request.user
-    id = request.POST.get('pk', None)
-    page = get_object_or_404(Page, pk=id)
     if request.method == 'POST':
+        user = request.user
+        id = request.POST.get('pk', None)
+        page = get_object_or_404(Page, pk=id)
         if page.likes.filter(id=user.id).exists():
             page.likes.remove(user)
         else:
             page.likes.add(user)
-
+            
     context = {'likes_count': page.total_likes}
     return HttpResponse(json.dumps(context), content_type='application/json')
     

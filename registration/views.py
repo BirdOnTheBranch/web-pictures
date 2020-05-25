@@ -68,28 +68,22 @@ class EmailUpdate(UpdateView):
 def add_friend(request, username):
     if request.user.is_authenticated and request.user != username:
         friendUser = User.objects.get(username=username)
-        friendProfile = Profile.objects.get(user=friendUser)
-        myProfile = Profile.objects.get(user=request.user)
-        print(f"Soy {myProfile}")
-        print(f"Soy {friendProfile}")
+        friendProfile = User.objects.get(username=friendUser)
+        myProfile = User.objects.get(username=request.user)
         model = Friendship.objects.create(creator=myProfile, following=friendProfile)
         model.save()
         
-    return HttpResponseRedirect(reverse_lazy('pages:pages'))
-
+    return HttpResponseRedirect(reverse_lazy('profiles:detail', kwargs={'username': friendUser }))
 
 
 def delete_friend(request, username):
     if request.user.is_authenticated and request.user != username:
         friendUser = User.objects.get(username=username)
-        friendProfile = Profile.objects.get(user=friendUser)
-        myProfile = Profile.objects.get(user=request.user)
-        print(f"Soy {myProfile}")
-        print(f"Soy {friendProfile}")
+        friendProfile = User.objects.get(username=friendUser)
+        myProfile = User.objects.get(username=request.user)
         Friendship.objects.filter(creator=myProfile, following=friendProfile).delete()        
         
-    return HttpResponseRedirect(reverse_lazy('pages:pages'))
-
+    return HttpResponseRedirect(reverse_lazy('profiles:detail', kwargs={'username': friendUser}))
 
 
 def is_friend(user1, user2):
@@ -100,7 +94,6 @@ def is_friend(user1, user2):
         return True
     else:
         return False
-
 
 
 def get_friends(request, username):

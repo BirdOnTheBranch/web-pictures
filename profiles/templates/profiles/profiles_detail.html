@@ -7,7 +7,7 @@
 <h1 style="margin: 60px"></h1>
  <div class="container">
     <div class="row justify-content-center">
-        <div class="col-9">
+      <div class="col-9">
 
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
           <div class="row justify-content-center">
@@ -20,7 +20,6 @@
                 <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid">
               {% endif %}
             </div>
-            
             <!-- Campos -->
             <div class="col-md-6">
              <br>
@@ -40,24 +39,34 @@
         </div>
         <br>
         {% endif %}
-        {% if user.is_authenticated and profile.user != user %}
-        <!-- Si ya es amigo, en vez de añadir, eliminar -->
-        {% comment %} {% if not profile.user.isFriend(profile.user) %} {% endcomment %}
         <div class="row justify-content-center">
           <div class="col-9">
-            <a class="btn btn-secondary btn-lg btn-block" href="{% url 'add_friend' profile.user %}">Add friend</a></li>
+
+        {% if user.is_authenticated and profile.user != user %}
+          {% for friend in friends_list %}
+            {% if friend.creator != profile.user%}
+              {{friend.creator}}
+            {% endif %}
+          {% endfor %}
+
+          {{profile.user}} {{friends_list}} {{request.user}} {{friend.creator}}
+
           </div>
         </div>
-        <br>
-          {% comment %} {% else %} {% endcomment %}
+        <!-- Si ya es amigo, en vez de añadir, eliminar -->
+            <div class="row justify-content-center">
+              <div class="col-9">
+                <a class="btn btn-secondary btn-lg btn-block" href="{% url 'delete_friend' profile.user %}">Delete friend</a></li>
+              </div>
+            </div>
+            <br>
           <div class="row justify-content-center">
             <div class="col-9">
-              <a class="btn btn-secondary btn-lg btn-block" href="{% url 'delete_friend' profile.user %}">Delete friend</a></li>
+              <a class="btn btn-secondary btn-lg btn-block" href="{% url 'add_friend' profile.user %}">Add friend</a></li>
             </div>
           </div>
           <br>
-          {% comment %} {% endif %} {% endcomment %}
-        {% endif %}
+        {% endif %} 
     
         <div class="row justify-content-center">
           <div class="col-9">
@@ -77,11 +86,13 @@
             </div> 
           </div>
         </div> 
+     
+     </div>
+     </div>
 
-      </div>
-      </div> 
-      </div>
-  </div>
-  </div>
+    </div>
+  </div> 
+</div>
+
 
 {% endblock %}
