@@ -69,8 +69,8 @@ class PageDeleteView(DeleteView):
     success_url = reverse_lazy('pages:pages')
 
 
-@login_required(login_url='/user')
-def like_button(request):
+@login_required(login_url='/user')  
+def like_button(request, pk):
     if request.method == 'POST':
         user = request.user
         id = request.POST.get('pk', None)
@@ -79,7 +79,6 @@ def like_button(request):
             page.likes.remove(user)
         else:
             page.likes.add(user)
-            
+           
     context = {'likes_count': page.total_likes}
     return HttpResponse(json.dumps(context), content_type='application/json')
-    

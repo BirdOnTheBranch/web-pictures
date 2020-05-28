@@ -44,12 +44,10 @@
 
         {% if user.is_authenticated and profile.user != user %}
           {% for friend in friends_list %}
-            {% if friend.creator != profile.user%}
-              {{friend.creator}}
+            {% if friend.creator != profile.user and profile.user == friend.following and friend.creator not in friends_list%}
+              {{friend.creator}} 
             {% endif %}
           {% endfor %}
-
-          {{profile.user}} {{friends_list}} {{request.user}} {{friend.creator}}
 
           </div>
         </div>
@@ -73,16 +71,26 @@
             <div class="row">
 
             {% for  project in projects_list%}
-              {% if project.author == profile.user %}
+              {% if project.author.user.username == profile.user.username %}
                   <div class="col-md-4 xs-4">
                     <div class="row">
                       <div style="width: 200px; height: 130px;">
                         <img src="{{project.image.url}}" style="width: 200px; height: 130px;" class="img-fluid" alt="Responsive image">
                       </div> 
+                      {% if request.user.is_authenticated and project.author.user == request.user %} 
+                    <ul class="nav navbar-nav d-inline-flex">
+                        <li class="nav-item">
+                        <ul class="list-inline-mb-0">
+                            <li class="list-inline-item"><a href="{% url 'pages:update' project.id %}">Edit </a></li>
+                            <li class="list-inline-item"><a href="{% url 'pages:delete' project.id %}">Delete</a></li>          
+                        </ul>
+                    </ul>
+                    {% endif %}
                     </div> 
                   </div>
               {% endif %}
             {% endfor %}
+            
             </div> 
           </div>
         </div> 

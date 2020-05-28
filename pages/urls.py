@@ -9,5 +9,5 @@ pages_patterns = ([
     path('update/<int:pk>', PageUpdateView.as_view(), name='update'),
     path('delete/<int:pk>', PageDeleteView.as_view(), name='delete'),
     path('tags/<slug:slug>/', TagIndexView.as_view(), name='tagged'),
-    path('like/', like_button, name='like_button'),
+    path('like/<int:pk>', like_button, name='like_button'),
     ], 'pages')

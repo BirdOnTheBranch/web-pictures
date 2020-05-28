@@ -2,7 +2,10 @@
 {% block title %}Web Pictures Pics{% endblock %}
 
 {% block content %}
-
+<style>
+  .like  { color: white; background-color: red; width:45px; height:30px; float:left; margin-right:2px; }
+  .dislike  { color: black; background-color: ""; width:45px; height:30px; float:left; margin-right:2px; }
+</style>
 <h1 style="margin: 35px"></h1>
 <div class="container">
     <div class="row justify-content-center">
@@ -34,9 +37,9 @@
                         <div class="level-left">
                             <div class="level-item has-text-centered">
                                 {% if user not in page.likes.all %}
-                                    <input type="button" class="ui button" id="like" name="{{ page.id }}" value="Like" />
+                                    <input type="button" id="btn{{page.id}}" class="dislike" name="{{ page.id }}"  value="Like" />
                                 {% else %}
-                                    <input type="button" class="ui button negative" id="like" name="{{ page.id }}" value="Like" />
+                                    <input type="button" id="btn{{page.id}}" class="like" name="{{ page.id }}"  value="Like"/>
                                 {% endif %}
                             </div>
                             <div class="level-item has-text-centered">
@@ -52,46 +55,49 @@
                                 </div>
                             </div>
                         </div>
-                        </div>
-                            <div id="total_likes"></div>
-                        <script>
-                            var count = ({{ page.total_likes }})
-                            var likes = document.querySelector('#total_likes');
-                            likes.innerHTML="<strong>Likes "+count+"<strong>";
-                            $('#like').click(function(){
-                            var pk = $(this).attr('name');
-                            $.ajax({    
-                                    type: "POST",
-                                    url: "{% url 'pages:like_button' %}",
-                                    data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                                    dataType: "json",
-                                    success: function(response) {
-                                        var count = response.likes_count
-                                        var likes = document.querySelector('#total_likes');
-                                		likes.innerHTML="<strong>Likes "+count+"<strong>";
-                                        },
-                                    });
-                                })
-                                {% if request.user.is_authenticated %}
-                                var boton = document.querySelector("#like")
-                                function cambiarColor(){
-                                    if(boton.className ==  "ui button negative" ){
-                                        boton.className = "ui button";
-                                    }else if( boton.className == "ui button" ){
-                                        boton.className = "ui button negative"
-                                        }
-                                    return true;
-	                                }
-                                boton.addEventListener('click', function(){
-                                    cambiarColor();
-                                });
-                                {% endif %}
-                        </script> 
-                    <div class="content">
+                    </div>
+                         
+                        <div class="total_likes{{page.id}}"></div>
+
+                       <script>
+
+                        var likes = document.querySelector('.total_likes{{page.id}}');
+
+                        function showlikes(){
+                        if({{ page.total_likes }} > 0){
+                            likes.innerHTML="<strong>Likes "+{{ page.total_likes }}+"<strong>";
+                        }else{
+                            likes.innerHTML="<p>THIS POST DONT HAVE A LIKES, BE THE FIRST."
+                        }
+                        return true  
+                        }
+
+                        showlikes()
+                        
+                        var btn = $("#btn{{page.id}}")                    
+                        btn.click(function(){
+                        var pk = $(this).attr('name');
+                                                
+                        $.ajax({    
+                            type: "POST",
+                            url: "{% url 'pages:like_button' page.id %}",
+                            data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            dataType: "json",
+                        
+                            success: function(response){
+                                var btn = $("#btn{{page.id}}")
+                                btn.toggleClass('like dislike');
+                                $('.total_likes{{page.id}}').html("<strong>Likes "+response.likes_count+"<strong>");
+                            },
+                            });
+                        })
+                    </script>           
+                    
+                        <div class="content">
                         </p>
                         <p>{{page.comment|truncatechars:"300"}}</p>
                         <strong>
-                         <a href="{% url 'profiles:detail' page.author %}">{{page.author|title}}</a>
+                        <a>{{page.author|title}}</a>
                         </strong>
                         <time datetime="{{page.created}}">{{page.created}}</time>
                     </p>

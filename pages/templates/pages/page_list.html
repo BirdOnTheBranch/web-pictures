@@ -2,7 +2,10 @@
 {% block title %}Web Pictures Pics{% endblock %}
 
 {% block content %}
-
+<style>
+  .fa  { margin-bottom: 6px; }
+  .fa-heart { color:red }
+</style>
 <h1 style="margin: 35px"></h1>
 {% for page in page_list %}
 <div class="container">
@@ -35,9 +38,9 @@
                         <div class="level-left">
                             <div class="level-item has-text-centered">
                                 {% if user not in page.likes.all %}
-                                    <input type="button" id="btn" class="like ui button" name="{{ page.id }}" value="Like" />
+                                    <i type="submit" id="btn{{page.id}}" class="fa fa-heart-o fa-lg" name="{{ page.id }}" value="Like" ></i>
                                 {% else %}
-                                    <input type="button" id="btn" class="like ui button negative"  name="{{ page.id }}" value="Like"/>
+                                    <i type="submit" id="btn{{page.id}}" class="fa fa-heart fa-lg" name="{{ page.id }}"  value="Like"/>    </i>
                                 {% endif %}
                             </div>
                             <div class="level-item has-text-centered">
@@ -53,27 +56,45 @@
                                 </div>
                             </div>
                         </div>
-                        </div>
-                            <div class="total_likes"></div>
-                        <script>
-                            var likes = document.querySelector('.total_likes');
-                            likes.innerHTML="<strong>Likes "+{{ page.total_likes }}+"<strong>";
-                            $('.like').click(function(){
-                            var pk = $(this).attr('name');
-                            $.ajax({    
-                                    type: "POST",
-                                    url: "{% url 'pages:like_button' %}",
-                                    data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                                    dataType: "json",
-                                    success: function(response) {
-                                        $('.total_likes').html("<strong>Likes "+response.likes_count+"<strong>");
+                    </div>
+                         
+                        <div class="total_likes{{page.id}}"></div>
 
-                                    },
-                                });
-                            })
-                        </script> 
+                       <script>
+
+                        var likes = document.querySelector('.total_likes{{page.id}}');
+
+                        function showlikes(){
+                        if({{ page.total_likes }} > 0){
+                            likes.innerHTML="<strong>Likes "+{{ page.total_likes }}+"<strong>";
+                        }else{
+                            likes.innerHTML="<p>THIS POST DONT HAVE A LIKES, BE THE FIRST."
+                        }
+                        return true  
+                        }
+
+                        showlikes()
                         
-                    <div class="content">
+                        var btn = $("#btn{{page.id}}")                    
+                        btn.click(function(){
+                        var pk = $(this).attr('name');
+                                                
+                        $.ajax({    
+                            type: "POST",
+                            url: "{% url 'pages:like_button' page.id %}",
+                            data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                            dataType: "json",
+                        
+                            success: function(response){
+                                var btn = $("#btn{{page.id}}")
+                                btn.toggleClass('fa-heart fa-heart-o');
+                                $('.total_likes{{page.id}}').html("<strong>Likes "+response.likes_count+"<strong>");
+                            },
+                            });
+                        })
+                    </script>           
+                    
+                        <div class="content">
                         </p>
                         <p>{{page.comment|truncatechars:"300"}}</p>
                         <strong>
