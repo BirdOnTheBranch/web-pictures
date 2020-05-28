@@ -26,6 +26,7 @@ class ProfileDetailView(DetailView):
             friends = Friendship.objects.filter(creator=self.request.user)
             return friends
         return []
+      
 
     def get_context_data(self, *args, **kwargs):
         """Create dict context."""

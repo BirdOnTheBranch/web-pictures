@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'core',
     'messenger',
+    'likes',
     'pages.apps.PagesConfig',
     'profiles',
     'django_cleanup.apps.CleanupConfig',

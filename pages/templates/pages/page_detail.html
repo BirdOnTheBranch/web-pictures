@@ -3,8 +3,8 @@
 
 {% block content %}
 <style>
-  .like  { color: white; background-color: red; width:45px; height:30px; float:left; margin-right:2px; }
-  .dislike  { color: black; background-color: ""; width:45px; height:30px; float:left; margin-right:2px; }
+  .fa  { margin-bottom: 6px; }
+  .fa-heart { color:red }
 </style>
 <h1 style="margin: 35px"></h1>
 <div class="container">
@@ -13,7 +13,9 @@
             <div class="card" >
                 <div class="header">
                     <div class="media">
+                        
                         <div class="media-left">
+                        
                             <div style="width: 90px; height: 90px;">
                             <!-- Show avatar for user post-->
                             {% if page.author.avatar %}
@@ -37,9 +39,9 @@
                         <div class="level-left">
                             <div class="level-item has-text-centered">
                                 {% if user not in page.likes.all %}
-                                    <input type="button" id="btn{{page.id}}" class="dislike" name="{{ page.id }}"  value="Like" />
+                                    <i type="submit" id="btn{{page.id}}" class="fa fa-heart-o fa-lg" name="{{ page.id }}" value="Like" ></i>
                                 {% else %}
-                                    <input type="button" id="btn{{page.id}}" class="like" name="{{ page.id }}"  value="Like"/>
+                                    <i type="submit" id="btn{{page.id}}" class="fa fa-heart fa-lg" name="{{ page.id }}"  value="Like"/>    </i>
                                 {% endif %}
                             </div>
                             <div class="level-item has-text-centered">
@@ -56,7 +58,7 @@
                             </div>
                         </div>
                     </div>
-                         
+                         <!-- Like_button -->
                         <div class="total_likes{{page.id}}"></div>
 
                        <script>
@@ -86,13 +88,14 @@
                         
                             success: function(response){
                                 var btn = $("#btn{{page.id}}")
-                                btn.toggleClass('like dislike');
+                                btn.toggleClass('fa-heart fa-heart-o');
                                 $('.total_likes{{page.id}}').html("<strong>Likes "+response.likes_count+"<strong>");
+                                console.log({{page.id}})
                             },
                             });
                         })
                     </script>           
-                    
+                        <!-- End like_button-->
                         <div class="content">
                         </p>
                         <p>{{page.comment|truncatechars:"300"}}</p>
@@ -102,7 +105,6 @@
                         <time datetime="{{page.created}}">{{page.created}}</time>
                     </p>
                     <!--Taggit-->
-                    
                     {% for tag in tags  %}
                         {% if tag in page.tags.all %}
                         <a href="{% url 'pages:tagged' tag.slug %}">#{{tag.name}}</a>
@@ -124,6 +126,8 @@
                     </ul>
                     {% endif %}
                     <!-- Logic of comment likes-->
+
+
                     </div>
                 </div>
             </div>

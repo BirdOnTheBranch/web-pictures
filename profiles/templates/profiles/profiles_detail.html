@@ -42,10 +42,16 @@
         <div class="row justify-content-center">
           <div class="col-9">
 
+      <ul>
+      {% for friend_request in friend_requests %}
+        <li>{{ friend_request }}</li>
+      {% endfor %}
+      </ul>
+
         {% if user.is_authenticated and profile.user != user %}
           {% for friend in friends_list %}
-            {% if friend.creator != profile.user and profile.user == friend.following and friend.creator not in friends_list%}
-              {{friend.creator}} 
+            {% if friend.creator != profile.user and profile.user == friend.following %}
+              {{friend.creator}} {{friend.following}}
             {% endif %}
           {% endfor %}
 

@@ -14,7 +14,9 @@
             <div class="card" >
                 <div class="header">
                     <div class="media">
+                        
                         <div class="media-left">
+                        
                             <div style="width: 90px; height: 90px;">
                             <!-- Show avatar for user post-->
                             {% if page.author.avatar %}
@@ -57,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                         
+                         <!-- Like_button -->
                         <div class="total_likes{{page.id}}"></div>
 
                        <script>
@@ -89,11 +91,12 @@
                                 var btn = $("#btn{{page.id}}")
                                 btn.toggleClass('fa-heart fa-heart-o');
                                 $('.total_likes{{page.id}}').html("<strong>Likes "+response.likes_count+"<strong>");
+                                console.log({{page.id}})
                             },
                             });
                         })
                     </script>           
-                    
+                        <!-- End like_button-->
                         <div class="content">
                         </p>
                         <p>{{page.comment|truncatechars:"300"}}</p>
@@ -103,7 +106,6 @@
                         <time datetime="{{page.created}}">{{page.created}}</time>
                     </p>
                     <!--Taggit-->
-                    
                     {% for tag in tags  %}
                         {% if tag in page.tags.all %}
                         <a href="{% url 'pages:tagged' tag.slug %}">#{{tag.name}}</a>
@@ -125,6 +127,8 @@
                     </ul>
                     {% endif %}
                     <!-- Logic of comment likes-->
+
+
                     </div>
                 </div>
             </div>

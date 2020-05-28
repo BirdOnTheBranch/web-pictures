@@ -19,7 +19,7 @@ from django.conf import settings
 from pages.urls import pages_patterns
 from profiles.urls import profiles_patterns
 from messenger.urls import messenger_patterns
-
+from likes.urls import likes_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,7 +33,8 @@ urlpatterns = [
     path('profiles/', include(profiles_patterns)),
     #path messenger
     path('messenger/', include(messenger_patterns)),
-    #path messenger
+    #path likes
+    path('likes/', include(likes_patterns)),
 ]
 
 #Logic whit server media files in debug mode
