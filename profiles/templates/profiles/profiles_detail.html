@@ -15,9 +15,9 @@
             <div class="col-md-3">
               {% if profile.avatar %}
               <br>
-                <img src="{{profile.avatar.url}}" style="width: 180px; height: 120px;" class="img-fluid" alt="Responsive image">
+                <img src="{{profile.avatar.url}}" class="avatar image is-128x128 img-fluid" alt="Responsive image">
               {% else %}
-                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid">
+                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar image is-128x128 img-fluid">
               {% endif %}
             </div>
             <!-- Campos -->
@@ -29,7 +29,7 @@
             </div>
           </div>
         </form>
-        <br>
+        <hr>
 
         {% if user.is_authenticated and profile.user == user %}
         <div class="row justify-content-center">
@@ -81,7 +81,7 @@
                   <div class="col-md-4 xs-4">
                     <div class="row">
                       <div style="width: 200px; height: 130px;">
-                        <img src="{{project.image.url}}" style="width: 200px; height: 130px;" class="img-fluid" alt="Responsive image">
+                         <a href="{% url 'pages:page' project.id project|slugify  %}" ><img src="{{project.image.url}}" style="width: 200px; height: 130px;" class="img-fluid" alt="Responsive image"></a>
                       </div> 
                       {% if request.user.is_authenticated and project.author.user == request.user %} 
                     <ul class="nav navbar-nav d-inline-flex">

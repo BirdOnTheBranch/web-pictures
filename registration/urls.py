@@ -9,4 +9,3 @@ urlpatterns = [
     path('deletefriend/<username>', delete_friend, name="delete_friend"),
     path('getfriends/<username>', get_friends, name="get_friends"),
 ]
-

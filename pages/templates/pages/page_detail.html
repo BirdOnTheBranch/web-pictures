@@ -13,13 +13,11 @@
             <div class="card" >
                 <div class="header">
                     <div class="media">
-                        
                         <div class="media-left">
-                        
-                            <div style="width: 90px; height: 90px;">
+                           <div style="width: 115px; height: 90px;">
                             <!-- Show avatar for user post-->
                             {% if page.author.avatar %}
-                                <img src="{{page.author.avatar.url}}" style="width: 90px; height: 90px;" alt="Placeholder image">
+                                <a href="{% url 'profiles:detail' page.author %}" ><img src="{{page.author.avatar.url}}" style="width: 115px; height: 90px;" alt="Placeholder image"></a>
                             {% endif %}
                             </div>
                         </div>
@@ -99,9 +97,7 @@
                         <div class="content">
                         </p>
                         <p>{{page.comment|truncatechars:"300"}}</p>
-                        <strong>
-                        <a>{{page.author|title}}</a>
-                        </strong>
+                        <a href="{% url 'profiles:detail' page.author %}" >{{page.author|title}}</a>
                         <time datetime="{{page.created}}">{{page.created}}</time>
                     </p>
                     <!--Taggit-->

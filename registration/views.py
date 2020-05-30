@@ -37,13 +37,15 @@ class SignUpView(CreateView):
 class ProfileView(UpdateView):
     form_class = ProfileForm
     template_name = "registration/profile_form.html"
-    success_url = reverse_lazy('profile')
+
+    def get_success_url(self):
+        return reverse('profiles:detail', kwargs={'username': self.request.user } )
 
     def get_object(self):
         """Retrieve the object that will be editable."""
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
-
+    
 
 
 @method_decorator(login_required, name='dispatch')

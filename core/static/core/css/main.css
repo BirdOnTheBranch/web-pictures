@@ -76,4 +76,19 @@ footer p {
 .box-shadow { 
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); 
 }
-}
+
+.fa  { 
+    margin-bottom: 6px; }
+
+.fa-heart { 
+    color:red }
+
+.avatar { 
+    vertical-align: middle; 
+    width: 50px; 
+    height: 50px; 
+    border-radius: 50%; 
+    margin: 8px }
+
+.fa  { margin-bottom: 6px; }
+.fa-heart { color:red }

@@ -24,6 +24,7 @@ class TagMixin(object):
 class PageListView(TagMixin, ListView):
     model = Page
 
+
 class PageDetailView(TagMixin, DetailView):
     model = Page
 

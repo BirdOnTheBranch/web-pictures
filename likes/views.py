@@ -1,5 +1,6 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
@@ -7,14 +8,23 @@ from django.http import HttpResponse
 import json
 
 from pages.models import Page
+from registration.models import Profile
 from .models import Like
 
 
 # Create your views here.
+@method_decorator(login_required, name='dispatch')
 class LikeListView(ListView):
     model = Like
 
+    def get_context_data(self, *args, **kwargs):
+        """Create dict context."""
+        context = super().get_context_data(*args, **kwargs)
+        context['profile_list'] = Profile.objects.all()
+        return context 
 
+
+@method_decorator(login_required, name='dispatch')
 class LikeDetailView(DetailView):
     model = Like
 
@@ -31,7 +41,7 @@ def like_button(request, pk):
         else:
             page.likes.add(user)
             print(pk)
-            Like.objects.create(user=user, page=page, value="Like")
+            Like.objects.create(user=user, page=page, value="like")
 
         
     context = {'likes_count': page.total_likes}

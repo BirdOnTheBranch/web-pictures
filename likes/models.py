@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from pages.models import Page
+from pages.models import Page, Profile
+
 
 # Create your models here.
 class Like(models.Model):
@@ -16,4 +17,4 @@ class Like(models.Model):
         ordering =  ['-created']
 
     def __str__(self):
-        return f'{self.user} ' + f'{self.value}' + ' in ' + f'{self.page}'
+        return f'{self.user} ' + f"{self.value}'s " + 'your pic '+f'{self.page}'

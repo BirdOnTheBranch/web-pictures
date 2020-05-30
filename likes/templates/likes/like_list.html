@@ -1,25 +1,46 @@
 {% extends 'core/index.html'%}
-
 {% block title %}likes{% endblock %}
 {% load static %}
 
 {% block content %}
 <h1 style="margin: 35px"></h1>
-{% for like in object_list %}
 <div class="container">
     <div class="row justify-content-center">
-        
         <div class="col-7">
-            <div class="card" >
-                <div class="header">
-                    <div class="media">
-                        <div class="media-left">
-                            {{like}}
-                        <a href="{% url 'pages:page' like.page.id like.page|slugify  %}" ><p class="title is-4" >{{like.page}}</p></a>
-                        </div>
+            {% for like in like_list %}
+                <div class="card">
+                    <div class="row justify-content-center">
+                    {% if request.user.username != like.user.username and request.user.username == like.page.author.user.username %}
+                        {% if profile.avatar %}
+                            <div class="col col-lg-3">
+                                </p>
+                                <figure class="rounded float-right">
+                                    <a href="{% url 'profiles:detail' like.user.username %}" ><img class="avatar image is-96x96" src="{{profile.avatar.url}}" alt="Placeholder image"></a>
+                                </figure>
+                            </div>
+                        {% else %}
+                            <div class="col col-lg-3">
+                                </p>
+                                <figure class="rounded float-right">
+                                    <a href="{% url 'profiles:detail' like.user.username %}" ><img class="avatar image is-96x96" src="{% static 'registration/img/no-avatar.jpg' %}" alt="Placeholder image"></a>
+                                </figure>
+                            </div>
+                        {% endif %}
+                            <div class="col col-lg-6">
+                                <br><br>
+                                <h4 class="text-center">{{like.user.username|truncatechars:"10"|title}} like's your pic!</h4>
+                            </div>
+                            <div class="col col-lg-3">
+                                </p>    
+                                <figure class="rounded float-left">
+                                    <a href="{% url 'pages:page' like.page.id like.page|slugify %}" ><img class="image is-96x96" src="{{like.page.image.url}}" alt="Placeholder image"></a>
+                                </figure>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
-            </div>
-        <br><br>
-{% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    </div>
 {% endblock %}

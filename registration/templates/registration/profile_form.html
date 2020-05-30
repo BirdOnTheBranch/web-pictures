@@ -6,7 +6,11 @@
   <style>.errorlist{color:red;} label{display:none}</style>
     <div class="row justify-content-center">
       <div class="col-10">
-    
+      {% if 'ok' in request.GET %}
+        <p style="color:green;">
+          Page edited correctly!.
+        </p>
+        {% endif %}
       <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
           <!-- avatar -->
           <div class="row justify-content-center">
@@ -20,7 +24,7 @@
               </figure>
                 <p class="mt-1">¿Delete? <input type="checkbox" id="avatar-clear" name="avatar-clear" /></p>
             </div>
-            <!-- Formulario -->
+            <!-- Form-->
             <div class="col-sm-3">
               <input type="file" name="avatar" class="form-control" id="id_avatar">
               {{ form.bio  }}

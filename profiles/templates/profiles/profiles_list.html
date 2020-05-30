@@ -2,6 +2,7 @@
 {% block title %}Profiles{% endblock %}
 {% load static %}
 {% block content %}
+
 <h1 style="margin: 90px"></h1>
   <section class="container">   
     <div class="row justify-content-center">
@@ -11,9 +12,9 @@
             <div class="col-4">
                 {% if request.user != profile.user %}
                 {% if profile.avatar %}
-                <img src="{{profile.avatar.url}}" class="img-fluid profile-avatar">
+                <img src="{{profile.avatar.url}}" class="avatar image is-96x96  img-fluid profile-avatar">
                 {% else %}
-                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid profile-avatar">
+                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar image is-96x96 img-fluid ">
                 {% endif %}
                 <p class="profile-data">
                     <a href="{% url 'profiles:detail' profile.user %}" class="btn btn-secondary btn-sm btn-block mt-3"><b>Profile {{profile.user|title |truncatechars:"16"}}</b></a>

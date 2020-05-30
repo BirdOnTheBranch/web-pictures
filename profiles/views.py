@@ -13,6 +13,7 @@ class ProfileListView(ListView):
     template_name = 'profiles/profiles_list.html'
 
 
+
 class ProfileDetailView(DetailView):
     model = Profile
     template_name = 'profiles/profiles_detail.html'
