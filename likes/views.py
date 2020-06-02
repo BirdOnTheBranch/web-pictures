@@ -31,16 +31,18 @@ class LikeDetailView(DetailView):
 
 @login_required(login_url='/user')  
 def like_button(request, pk):
+    "Save user whit page's like in data base and send to Ajax"
     user = request.user
     if request.method == 'POST':
         id = request.POST.get('pk', None)
         page = get_object_or_404(Page, pk=id)
         if page.likes.filter(id=user.id).exists():
             page.likes.remove(user)
+            #Delete objecct in data base
             Like.objects.filter(user=user).delete()
         else:
             page.likes.add(user)
-            print(pk)
+            #Create object in data base
             Like.objects.create(user=user, page=page, value="like")
 
         

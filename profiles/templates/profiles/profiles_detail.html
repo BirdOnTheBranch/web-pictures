@@ -42,18 +42,23 @@
         <div class="row justify-content-center">
           <div class="col-9">
 
-      <ul>
-      {% for friend_request in friend_requests %}
-        <li>{{ friend_request }}</li>
+   {% comment %}
+      {% for friend in friends_list %}
+        {% if  profile.user.username != friend.creator.username %}
+        {{friend.creator}} 
+        {% endif%}
+        {% if friend.creator.username == profile.user.username %}
+        {{friend.following}}
+        {% endif %}
       {% endfor %}
-      </ul>
-
-        {% if user.is_authenticated and profile.user != user %}
+        {% comment %} {% if user.is_authenticated and profile.user != user %}
           {% for friend in friends_list %}
+          {{friends_list}}
+            {{friend.creator}} != {{profile.user}} and {{profile.user}} == {{friend.following}}
             {% if friend.creator != profile.user and profile.user == friend.following %}
-              {{friend.creator}} {{friend.following}}
+             FRIENDS:{{friend.creator}} 
             {% endif %}
-          {% endfor %}
+          {% endfor %} 
 
           </div>
         </div>
@@ -70,7 +75,8 @@
             </div>
           </div>
           <br>
-        {% endif %} 
+        {% endif %}  
+        {% endcomment %}
     
         <div class="row justify-content-center">
           <div class="col-9">

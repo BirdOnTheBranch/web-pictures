@@ -35,7 +35,7 @@ class Friendship(models.Model):
         verbose_name_plural = 'Friendships'
     
     def __str__(self):
-        return self.creator.username
+        return f'{self.creator.username}'+' is friend '+f'{self.following.username}'
 
 
 #signal

@@ -10,11 +10,13 @@ import json
 from registration.models import Profile
 from .models import Page
 from .forms import PageForms
+#Taggit 
 from taggit.models import Tag
 
 
 # Create your views here.
 class TagMixin(object):
+    """Mixin for add the tags ojects in views."""
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tags"] = Tag.objects.all()
@@ -34,8 +36,9 @@ class TagIndexView(TagMixin, ListView):
     model = Page
 
     def get_queryset(self):
+        #Pass the slug and show tag(taggit) in template
         return Page.objects.filter(tags__slug=self.kwargs.get('slug'))
-    
+
 
 @method_decorator(login_required, name='dispatch')
 class PageCreateView(CreateView):
@@ -59,7 +62,6 @@ class PageUpdateView(UpdateView):
     def get_success_url(self):
         #Redefine method for pass the id argument
         return reverse_lazy('pages:update', args=[self.object.id])+'?ok'
-
 
 
 @method_decorator(login_required, name='dispatch')

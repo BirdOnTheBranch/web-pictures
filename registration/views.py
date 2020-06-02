@@ -67,14 +67,18 @@ class EmailUpdate(UpdateView):
         return form
         
         
-
 def add_friend(request, username):
     if request.user.is_authenticated and request.user != username:
         friendUser = User.objects.get(username=username)
         friendProfile = User.objects.get(username=friendUser)
         myProfile = User.objects.get(username=request.user)
-        model = Friendship.objects.create(creator=myProfile, following=friendProfile)
-        model.save()
+        model = Friendship.objects.filter(creator=myProfile)
+        if model:
+            print("ho")
+        else:
+            model = Friendship.objects.create(creator=myProfile, following=friendProfile)
+            print(model)
+            model.save()
         
     return HttpResponseRedirect(reverse_lazy('profiles:detail', kwargs={'username': friendUser }))
 
