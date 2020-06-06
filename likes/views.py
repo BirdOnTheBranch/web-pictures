@@ -31,7 +31,7 @@ class LikeDetailView(DetailView):
 
 @login_required(login_url='/user')  
 def like_button(request, pk):
-    "Save user whit page's like in data base and send to Ajax"
+    "Save user whit page's like and send to Ajax"
     user = request.user
     if request.method == 'POST':
         id = request.POST.get('pk', None)

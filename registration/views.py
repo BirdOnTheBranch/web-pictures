@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse 
 from django import forms
 from django.http import HttpResponseRedirect
+
 from .models import Profile, Friendship
 from .forms import UCFWithEmail, ProfileForm, EmailForm
 from django.contrib.auth.models import User
@@ -19,7 +20,7 @@ class SignUpView(CreateView):
     template_name = "registration/signup.html"
 
     def get_success_url(self):
-        """Add parameter in url"""
+        """Add parameter to url"""
         return reverse_lazy('login') + '?register'
 
     def get_form(self, form_class=None):
@@ -74,7 +75,7 @@ def add_friend(request, username):
         myProfile = User.objects.get(username=request.user)
         model = Friendship.objects.filter(creator=myProfile)
         if model:
-            print("ho")
+            print(f'{myProfile}'+"is in your friend's list")
         else:
             model = Friendship.objects.create(creator=myProfile, following=friendProfile)
             print(model)
