@@ -30,5 +30,3 @@ class Page(models.Model):
     @property
     def total_likes(self):
         return self.likes.count()
-
-

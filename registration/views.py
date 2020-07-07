@@ -13,7 +13,6 @@ from django.contrib.auth.models import User
 
 
 
-#create your views here.
 class SignUpView(CreateView):
     """Create view for register user whit generic form"""
     form_class = UCFWithEmail

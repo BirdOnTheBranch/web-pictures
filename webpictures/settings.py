@@ -25,11 +25,10 @@ SECRET_KEY = 'owwnq8dkgc4e2vek!21iky+r*zeq4l0=*ri_6tlz-at477)n)g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['webpictures.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'registration',
     'django.contrib.admin',
@@ -38,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'taggit',
     'crispy_forms',
     'core',
@@ -61,7 +61,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'webpictures.urls'
-
 
 
 TEMPLATES = [
@@ -93,6 +92,12 @@ DATABASES = {
     }
 }
 
+SOCIAL_AUTH_FACEBOOK_KEY = '579875616059689' #Facebook App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'b8f05010ac4b6acc4b79a54ec9456bc5' #Facebook App Secret  
+
+AUTHENTICATION_BACKENDS = {
+     'social_core.backends.facebook.FacebookOAuth2',
+ }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
