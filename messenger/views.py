@@ -20,7 +20,7 @@ class ThreadDetail(DetailView):
     model = Thread
     
     def get_object(self):
-        obj = super(ThreadDetail, self).get_object()
+        obj = super().get_object()
         if self.request.user not in obj.users.all():
             raise Http404()
         return obj
