@@ -21,12 +21,15 @@ from profiles.urls import profiles_patterns
 from messenger.urls import messenger_patterns
 from likes.urls import likes_patterns
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path( '', include('core.urls')),
     path('pages/', include(pages_patterns, namespace='pages')),
     #path auth
     path('accounts/', include('django.contrib.auth.urls')),
+    #django-social-auth 
+    path('social-auth/', include('social_django.urls', namespace='social')), 
     #path register
     path('accounts/', include('registration.urls')),
     #path profiles

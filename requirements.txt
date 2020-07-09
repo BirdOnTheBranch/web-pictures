@@ -1,6 +1,7 @@
+#Python 3.8.2
 Django==3.0.3
 Pillow==7.0.0
 django-crispy-forms==1.9.
 django-cleanup==4.0.0
 django-taggit==1.2.0
-
+social-auth-app-django==2.1.0

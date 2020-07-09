@@ -19,9 +19,10 @@ class ProfileDetailView(DetailView):
     template_name = 'profiles/profiles_detail.html'
 
     def get_object(self):
-        """Get username model field for use in path."""
+        """Get username model field for use in URL path."""
         return get_object_or_404(Profile, user__username=self.kwargs['username'])
 
+    #Friendship system 
     def _get_friends(self):
         if self.request.user.is_authenticated:
             friends = Friendship.objects.filter(creator=self.request.user)
