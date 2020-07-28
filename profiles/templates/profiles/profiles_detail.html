@@ -8,30 +8,43 @@
  <div class="container">
     <div class="row justify-content-center">
       <div class="col-9">
-
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
           <div class="row justify-content-center">
             <!-- Avatar -->
             <div class="col-md-3">
-              {% if profile.avatar %}
+              {% if user.profile.avatar %}
               <br>
-                <img src="{{profile.avatar.url}}" class="avatar image is-128x128 img-fluid" alt="Responsive image">
+                <img src="{{user.profile.avatar.url}}" class="avatar image is-128x128 img-fluid" alt="Responsive image">
               {% else %}
                 <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar image is-128x128 img-fluid">
               {% endif %}
             </div>
-            <!-- Campos -->
+            <!-- Fields -->
             <div class="col-md-6">
              <br>
-              <h3>{{profile.user|title}}</h3>
+              <h3>{{user.profile.user|title}}</h3>
               </p>
-              {% if profile.bio %}<p>{{profile.bio|truncatechars:"200"}}</p>{% endif %}
+              {% if user.profile.bio %}<p>{{user.profile.bio|truncatechars:"200"}}</p>{% endif %}
             </div>
           </div>
         </form>
+        <!--Folow-->
+          {% with total_followers=user.followers.count %}
+            <span class="count">
+              <span class="total">{{ total_followers }}</span>
+              follower{{ total_followers|pluralize }}
+            </span>
+            <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow button">
+              {% if request.user not in user.followers.all %}
+                Follow
+              {% else %}
+                Unfollow
+              {% endif %}
+            </a>
+          {% endwith %}
+        <!--End follow-->
         <hr>
-
-        {% if user.is_authenticated and profile.user == user %}
+        {% if user.is_authenticated and user == request.user %}
         <div class="row justify-content-center">
           <div class="col-9">
             <a class="btn btn-secondary btn-lg btn-block" href="{% url 'profile' %}">Edit profile</a></li>
@@ -40,48 +53,8 @@
         <br>
         {% endif %}
         <div class="row justify-content-center">
-          <div class="col-9">
-
-   {% comment %}
-      {% for friend in friends_list %}
-        {% if  profile.user.username != friend.creator.username %}
-        {{friend.creator}} 
-        {% endif%}
-        {% if friend.creator.username == profile.user.username %}
-        {{friend.following}}
-        {% endif %}
-      {% endfor %}
-        {% comment %} {% if user.is_authenticated and profile.user != user %}
-          {% for friend in friends_list %}
-          {{friends_list}}
-            {{friend.creator}} != {{profile.user}} and {{profile.user}} == {{friend.following}}
-            {% if friend.creator != profile.user and profile.user == friend.following %}
-             FRIENDS:{{friend.creator}} 
-            {% endif %}
-          {% endfor %} 
-
-          </div>
-        </div>
-        <!-- Si ya es amigo, en vez de añadir, eliminar -->
-            <div class="row justify-content-center">
-              <div class="col-9">
-                <a class="btn btn-secondary btn-lg btn-block" href="{% url 'delete_friend' profile.user %}">Delete friend</a></li>
-              </div>
-            </div>
-            <br>
-          <div class="row justify-content-center">
-            <div class="col-9">
-              <a class="btn btn-secondary btn-lg btn-block" href="{% url 'add_friend' profile.user %}">Add friend</a></li>
-            </div>
-          </div>
-          <br>
-        {% endif %}  
-        {% endcomment %}
-    
-        <div class="row justify-content-center">
-          <div class="col-9">
+          <div class="col-12">
             <div class="row">
-
             {% for  project in projects_list%}
               {% if project.author.user.username == profile.user.username %}
                   <div class="col-md-4 xs-4">
@@ -102,17 +75,55 @@
                   </div>
               {% endif %}
             {% endfor %}
-            
+            <!--Follow JS-->
+            <script>
+              var csrftoken = Cookies.get('csrftoken');
+              function csrfSafeMethod(method) {
+                  // these HTTP methods do not require CSRF protection
+                  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+              }
+              $.ajaxSetup({
+                  beforeSend: function(xhr, settings){
+                  if(!csrfSafeMethod(settings.type) && !this.crossDomain){
+                      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                      }
+                    });
+                    $(document).ready(function(){
+                        $('a.follow').click(function(e){
+                            e.preventDefault();
+                            $.post('{% url "contact:friends_follow" %}',
+                            {
+                                id: $(this).data('id'),
+                                action: $(this).data('action')
+                            },
+                            function(data){
+                                if (data['status'] == 'ok') {
+                                var previous_action = $('a.follow').data('action');
+                
+                                // toggle data-action
+                                $('a.follow').data('action',
+                                    previous_action == 'follow' ? 'unfollow' : 'follow');
+                                // toggle link text
+                                $('a.follow').text(
+                                    previous_action == 'follow' ? 'Unfollow' : 'Follow');
+                
+                                // update total followers
+                                var previous_followers = parseInt(
+                                    $('span.count .total').text());
+                                $('span.count .total').text(previous_action == 'follow' ? previous_followers + 1 : previous_followers - 1);
+                                }
+                            }
+                            );
+                        });
+                    });
+                </script>
+                <!-- End follow JS-->
             </div> 
-          </div>
-        </div> 
-     
-     </div>
-     </div>
-
+         </div>
+       </div>
     </div>
   </div> 
 </div>
-
 
 {% endblock %}

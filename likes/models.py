@@ -10,7 +10,6 @@ class Like(models.Model):
     value   =   models.CharField(max_length=10)
     created =   models.DateTimeField( auto_now_add=True)
 
-
     class Meta:
         verbose_name = 'Like'
         verbose_name_plural = 'Likes'
@@ -18,3 +17,4 @@ class Like(models.Model):
 
     def __str__(self):
         return f'{self.user} ' + f"{self.value}'s " + 'your pic '+f'{self.page}'
+        

@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',
+    #'social_django',
     'taggit',
     'crispy_forms',
     'core',
+    'contact',
     'messenger',
     'likes',
     'pages.apps.PagesConfig',
@@ -92,12 +93,12 @@ DATABASES = {
     }
 }
 
-SOCIAL_AUTH_FACEBOOK_KEY = '579875616059689' #Facebook App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = 'b8f05010ac4b6acc4b79a54ec9456bc5' #Facebook App Secret  
+# SOCIAL_AUTH_FACEBOOK_KEY = '579875616059689' #Facebook App ID
+# SOCIAL_AUTH_FACEBOOK_SECRET = 'b8f05010ac4b6acc4b79a54ec9456bc5' #Facebook App Secret  
 
-AUTHENTICATION_BACKENDS = {
-     'social_core.backends.facebook.FacebookOAuth2',
- }
+# AUTHENTICATION_BACKENDS = {
+#      'social_core.backends.facebook.FacebookOAuth2',
+#  }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

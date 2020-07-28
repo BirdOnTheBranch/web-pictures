@@ -9,10 +9,11 @@ import json
 
 from pages.models import Page
 from registration.models import Profile
+from common.decorators import ajax_required
 from .models import Like
 
 
-# Create your views here.
+
 @method_decorator(login_required, name='dispatch')
 class LikeListView(ListView):
     model = Like
@@ -29,6 +30,7 @@ class LikeDetailView(DetailView):
     model = Like
 
 
+@ajax_required
 @login_required(login_url='/user')  
 def like_button(request, pk):
     "Save user whit page's like and send to Ajax"

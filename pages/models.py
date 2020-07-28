@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 from taggit.managers import TaggableManager
 
 from registration.models import Profile
 
 
 # Create your models here.
-class Page(models.Model):    
+class Page(models.Model):
     image   =   models.ImageField(upload_to='pages')
     title   =   models.CharField(max_length=100)
     slug    =   models.SlugField(max_length=200, blank=True)

@@ -81,7 +81,7 @@
                                                 
                         $.ajax({    
                             type: "POST",
-                            url: "{% url 'pages:like_button' page.id %}",
+                            url: "{% url 'likes:like_button' page.id %}",
                             data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                             dataType: "json",
                         

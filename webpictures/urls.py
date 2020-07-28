@@ -20,6 +20,7 @@ from pages.urls import pages_patterns
 from profiles.urls import profiles_patterns
 from messenger.urls import messenger_patterns
 from likes.urls import likes_patterns
+from contact.urls import contact_patterns
 
 
 urlpatterns = [
@@ -38,6 +39,7 @@ urlpatterns = [
     path('messenger/', include(messenger_patterns)),
     #path likes
     path('likes/', include(likes_patterns)),
+    path('friends/', include(contact_patterns)),
 ]
 
 #Logic whit server media files in debug mode

@@ -1,28 +1,32 @@
 # web-pictures
-
->Photo website where users with profiles can register.
+ 
+ This app is a instagram clone. Users manage profiles, show yours pics to others users, and can likes all publishements with a Ajax button. The app implements a messenger systems for create comversation's threads userone from to anyone and contains a tags system.
  
 &nbsp;
-#### Description:
-
-  - App web developed whith Django(Python).
-
-&nbsp;
-
-#### Utility:
+###### Hi, human. The repo uses:
  
- * This app is a instagram clone. 
- * Users manage profiles, show yours pics to others users, and can likes all publishements with a Ajax button. 
- * The app implements a messenger systems for create comversation's threads userone from to anyone.
- * Contains a tags system.
-
+```
+Python  3.7.2
+Django  3.0.2
+Pillow  7.0.0
+django-crispy-forms  1.9.
+django-cleanup  4.0.0
+django-taggit  1.2.0
+Boostrap 4
+```
 &nbsp;
 
-#### Deploy:
-  - https://webpictures.pythonanywhere.com/
-
+###### To run:
+In blog/
+  
+```
+pip install -r requirements.txt 
+python manage.py runserver 0.0.0.0:8000
+```
 &nbsp;
 
-**Built with:**
-* [Python 3](https://www.python.org/download/releases/3.0/ "Python 3") - 3.7.2
-* [Django](https://docs.djangoproject.com/en/3.0/ "Django") - 3.0.2
+###### Deploy:  
+https://webpictures.pythonanywhere.com/
+
+&nbsp;
+###### Any questions or nice talk: [@wane_emece](https://twitter.com/WaneEmece).

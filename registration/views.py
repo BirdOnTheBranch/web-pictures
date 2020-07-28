@@ -3,13 +3,13 @@ from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy, reverse 
-from django import forms
-from django.http import HttpResponseRedirect
-
-from .models import Profile, Friendship
-from .forms import UCFWithEmail, ProfileForm, EmailForm
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy, reverse 
+from django.http import HttpResponseRedirect
+from django import forms
+
+from .models import Profile
+from .forms import UCFWithEmail, ProfileForm, EmailForm
 
 
 
@@ -42,7 +42,7 @@ class ProfileView(UpdateView):
         return reverse('profiles:detail', kwargs={'username': self.request.user } )
 
     def get_object(self):
-        """Retrieve the object that will be editable."""
+        """Recover the object that will be editable."""
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
     
@@ -57,7 +57,7 @@ class EmailUpdate(UpdateView):
         return reverse('profiles:detail', kwargs={'username': self.request.user } )
 
     def get_object(self):
-        """Retrieve the user."""
+        """Recover the user."""
         return self.request.user
 
     def get_form(self, form_class=None):
@@ -66,47 +66,3 @@ class EmailUpdate(UpdateView):
         form.fields['email'].widget = forms.EmailInput(attrs={'class':'form-control','placeholder':'Email'})
         return form
         
-        
-def add_friend(request, username):
-    if request.user.is_authenticated and request.user != username:
-        friendUser = User.objects.get(username=username)
-        friendProfile = User.objects.get(username=friendUser)
-        myProfile = User.objects.get(username=request.user)
-        model = Friendship.objects.filter(creator=myProfile)
-        if model:
-            print(f'{myProfile}'+"is in your friend's list")
-        else:
-            model = Friendship.objects.create(creator=myProfile, following=friendProfile)
-            print(model)
-            model.save()
-        
-    return HttpResponseRedirect(reverse_lazy('profiles:detail', kwargs={'username': friendUser }))
-
-
-def delete_friend(request, username):
-    if request.user.is_authenticated and request.user != username:
-        friendUser = User.objects.get(username=username)
-        friendProfile = User.objects.get(username=friendUser)
-        myProfile = User.objects.get(username=request.user)
-        Friendship.objects.filter(creator=myProfile, following=friendProfile).delete()        
-        
-    return HttpResponseRedirect(reverse_lazy('profiles:detail', kwargs={'username': friendUser}))
-
-
-def is_friend(user1, user2):
-    user1 = User.objects.get(username=user1)
-    user2 = User.objects.get(username=user2)
-    friends = Friendship.objects.filter(creator=user1, following=user2)
-    if (friends):
-        return True
-    else:
-        return False
-
-
-def get_friends(request, username):
-    if request.user.is_authenticated:
-        friendUser = User.objects.get(username=username)
-        friends = Friendship.objects.filter(creator=friendUser)
-        return friends
-    
-    return HttpResponseRedirect(reverse_lazy('pages:pages'))

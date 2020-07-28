@@ -4,17 +4,17 @@
 
 {% block content %}
   <style>.errorlist{color:red;} label{display:none}</style>
+  <h1 style="margin: 60px"></h1>
+ <div class="container">
     <div class="row justify-content-center">
-      <div class="col-10">
-      {% if 'ok' in request.GET %}
-        <p style="color:green;">
-          Page edited correctly!.
-        </p>
-        {% endif %}
-      <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-          <!-- avatar -->
-          <div class="row justify-content-center">
-            <div class="col-sm-2">
+      <div class="col-7">
+        {% if 'ok' in request.GET %}
+          <p style="color:green;">
+            Page edited correctly!.
+          </p>
+          {% endif %}
+          <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <!-- avatar -->
             {% if request.user.profile.avatar %}
               <figure class="image is-5by4">
                 <img src="{{request.user.profile.avatar.url}}" class="img-fluid">
@@ -23,9 +23,6 @@
               {% endif %}
               </figure>
                 <p class="mt-1">¿Delete? <input type="checkbox" id="avatar-clear" name="avatar-clear" /></p>
-            </div>
-            <!-- Form-->
-            <div class="col-sm-3">
               <input type="file" name="avatar" class="form-control" id="id_avatar">
               {{ form.bio  }}
               {{ form.link }}
@@ -36,10 +33,9 @@
                 And if you want to change your password click <a href="{% url 'password_change' %}">here</a>.
               </p>
               <input type="submit" class="btn btn-secondary btn-lg btn-block" value="Upgrade">
-            </div>
-          </div>
-      </form>
-
+          </form>
+                <!-- Form-->
+      </div>
     </div>
   </div>
 <br>
