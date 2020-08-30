@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #'social_django',
-    'taggit',
+    'actions.apps.ActionsConfig',
     'crispy_forms',
     'core',
     'contact',
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'profiles',
     'django_cleanup.apps.CleanupConfig',
+    'taggit',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -93,8 +94,8 @@ DATABASES = {
     }
 }
 
-# SOCIAL_AUTH_FACEBOOK_KEY = '579875616059689' #Facebook App ID
-# SOCIAL_AUTH_FACEBOOK_SECRET = 'b8f05010ac4b6acc4b79a54ec9456bc5' #Facebook App Secret  
+# SOCIAL_AUTH_FACEBOOK_KEY = '' #Facebook App ID
+# SOCIAL_AUTH_FACEBOOK_SECRET = '' #Facebook App Secret  
 
 # AUTHENTICATION_BACKENDS = {
 #      'social_core.backends.facebook.FacebookOAuth2',

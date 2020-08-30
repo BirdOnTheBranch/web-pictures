@@ -1,20 +1,21 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy 
-
+#Taggit 
+from taggit.models import Tag
 import json
 
 from registration.models import Profile
-from .models import Page
+from actions.utils import create_action
 from .forms import PageForms
-#Taggit 
-from taggit.models import Tag
+from .models import Page
 
 
-# Create your views here.
+
 class TagMixin(object):
     """Mixin for add the tags ojects in views."""
     def get_context_data(self, **kwargs):
@@ -49,7 +50,7 @@ class PageCreateView(CreateView):
     def form_valid(self, form):
         #Asing self.user.request for default to author model instance.
         form.instance.author = Profile.objects.get(user=self.request.user)
-
+        create_action(request.user, 'Upload new image', form.instance.title)
         return super().form_valid(form)
 
 

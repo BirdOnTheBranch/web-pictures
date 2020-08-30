@@ -1,6 +1,12 @@
 # web-pictures
  
- This app is a instagram clone. Users manage profiles, show yours pics to others users, and can likes all publishements with a Ajax button. The app implements a messenger systems for create comversation's threads userone from to anyone and contains a tags system.
+ *This app is a instagram clone.* 
+
+-Users manage their profiles, and show their pics to others users.
+-Can likes all publishements with a Ajax button.
+-The app implements a messenger systems asynchronous where create comversation's threads between people.
+-It use a friendships relations(JS).One user can follows many others.
+-Contains a tags system to clasified the posts.
  
 &nbsp;
 ###### Hi, human. The repo uses:

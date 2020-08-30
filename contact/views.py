@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
 from common.decorators import ajax_required
+from actions.utils import create_action
 from .models import Contact
 
 
@@ -20,9 +21,9 @@ def friend_follow(request):
     if user_id and action:
         try:
             user = User.objects.get(id=user_id)
-            print(user)
             if action == 'follow':
                 Contact.objects.get_or_create(user_from=request.user, user_to=user)
+                create_action(request.user, 'is following', user)
             else:
                 Contact.objects.filter(user_from=request.user, user_to=user).delete()
             return JsonResponse({'status':'ok'})
