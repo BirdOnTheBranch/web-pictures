@@ -50,7 +50,6 @@ class PageCreateView(CreateView):
     def form_valid(self, form):
         #Asing self.user.request for default to author model instance.
         form.instance.author = Profile.objects.get(user=self.request.user)
-        create_action(request.user, 'Upload new image', form.instance.title)
         return super().form_valid(form)
 
 

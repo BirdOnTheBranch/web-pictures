@@ -45,7 +45,6 @@ def like_button(request, pk):
             Like.objects.filter(user=user).delete()
         else:
             page.likes.add(user)
-            create_action(request.user, 'likes', image)
             #Create object in data base
             Like.objects.create(user=user, page=page, value="like")
 
