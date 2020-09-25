@@ -1,7 +1,7 @@
 from django.urls import path 
-from .views import dashboard
+from .views import ArtionListView
 
 
 actions_patterns = ([
-    path('actions/', dashboard, name='actions'),
+    path('actions/', ArtionListView.as_view(), name='actions'),
     ],'actions') 

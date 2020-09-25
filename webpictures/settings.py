@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'profiles',
     'django_cleanup.apps.CleanupConfig',
     'taggit',
+    'sorl.thumbnail',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

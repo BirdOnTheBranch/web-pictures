@@ -1,0 +1,65 @@
+{% load thumbnail %}
+
+{% load thumbnail %}
+
+{% with user=action.user profile=action.user.profile %}
+
+  <div class="action">
+    <div class="images">
+
+      <div class="row">
+        <div class="col-3 align-self-start">
+          {% if profile.avatar %}
+            {% thumbnail user.profile.avatar "80x80" crop="100%" as im %}
+              <a href="{{ user.get_absolute_url }}">
+                <img src="{{ im.url }}"  alt="{{ user.get_full_name }}" class="item-img">
+              </a>
+            {% endthumbnail %}
+          {% endif %}
+      </div>
+      <br>
+      <div class="col align-self-center">
+        <div class="aling text-left"> 
+      <div class="info">
+        <p>
+          <span class="date">{{ action.created|timesince }} ago,&nbsp;</span>
+          <a href="{{ user.get_absolute_url }}"> {{ user.profile }}</a>
+          {{ action.verb }}
+          {% if action.target %}
+            {% with target=action.target %}
+            {% if request.user == target %}
+            you
+            {% else %}
+            {% thumbnail target.profile.avatar "80x80" crop="100%" as im %}
+            <a href="{{ target.get_absolute_url }}">
+              <img src="{{ im.url }}" class="item-img">
+            </a>
+          {% endthumbnail %}
+              <a href="{{ target.get_absolute_url }}">{{ target }}</a>
+              {% endif %}
+            {% endwith %}
+          {% endif %}
+        </p>
+        </div>
+      </div>  
+    </div>
+
+      <div class="row justify-content-between">
+        {% if action.target %}
+          {% with target=action.target %}
+            {% if target.image %}
+              {% thumbnail target.image "80x80" crop="100%" as im %}
+                <a href="{{ target.get_absolute_url }}">
+                  <img src="{{ im.url }}" class="item-img">
+               </a>
+              {% endthumbnail %}
+            {% endif %}
+          {% endwith %}
+        {% endif %}
+    </div>
+
+  </div>  
+</div>
+</div>
+
+{% endwith %}
