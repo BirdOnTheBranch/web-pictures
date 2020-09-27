@@ -9,6 +9,7 @@
       <div class="col-7 ">
         {% for profile in profile_list %}
         <div class='row'>
+        
             <div class="col-4">
                 {% if request.user != profile.user %}
                 {% if profile.avatar %}

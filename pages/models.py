@@ -1,7 +1,9 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.conf import settings
 from taggit.managers import TaggableManager
+from django.utils.text import slugify
 
 from registration.models import Profile
 
@@ -31,3 +33,11 @@ class Page(models.Model):
     @property
     def total_likes(self):
         return self.likes.count()
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)  
+
+    def get_absolute_url(self):
+        return reverse('pages:page', args={self.id, self.slug })
