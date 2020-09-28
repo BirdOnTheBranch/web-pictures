@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['webpictures.com', 'localhost', '127.0.0.1']
 
-
 # Application definition
 INSTALLED_APPS = [
     'registration',
@@ -37,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'social_django',
+    # 'social_django',
     'actions.apps.ActionsConfig',
     'crispy_forms',
     'core',
@@ -65,7 +63,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'webpictures.urls'
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -84,7 +81,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'webpictures.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -96,7 +92,7 @@ DATABASES = {
 }
 
 # SOCIAL_AUTH_FACEBOOK_KEY = '' #Facebook App ID
-# SOCIAL_AUTH_FACEBOOK_SECRET = '' #Facebook App Secret  
+# SOCIAL_AUTH_FACEBOOK_SECRET = '' #Facebook App Secret
 
 # AUTHENTICATION_BACKENDS = {
 #      'social_core.backends.facebook.FacebookOAuth2',
@@ -144,15 +140,15 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-#Auth redirect 
+# Auth redirect
 LOGIN_REDIRECT_URL = 'pages:pages'
 LOGOUT_REDIRECT_URL = 'home'
 
 
-#Send emails in DEBUG mode
+# Send emails in DEBUG mode
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 else:
-#Configure real email in production
+    # Configure real email in production
     pass

@@ -11,7 +11,6 @@ from actions.utils import create_action
 from .models import Contact
 
 
-
 @ajax_required
 @require_POST
 @login_required
@@ -22,11 +21,13 @@ def friend_follow(request):
         try:
             user = User.objects.get(id=user_id)
             if action == 'follow':
-                Contact.objects.get_or_create(user_from=request.user, user_to=user)
+                Contact.objects.get_or_create(
+                    user_from=request.user, user_to=user)
                 create_action(request.user, 'is following', user)
             else:
-                Contact.objects.filter(user_from=request.user, user_to=user).delete()
-            return JsonResponse({'status':'ok'})
+                Contact.objects.filter(
+                    user_from=request.user, user_to=user).delete()
+            return JsonResponse({'status': 'ok'})
         except User.DoesNotExist:
-            return JsonResponse({'status':'ko'})
-    return JsonResponse({'status':'ko'})
+            return JsonResponse({'status': 'ko'})
+    return JsonResponse({'status': 'ko'})

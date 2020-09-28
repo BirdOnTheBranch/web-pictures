@@ -1,4 +1,4 @@
-from django.urls import path 
+from django.urls import path
 from . import views
 from .views import PageListView, PageDetailView, PageCreateView, PageUpdateView, PageDeleteView, TagIndexView
 
@@ -9,6 +9,6 @@ pages_patterns = ([
     path('create/', PageCreateView.as_view(), name='create'),
     path('update/<int:pk>', PageUpdateView.as_view(), name='update'),
     path('delete/<int:pk>', PageDeleteView.as_view(), name='delete'),
-    #Taggit
+    # Taggit
     path('tags/<slug:slug>/', TagIndexView.as_view(), name='tagged'),
-    ], 'pages')
+], 'pages')

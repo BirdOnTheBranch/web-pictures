@@ -12,14 +12,13 @@ class UCFWithEmail(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username','email', 'password1', 'password2')
-
+        fields = ('username', 'email', 'password1', 'password2')
 
     def __init__(self, *args, **kwargs):
         """Return help text None"""
         super().__init__(*args, **kwargs)
 
-        for fieldname in ['username','email', 'password1', 'password2']:
+        for fieldname in ['username', 'email', 'password1', 'password2']:
             self.fields[fieldname].help_text = None
 
     def clean_email(self):
@@ -31,22 +30,23 @@ class UCFWithEmail(UserCreationForm):
 
 
 class ProfileForm(forms.ModelForm):
-    
+
     class Meta:
         model = Profile
-        fields = ['avatar','bio']
+        fields = ['avatar', 'bio']
         widgets = {
-            'avatar': forms.ClearableFileInput(attrs={'class':'form-control'}),
-            'bio': forms.Textarea(attrs={'placeholder':'Bio', 'class':'form-control'}),
+            'avatar': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'bio': forms.Textarea(attrs={'placeholder': 'Bio', 'class': 'form-control'}),
         }
+
 
 class EmailForm(forms.ModelForm):
     email = forms.EmailField(required=True, help_text="Required. Maxim 259 characters and must be valid.")
-    
+
     class Meta:
         model = User
         fields = ['email']
-    
+
     def clean_email(self):
         """Recovery email field and after modify it, check not exist in database."""
         email = self.cleaned_data.get('email')

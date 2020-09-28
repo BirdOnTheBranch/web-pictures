@@ -8,11 +8,9 @@ from registration.models import Profile
 from pages.models import Page
 
 
-
 class ProfileListView(ListView):
     model = Profile
     template_name = 'profiles/profiles_list.html'
-
 
 
 class ProfileDetailView(DetailView):

@@ -26,25 +26,25 @@ from actions.urls import actions_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path( '', include('core.urls')),
+    path('', include('core.urls')),
     path('pages/', include(pages_patterns, namespace='pages')),
-    #path auth
+    # path auth
     path('accounts/', include('django.contrib.auth.urls')),
-    #django-social-auth 
-    path('social-auth/', include('social_django.urls', namespace='social')), 
-    #path register
+    # django-social-auth
+    path('social-auth/', include('social_django.urls', namespace='social')),
+    # path register
     path('accounts/', include('registration.urls')),
-    #path profiles
+    # path profiles
     path('profiles/', include(profiles_patterns)),
-    #path messenger
+    # path messenger
     path('messenger/', include(messenger_patterns)),
-    #path likes
+    # path likes
     path('likes/', include(likes_patterns)),
     path('friends/', include(contact_patterns)),
     path('actions/', include(actions_patterns)),
 ]
 
-#Logic whit server media files in debug mode
+# Logic whit server media files in debug mode
 if settings.DEBUG:
-       from django.conf.urls.static import static
-       urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

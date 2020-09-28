@@ -25,7 +25,7 @@
           <div class="info">
             <p>
             <span class="date">{{ action.created|timesince }} ago</span>
-            <a href="{% url 'profiles:detail' profile.user %}"> {{ user.profile }}</a>
+            <a href="{% url 'profiles:detail' user.profile %}"> {{ user.profile }}</a>
             {{ action.verb }}
             {% if action.target %}
 
@@ -36,7 +36,7 @@
               <a href="{{ target.get_absolute_url }}" > {{target.title}}</a>  
               {% thumbnail target.profile.avatar "80x80" crop="100%" as im %}
               
-                <a href="{{ target.get_absolute_url }}"> {{ target }}</a>
+                <a href="{% url 'profiles:detail' target %}">{{ target }}</a>
                 <img src="{{ im.url }}" class="item-img" style="margin-left: 95px;">
               </a>
             </p>

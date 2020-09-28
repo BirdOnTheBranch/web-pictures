@@ -14,7 +14,6 @@ from common.decorators import ajax_required
 from .models import Like
 
 
-
 @method_decorator(login_required, name='dispatch')
 class LikeListView(ListView):
     model = Like
@@ -23,7 +22,7 @@ class LikeListView(ListView):
         """Create dict context."""
         context = super().get_context_data(*args, **kwargs)
         context['profile_list'] = Profile.objects.all()
-        return context 
+        return context
 
 
 @method_decorator(login_required, name='dispatch')
@@ -32,7 +31,7 @@ class LikeDetailView(DetailView):
 
 
 @ajax_required
-@login_required(login_url='/user')  
+@login_required(login_url='/user')
 def like_button(request, pk):
     "Save user whit page's like and send to Ajax"
     user = request.user
@@ -43,11 +42,11 @@ def like_button(request, pk):
 
         if page.likes.filter(id=user.id).exists():
             page.likes.remove(user)
-            #Delete objecct in data base
+            # Delete objecct in data base
             Like.objects.filter(user=user).delete()
         else:
             page.likes.add(user)
-            #Create object in data base
+            # Create object in data base
             Like.objects.create(user=user, page=page, value="like")
             create_action(request.user, 'like', page)
 
