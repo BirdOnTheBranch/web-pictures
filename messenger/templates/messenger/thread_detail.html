@@ -8,43 +8,38 @@
   .mine    { padding:0 0.5em 0.25em; background-color:rgba(230,242,245,.5); width:92%; margin-left:8%; }
   .other   { padding:0 0.5em 0.25em; background-color:#f2f3f5; width:92%; }
 </style>
-<h1 style="margin: 80px"></h1>
+<h1 style="margin: 60px"></h1>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-7">
         <div class="row">
-
           <!-- Comversation threads-->
-          <div class="col-md-4">
+          <div class="col-3">
             <!-- With inverse search in user.threads too we get the threads of one user -->
             {% for thread in request.user.threads.all %}
             <!-- Show thread if you have at least one message -->
               {% if thread.messages.all|length > 0 %}
-                <div class="mb-3">
-                  <!--Iterate all users of thread minus request.user-->
-                  {% for user in thread.users.all %}
-                    {% if user != request.user %}     
-                      <!-- Shows avatarś of member -->                
-                      <div style="width: 145px; height: 120px;">  
-                        {% if user.profile.avatar %}
-                          <img src="{{user.profile.avatar.url}}" style="width: 145px; height: 120px;" class="avatar">
-                        {% else %}
-                          <img src="{% static 'registration/img/no-avatar.jpg' %}" style="width: 145px; height: 120px;" class="avatar">
-                        {% endif %}
-                        <!-- show the time information --> 
-                      </div>
-                      <div>
-                        <a href="{% url 'messenger:detail' thread.pk %}">{{user|title}}</a><br>
-                        <small><i>{{thread.messages.last.created|timesince}}</i></small>
-                      </div>
-                    {% endif %}
-                  {% endfor %}
-                </div>
+              <!--Iterate all users of thread minus request.user-->
+              {% for user in thread.users.all %}
+                {% if user != request.user %}     
+                  <!-- Shows avatarś of member -->                
+                  {% if user.profile.avatar %}
+                    <img src="{{user.profile.avatar.url}}" class="avatar image is-128x128 img-fluid">
+                  {% else %}
+                    <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar image is-128x128 img-fluid">
+                  {% endif %}
+                  <!-- show the time information --> 
+                  <div>
+                    <a href="{% url 'messenger:detail' thread.pk %}">{{user|title}}</a><br>
+                    <small><i>{{thread.messages.last.created|timesince}}</i></small>
+                  </div>
+                {% endif %}
+              {% endfor %}
               {% endif %}
             {% endfor %}
           </div>
           <!-- Comversation threads-->
-          <div class="col-md-8">
+          <div class="col-9">
             <!--Iterate all users of thread minus request.user-->
             {% for user in thread.users.all %}
               {% if user != request.user %}       
@@ -113,7 +108,7 @@
             </script>
           </div>
         </div>
+      </div>
     </div>
   </div>
-</div>
 {% endblock %}

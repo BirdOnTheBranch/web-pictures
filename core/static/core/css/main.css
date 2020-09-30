@@ -9,7 +9,6 @@ img {
 }
 
 
-
 /* The navigation bar */
 .navbar {
     overflow: hidden;
@@ -94,3 +93,5 @@ footer p {
 
 .fa  { margin-bottom: 6px; }
 .fa-heart { color:red }
+
+

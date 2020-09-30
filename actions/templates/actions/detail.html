@@ -1,69 +1,65 @@
 {% load thumbnail %}
 
-{% load thumbnail %}
+{% load static %}
 
 {% with user=action.user profile=action.user.profile %}
 
   <div class="action">
     <div class="images">
-      
-      <div class="row">
-        <div class="col-3 align-self-start">
 
+      <div class="row align-items-center">
+        <div class="col-3">
           {% if profile.avatar %}
             {% thumbnail user.profile.avatar "80x80" crop="100%" as im %}
               <a href="{% url 'profiles:detail' profile.user %}">
-                <img src="{{ im.url }}"  alt="{{ user.get_full_name }}" class="item-img">
+                <img src="{{ im.url }}"  alt="{{ user.get_full_name }}" class="item-img avatar image is-96x96 img-fluid">
               </a>
             {% endthumbnail %}
+            {% else %}
+              <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar image is-96x96 img-fluid">
           {% endif %}
-
         </div>
         <br>
-        <div class="col align-self-center">  
-
-          <div class="info">
-            <p>
-            <span class="date">{{ action.created|timesince }} ago</span>
-            <a href="{% url 'profiles:detail' user.profile %}"> {{ user.profile }}</a>
+        
+        <div class="col-6">  
+        <div class="info">
+          <span class="date">{{ action.created|timesince }} ago</span>
+            <a href="{% url 'profiles:detail' user.profile %}">{{ user.profile }}</a>
             {{ action.verb }}
             {% if action.target %}
-
               {% with target=action.target %}
-              {% if request.user == target %}
-              you
-              {% else %}
-              <a href="{{ target.get_absolute_url }}" > {{target.title}}</a>  
-              {% thumbnail target.profile.avatar "80x80" crop="100%" as im %}
-              
-                <a href="{% url 'profiles:detail' target %}">{{ target }}</a>
-                <img src="{{ im.url }}" class="item-img" style="margin-left: 95px;">
-              </a>
-            </p>
-            {% endthumbnail %}
+                {% if request.user == target %}
+                  you
+                {% else %}
+                  <a href="{{ target.get_absolute_url }}" >{{target.title}}</a>
+                {% endif %}
+                {% if target.title == None and target != user.profile%}
+                  <a href="{% url 'profiles:detail' target %}">{{target}}</a> 
                 {% endif %}
               {% endwith %}
-            {% endif %}
-          
+            {% endif %} 
           </div>  
         </div>
 
-        <div class="row justify-content-between">
-
-          {% if action.target %}
-            {% with target=action.target %}
-              {% if target.image %}
-                {% thumbnail target.image "80x80" crop="100%" as im %}
-                  <a href="{{ target.get_absolute_url }}">{{target.title}}</a>
-                    <img src="{{ im.url }}" class="item-img" style="margin-right: 10px;">
-                
-                {% endthumbnail %}
-              {% endif %}
-            {% endwith %}
-          {% endif %}
+        <div class="col-3">
+        {% if action.target %}
+          {% with target=action.target %}
+            {% if target.image %}
+              {% thumbnail target.image "80x80" crop="100%" as im %}
+                <a href="{{ target.get_absolute_url }}">
+                  <img src="{{ im.url }}" class="item-img" style="margin-right: 10px;">
+                </a>
+              {% endthumbnail %}
+            {% endif %}
+            {% thumbnail target.profile.avatar "80x80" crop="100%" as im %}
+              <a href="{% url 'profiles:detail' target %}">
+                <img src="{{ im.url }}" class="item-img avatar image is-96x96 img-fluid">
+              </a>
+            {% endthumbnail %}
+          {% endwith %}
+        {% endif %}
         </div>
-                   
-      </div>  
+      </div>
 
     </div>
   </div>
