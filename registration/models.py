@@ -24,9 +24,8 @@ class Profile(models.Model):
         return self.user.username
 
 
-# signal
 @receiver(post_save, sender=User)
 def ensure_profile_exists(sender, instance, **kwargs):
-    """Created a user and their linked profile"""
+    """Created a user and his linked profile"""
     if kwargs.get('created', False):
         Profile.objects.get_or_create(user=instance)

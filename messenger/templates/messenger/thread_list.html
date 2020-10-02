@@ -6,12 +6,10 @@
 <h1 style="margin: 60px"></h1>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-7">
-
+      <div class="col-7" >
         <div class="row">
           <!-- Comversation threads-->
           <div class="col-3">
-
             <!--Combersation threads-->
             <!-- Show thread if you have at least one message -->
             {% for thread in request.user.threads.all %}
@@ -28,23 +26,24 @@
                     <!-- Show information menbem-->
                       <br>
                       <a href="{% url 'messenger:detail' thread.pk %}">{{user|title}}</a><br>
-                      <small><i>{{thread.messages.last.created|timesince}} ago.</i></small>
-                  {% endif %}
+                        <small><i>{{thread.messages.last.created|timesince}} ago.</i></small>
+                    {% endif %}
                 {% endfor %}
               {% endif %}
             {% endfor %}
             </div>
             <div class="col-9">
             <br>
-            {% if request.user.threads.all %}
-            <!-- Conversation threads -->
-              <p class="text-right">Select a conversation thread from your left panel.</p>
-            {% else %}
-              <p class="text-right">Start a conversation with a friend.</p>
-            {% endif %}
+            {% if request.user in request.user.threads.all %}
+              <!-- Conversation threads -->
+                <p class="text-right">Select a conversation thread from your left panel.</p>
+              {% else %}
+                <p class="text-right">Start a conversation with a friend.</p>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
     </div> 
   </div>
-  {% endblock %}
+{% endblock %}

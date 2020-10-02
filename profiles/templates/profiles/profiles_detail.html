@@ -7,11 +7,11 @@
 <h1 style="margin: 60px"></h1>
  <div class="container">
     <div class="row justify-content-center">
-      <div class="col-9">
+      <div class="col-7">
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
           <div class="row justify-content-center">
             <!-- Avatar -->
-            <div class="col-md-3">
+            <div class="col-md-4">
               {% if user.profile.avatar %}
               <br>
                 <img src="{{user.profile.avatar.url}}" class="avatar image is-128x128 img-fluid" alt="Responsive image">
@@ -29,23 +29,24 @@
           </div>
         </form>
         <!--Folow-->
-          {% with total_followers=user.followers.count %}
-            <span class="count">
-              <span class="total">{{ total_followers }}</span>
-              follower{{ total_followers|pluralize }}
-            </span>
-            {% if user.is_authenticated and user != request.user %} 
-              <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow button">
-                {% if request.user not in user.followers.all %}
-                  Follow
-                {% else %}
-                  Unfollow
-                {% endif %}
-              </a>
-            {% endif %}
-          {% endwith %}
+        {% with total_followers=user.followers.count %}
+          <span class="count">
+            <span class="total">{{ total_followers }}</span>
+            follower{{ total_followers|pluralize }}
+          </span>
+          {% if user.is_authenticated and user != request.user %} 
+            <a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow" class="follow button">
+              {% if request.user not in user.followers.all %}
+                Follow
+              {% else %}
+                Unfollow
+              {% endif %}
+            </a>
+          {% endif %}
+        {% endwith %}
         <!--End follow-->
         <hr>
+        <!--Edit profile-->
         {% if user.is_authenticated and user == request.user %}
         <div class="row justify-content-center">
           <div class="col-9">
@@ -54,72 +55,70 @@
         </div>
         <br>
         {% endif %}
-        <div class="row justify-content-center">
-          <div class="col-12">
-            <div class="row">
-            {% for  project in projects_list%}
-              {% if project.author.user.username == profile.user.username %}
-                  <div class="col-md-4 xs-4">
-                    <div class="row">
-                      <div style="width: 200px; height: 130px;">
-                         <a href="{% url 'pages:page' project.id project|slugify  %}" ><img src="{{project.image.url}}" style="width: 200px; height: 130px;" class="img-fluid" alt="Responsive image"></a>
-                      </div> 
-                      {% if request.user.is_authenticated and project.author.user == request.user %} 
-                    <ul class="nav navbar-nav d-inline-flex">
-                        <li class="nav-item">
-                        <ul class="list-inline-mb-0">
-                            <li class="list-inline-item"><a href="{% url 'pages:update' project.id %}">Edit </a></li>
-                            <li class="list-inline-item"><a href="{% url 'pages:delete' project.id %}">Delete</a></li>          
-                        </ul>
+        <!--End edit profile-->
+        <!-- Show user profile posts-->
+        <div class="row ">
+          {% for project in projects %}
+              <div class="col-3">
+                <div style="width: 167px; height: 120px;">
+                    <a href="{{ project.get_absolute_url }}" ><img src="{{project.image.url}}" class="img-fluid" style="width: 167px; height: 120px;" alt="Responsive image"></a>
+                </div> 
+                <ul class="nav navbar-nav d-inline-flex">
+                  <li class="nav-item">
+                    <ul class="list-inline-mb-0">
+                      <li class="list-inline-item"><a href="{% url 'pages:update' project.id %}">Edit</a></li>
+                      <li class="list-inline-item"><a href="{% url 'pages:delete' project.id %}">Delete</a></li>          
                     </ul>
-                    {% endif %}
-                    </div> 
-                  </div>
-              {% endif %}
-            {% endfor %}
-            <!--Follow JS-->
-            <script>
-              var csrftoken = Cookies.get('csrftoken');
-              function csrfSafeMethod(method) {
-                  // these HTTP methods do not require CSRF protection
-                  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-              }
-              $.ajaxSetup({
-                  beforeSend: function(xhr, settings){
-                  if(!csrfSafeMethod(settings.type) && !this.crossDomain){
-                      xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                        }
+                  </li>
+                </ul>
+              </div>
+          {% endfor %}
+          </div> 
+
+          <!-- End show post user profile -->
+          <!--Follow JS-->
+          <script>
+            var csrftoken = Cookies.get('csrftoken');
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings){
+                if(!csrfSafeMethod(settings.type) && !this.crossDomain){
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
                       }
-                    });
-                    $(document).ready(function(){
-                        $('a.follow').click(function(e){
-                            e.preventDefault();
-                            $.post('{% url "contact:friends_follow" %}',
-                            {
-                                id: $(this).data('id'),
-                                action: $(this).data('action')
-                            },
-                            function(data){
-                                if (data['status'] == 'ok') {
-                                var previous_action = $('a.follow').data('action');
-                
-                                // toggle data-action
-                                $('a.follow').data('action',
-                                    previous_action == 'follow' ? 'unfollow' : 'follow');
-                                // toggle link text
-                                $('a.follow').text(
-                                    previous_action == 'follow' ? 'Unfollow' : 'Follow');
-                
-                                // update total followers
-                                var previous_followers = parseInt(
-                                    $('span.count .total').text());
-                                $('span.count .total').text(previous_action == 'follow' ? previous_followers + 1 : previous_followers - 1);
-                                }
-                            }
-                            );
-                        });
-                    });
-                </script>
+                    }
+                  });
+                  $(document).ready(function(){
+                      $('a.follow').click(function(e){
+                          e.preventDefault();
+                          $.post('{% url "contact:friends_follow" %}',
+                          {
+                              id: $(this).data('id'),
+                              action: $(this).data('action')
+                          },
+                          function(data){
+                              if (data['status'] == 'ok') {
+                              var previous_action = $('a.follow').data('action');
+              
+                              // toggle data-action
+                              $('a.follow').data('action',
+                                  previous_action == 'follow' ? 'unfollow' : 'follow');
+                              // toggle link text
+                              $('a.follow').text(
+                                  previous_action == 'follow' ? 'Unfollow' : 'Follow');
+              
+                              // update total followers
+                              var previous_followers = parseInt(
+                                  $('span.count .total').text());
+                              $('span.count .total').text(previous_action == 'follow' ? previous_followers + 1 : previous_followers - 1);
+                              }
+                          }
+                          );
+                      });
+                  });
+              </script>
                 <!-- End follow JS-->
             </div> 
          </div>

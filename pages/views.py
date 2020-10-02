@@ -45,13 +45,18 @@ class TagIndexView(TagMixin, ListView):
 @method_decorator(login_required, name='dispatch')
 class PageCreateView(CreateView):
     model = Page
-    fields = ['image', 'title', 'comment', 'tags']
     success_url = reverse_lazy('pages:pages')
+    form_class = PageForms
+
+    def get_object(self):
+        return
 
     def form_valid(self, form):
         # Asing self.user.request for default to author model instance.
         form.instance.author = Profile.objects.get(user=self.request.user)
-        create_action(self.request.user, f'new post "{form.instance.title}"', form.instance)
+        self.object = form.save()
+        page = get_object_or_404(Page, pk=self.object.id)
+        create_action(self.request.user, f'new post ', page)
         return super().form_valid(form)
 
 

@@ -37,5 +37,5 @@ class Page(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        return reverse('pages:page', args={self.id, self.slug})
+    def get_absolute_url(self, *args, **kwargs):
+        return reverse('pages:page', kwargs={'slug': self.slug, 'pk': self.id})

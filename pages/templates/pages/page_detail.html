@@ -14,18 +14,17 @@
                 <div class="header">
                     <div class="media">
                         <div class="media-left">
-                           <div style="width: 115px; height: 90px;">
                             <!-- Show avatar for user post-->
                             {% if page.author.avatar %}
-                                <a href="{% url 'profiles:detail' page.author %}" ><img src="{{page.author.avatar.url}}" style="width: 115px; height: 90px;" alt="Placeholder image"></a>
+                                <a href="{% url 'profiles:detail' page.author %}" >
+                                <img class="avatar image is-96x96" src="{{page.author.avatar.url}}"  alt="Placeholder image"></a>
                             {% endif %}
-                            </div>
                         </div>
                         <div class="media-content">
                             </p>
-                            <a href="{% url 'profiles:detail' page.author %}" ><p class="title is-4" >{{page.author|title}}</p></a>
+                                <a href="{% url 'profiles:detail' page.author %}" ><p class="title is-4" >{{page.author|title}}</p></a>
                             </p>
-                            <p class="subtitle is-5">{{page.title}}</p>
+                                <p class="subtitle is-5">{{page.title}}</p>
                         </div>
                     </div>
                 </div>
@@ -122,8 +121,6 @@
                     </ul>
                     {% endif %}
                     <!-- Logic of comment likes-->
-
-
                     </div>
                 </div>
             </div>

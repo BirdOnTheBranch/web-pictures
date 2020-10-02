@@ -17,7 +17,8 @@
                             <div style="width: 115px; height: 90px;">
                             <!-- Show avatar for user post-->
                             {% if page.author.avatar %}
-                                <a href="{% url 'profiles:detail' page.author %}" ><img class="avatar image is-96x96" src="{{page.author.avatar.url}}"  alt="Placeholder image"></a>
+                                <a href="{% url 'profiles:detail' page.author %}" >
+                                <img class="avatar image is-96x96" src="{{page.author.avatar.url}}"  alt="Placeholder image"></a>
                             {% endif %}
                             </div>
                         </div>

@@ -6,7 +6,6 @@
 
   <div class="action">
     <div class="images">
-
       <div class="row align-items-center">
         <div class="col-3">
           {% if profile.avatar %}
@@ -20,11 +19,10 @@
           {% endif %}
         </div>
         <br>
-        
         <div class="col-6">  
-        <div class="info">
-          <span class="date">{{ action.created|timesince }} ago</span>
-            <a href="{% url 'profiles:detail' user.profile %}">{{ user.profile }}</a>
+          <div class="info">
+            <span class="date">{{ action.created|timesince }} ago</span>
+              <a href="{% url 'profiles:detail' user.profile %}">{{ user.profile }}</a>
             {{ action.verb }}
             {% if action.target %}
               {% with target=action.target %}
@@ -33,34 +31,38 @@
                 {% else %}
                   <a href="{{ target.get_absolute_url }}" >{{target.title}}</a>
                 {% endif %}
-                {% if target.title == None and target != user.profile%}
+                {% if target.title == None and target != user.profile and request.user != target %}
                   <a href="{% url 'profiles:detail' target %}">{{target}}</a> 
                 {% endif %}
               {% endwith %}
             {% endif %} 
           </div>  
         </div>
-
         <div class="col-3">
         {% if action.target %}
           {% with target=action.target %}
             {% if target.image %}
               {% thumbnail target.image "80x80" crop="100%" as im %}
                 <a href="{{ target.get_absolute_url }}">
-                  <img src="{{ im.url }}" class="item-img" style="margin-right: 10px;">
+                  <img src="{{ im.url }}" class="rounded float-left" style="margin-left: 13px;">
                 </a>
               {% endthumbnail %}
             {% endif %}
-            {% thumbnail target.profile.avatar "80x80" crop="100%" as im %}
+            {% if target.profile.avatar or target.title%}
+              {% thumbnail target.profile.avatar "80x80" crop="100%" as im %}
+                <a href="{% url 'profiles:detail' target %}">
+                  <img src="{{ im.url }}" class="item-img avatar image is-96x96 img-fluid">
+                </a>
+              {% endthumbnail %}
+            {% else %}
               <a href="{% url 'profiles:detail' target %}">
-                <img src="{{ im.url }}" class="item-img avatar image is-96x96 img-fluid">
+                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar image is-96x96 img-fluid">
               </a>
-            {% endthumbnail %}
+            {% endif %}
           {% endwith %}
         {% endif %}
         </div>
       </div>
-
     </div>
   </div>
 

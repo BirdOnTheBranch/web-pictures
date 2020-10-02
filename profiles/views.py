@@ -24,5 +24,7 @@ class ProfileDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         """Create dict context."""
         context = super().get_context_data(*args, **kwargs)
-        context['projects_list'] = Page.objects.all()
+        user = get_object_or_404(Profile, user=self.object.id)
+        query_page = Page.objects.all().filter(author=user)
+        context['projects'] = query_page
         return context
