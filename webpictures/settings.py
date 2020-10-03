@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+from .authkeys import FACEBOOK_KEY, FACEBOOK_SECRET
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -54,7 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    # 'social_django',
+    'social_django',
     'actions.apps.ActionsConfig',
     'crispy_forms',
     'core',
@@ -111,15 +112,22 @@ DATABASES = {
     }
 }
 
-# SOCIAL_AUTH_FACEBOOK_KEY = '' #Facebook App ID
-# SOCIAL_AUTH_FACEBOOK_SECRET = '' #Facebook App Secret
+# social_app
 
-# AUTHENTICATION_BACKENDS = {
-#      'social_core.backends.facebook.FacebookOAuth2',
-#  }
+SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_KEY  # Facebook App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_SECRET  # Facebook App Secret
+
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

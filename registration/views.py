@@ -42,7 +42,7 @@ class ProfileView(UpdateView):
         return reverse('profiles:detail', kwargs={'username': self.request.user})
 
     def get_object(self):
-        """Recover the object that will be editable."""
+        """Recover the object that will be editable"""
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
 
@@ -56,11 +56,10 @@ class EmailUpdate(UpdateView):
         return reverse('profiles:detail', kwargs={'username': self.request.user})
 
     def get_object(self):
-        """Recover the user."""
         return self.request.user
 
     def get_form(self, form_class=None):
-        """Modified form in real time."""
+        """Modified form in real time"""
         form = super().get_form()
         form.fields['email'].widget = forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'})
         return form

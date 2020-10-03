@@ -22,9 +22,9 @@ class ProfileDetailView(DetailView):
         return get_object_or_404(User, username=self.kwargs['username'])
 
     def get_context_data(self, *args, **kwargs):
-        """Create dict context."""
-        context = super().get_context_data(*args, **kwargs)
+        """Filter post only profile user"""
         user = get_object_or_404(Profile, user=self.object.id)
-        query_page = Page.objects.all().filter(author=user)
-        context['projects'] = query_page
+        author_pages = Page.objects.all().filter(author=user)
+        context = super().get_context_data(*args, **kwargs)
+        context['projects'] = author_pages
         return context
