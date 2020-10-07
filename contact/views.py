@@ -1,13 +1,13 @@
+from actions.utils import create_action
+from common.decorators import ajax_required
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.contrib.auth.models import User
-from django.views.decorators.http import require_POST
-from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
 
-from common.decorators import ajax_required
-from actions.utils import create_action
 from .models import Contact
 
 

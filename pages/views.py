@@ -1,20 +1,20 @@
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.shortcuts import get_object_or_404, reverse
-from django.utils.decorators import method_decorator
+import json
+
+from actions.models import Action
+from actions.utils import create_action
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, reverse
 from django.urls import reverse_lazy
-
+from django.utils.decorators import method_decorator
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, DeleteViewm, UpdateView
+from django.views.generic.list import ListView
+from registration.models import Profile
 # Taggit
 from taggit.models import Tag
-import json
 
-from registration.models import Profile
-from actions.models import Action
-from actions.utils import create_action
 from .forms import PageForms
 from .models import Page
 
@@ -79,6 +79,7 @@ class PageDeleteView(DeleteView):
     success_url = reverse_lazy('pages:pages')
 
     def delete(self, request, *args, **kwargs):
+        """Delete action and object"""
         self.object = self.get_object()
         success_url = self.get_success_url()
         action = Action.objects.filter(target_id=self.object.id)

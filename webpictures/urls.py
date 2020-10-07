@@ -15,19 +15,17 @@ Including another URLconf
 """
 
 
-from django.urls import path, include
-from django.contrib import admin
+import debug_toolbar
+from actions.urls import actions_patterns
+from contact.urls import contact_patterns
 from django.conf import settings
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.urls import include, path
+from likes.urls import likes_patterns
+from messenger.urls import messenger_patterns
 from pages.urls import pages_patterns
 from profiles.urls import profiles_patterns
-from messenger.urls import messenger_patterns
-from likes.urls import likes_patterns
-from contact.urls import contact_patterns
-from actions.urls import actions_patterns
-from django.contrib.auth import views as auth_views
-
-import debug_toolbar
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),

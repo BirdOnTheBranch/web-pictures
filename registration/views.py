@@ -1,15 +1,15 @@
-from django.views.generic import CreateView
-from django.views.generic.edit import UpdateView
-from django.utils.decorators import method_decorator
-from django.shortcuts import get_object_or_404
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
-from django import forms
+from django.shortcuts import get_object_or_404
+from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView
+from django.views.generic.edit import UpdateView
 
+from .forms import EmailForm, ProfileForm, UCFWithEmail
 from .models import Profile
-from .forms import UCFWithEmail, ProfileForm, EmailForm
 
 
 class SignUpView(CreateView):

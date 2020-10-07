@@ -1,6 +1,8 @@
 import datetime
-from django.utils import timezone
+
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
+
 from .models import Action
 
 

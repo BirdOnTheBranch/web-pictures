@@ -1,11 +1,9 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView
-from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
-
-from registration.models import Profile
+from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST
+from django.views.generic import DetailView, ListView
 from pages.models import Page
+from registration.models import Profile
 
 
 class ProfileListView(ListView):

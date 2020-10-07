@@ -2,9 +2,8 @@
 {% block title %}Web Pictures Pics{% endblock %}
 {% load static %}
 {% block content %}
-<style>
 
-</style>
+
 <h1 style="margin: 35px"></h1>
 {% for page in page_list %}
 <div class="container">
@@ -26,7 +25,7 @@
                             <br>
                             <a href="{% url 'profiles:detail' page.author %}" ><p class="title is-4" >{{page.author|title}}</p></a>
                             <br>
-                            <p class="subtitle is-5">{{page.title}}</p>
+                            <a href="{% url 'pages:page' page.slug page.id %}"><p class="subtitle is-5">{{page.title}}</p></a>
                         </div>
                     </div>
                 </div>
