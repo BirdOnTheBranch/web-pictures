@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import LikeListView, LikeDetailView, like_button
 
+from .views import LikeDetailView, LikeListView, like_button
 
 likes_patterns = ([
     path('', LikeListView.as_view(), name='likes'),

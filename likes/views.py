@@ -1,16 +1,17 @@
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-
 import json
 
-from pages.models import Page
-from registration.models import Profile
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
+
 from actions.utils import create_action
 from common.decorators import ajax_required
+from pages.models import Page
+from registration.models import Profile
+
 from .models import Like
 
 
@@ -35,11 +36,9 @@ class LikeDetailView(DetailView):
 def like_button(request, pk):
     "Save user whit page's like and send to Ajax"
     user = request.user
-
     if request.method == 'POST':
         id = request.POST.get('pk', None)
         page = get_object_or_404(Page, pk=id)
-
         if page.likes.filter(id=user.id).exists():
             page.likes.remove(user)
             # Delete objecct in data base
@@ -49,7 +48,5 @@ def like_button(request, pk):
             # Create object in data base
             Like.objects.create(user=user, page=page, value="like")
             create_action(request.user, 'like', page)
-
     context = {'likes_count': page.total_likes}
-
     return HttpResponse(json.dumps(context), content_type='application/json')

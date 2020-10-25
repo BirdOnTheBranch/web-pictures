@@ -1,10 +1,11 @@
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-from registration.models import Profile
+
 from taggit.managers import TaggableManager
+
+from registration.models import Profile
 
 
 class Page(models.Model):

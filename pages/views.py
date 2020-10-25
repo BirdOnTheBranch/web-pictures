@@ -1,19 +1,17 @@
-import json
-
-from actions.models import Action
-from actions.utils import create_action
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, reverse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteViewm, UpdateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
-from registration.models import Profile
-# Taggit
+
 from taggit.models import Tag
+
+from actions.models import Action
+from actions.utils import create_action
+from registration.models import Profile
 
 from .forms import PageForms
 from .models import Page
@@ -58,7 +56,7 @@ class PageCreateView(CreateView):
         # create action
         self.object = form.save()
         page = get_object_or_404(Page, pk=self.object.id)
-        create_action(self.request.user, f'new post ', page)
+        create_action(self.request.user, f'{" new post "}', page)
         return super().form_valid(form)
 
 
@@ -70,7 +68,7 @@ class PageUpdateView(UpdateView):
 
     def get_success_url(self):
         # Redefine method for pass the id argument
-        return reverse_lazy('pages:update', args=[self.object.id])+'?ok'
+        return reverse_lazy('pages:update', args=[self.object.id]) + '?ok'
 
 
 @method_decorator(login_required, name='dispatch')

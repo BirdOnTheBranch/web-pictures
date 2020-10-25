@@ -20,7 +20,6 @@ from actions.urls import actions_patterns
 from contact.urls import contact_patterns
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from likes.urls import likes_patterns
 from messenger.urls import messenger_patterns

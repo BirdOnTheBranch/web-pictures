@@ -1,9 +1,9 @@
-from django.db import models
 from django.contrib.auth.models import User
-from pages.models import Page, Profile
+from django.db import models
+
+from pages.models import Page
 
 
-# Create your models here.
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
@@ -16,4 +16,4 @@ class Like(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return f'{self.user} ' + f"{self.value}'s " + 'your pic '+f'{self.page}'
+        return f'{self.user} ' + f"{self.value}'s " + 'your pic ' + f'{self.page}'

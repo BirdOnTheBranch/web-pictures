@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from django.db.models.signals import m2m_changed
 
 
@@ -44,11 +44,11 @@ def messages_changed(sender, **kwargs):
     pk_set = kwargs.pop("pk_set", None)
     print(instance, action, pk_set)
     false_pk_set = set()
-    if action is "pre_add":
+    if action == "pre_add":
         for msg_pk in pk_set:
             msg = Message.objects.get(pk=msg_pk)
             if msg.user not in instance.users.all():
-                print("Caution, ({}) not a part of thread".format(msg.user))
+                print(f"Caution, ({msg.user}) not a part of thread")
                 false_pk_set.add(msg_pk)
         # Actualization forced.
         instance.save()
