@@ -9,38 +9,45 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-7">
-            <div class="card" >
+            <div class="card">
                 <div class="header">
                     <div class="media">
                         <div class="media-left">
                             <div style="width: 115px; height: 90px;">
-                            <!-- Show avatar for user post-->
-                            {% if page.author.avatar %}
-                                <a href="{% url 'profiles:detail' page.author %}" >
-                                <img class="avatar image is-96x96" src="{{page.author.avatar.url}}"  alt="Placeholder image"></a>
-                            {% endif %}
+                                <!-- Show avatar for user post-->
+                                {% if page.author.avatar %}
+                                <a href="{% url 'profiles:detail' page.author %}">
+                                    <img class="avatar image is-96x96" src="{{page.author.avatar.url}}"
+                                        alt="Placeholder image"></a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="media-content">
                             <br>
-                            <a href="{% url 'profiles:detail' page.author %}" ><p class="title is-4" >{{page.author|title}}</p></a>
+                            <a href="{% url 'profiles:detail' page.author %}">
+                                <p class="title is-4">{{page.author|title}}</p>
+                            </a>
                             <br>
-                            <a href="{% url 'pages:page' page.slug page.id %}"><p class="subtitle is-5">{{page.title}}</p></a>
+                            <a href="{% url 'pages:page' page.slug page.id %}">
+                                <p class="subtitle is-5">{{page.title}}</p>
+                            </a>
                         </div>
                     </div>
                 </div>
-                    </p>
-                        <figure class="image is-4by3">
-                        <img src="{{page.image.url}}" alt="Placeholder image">
-                    </figure>
+                </p>
+                <figure class="image is-4by3">
+                    <img src="{{page.image.url}}" alt="Placeholder image">
+                </figure>
                 <div class="card-content">
                     <div class="level is-mobile">
                         <div class="level-left">
                             <div class="level-item has-text-centered">
                                 {% if user not in page.likes.all %}
-                                    <i type="submit" id="btn{{page.id}}" class="fa fa-heart-o fa-lg" name="{{ page.id }}" value="Like" ></i>
+                                <i type="submit" id="btn{{page.id}}" class="fa fa-heart-o fa-lg" name="{{ page.id }}"
+                                    value="Like"></i>
                                 {% else %}
-                                    <i type="submit" id="btn{{page.id}}" class="fa fa-heart fa-lg" name="{{ page.id }}"  value="Like"/>    </i>
+                                <i type="submit" id="btn{{page.id}}" class="fa fa-heart fa-lg" name="{{ page.id }}"
+                                    value="Like" /> </i>
                                 {% endif %}
                             </div>
                             <div class="level-item has-text-centered">
@@ -50,80 +57,95 @@
                             </div>
                             <div class="level-item has-text-centered">
                                 <div>
-                                {% if request.user != page.author.user %}
-                                    <a href="{% url 'messenger:start' page.author.user.username %}"><i class="material-icons">send</i></a><br>
-                                {% endif %}
+                                    {% if request.user != page.author.user %}
+                                    <a href="{% url 'messenger:start' page.author.user.username %}"><i
+                                            class="material-icons">send</i></a><br>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                         <!-- Like_button -->
-                        <div class="total_likes{{page.id}}"></div>
+                    <!-- Like_button -->
+                    <div class="total_likes{{page.id}}"></div>
 
-                       <script>
-
+                    <script>
                         var likes = document.querySelector('.total_likes{{page.id}}');
 
-                        function showlikes(){
-                        if({{ page.total_likes }} > 0){
-                            likes.innerHTML="<strong>Likes "+{{ page.total_likes }}+"<strong>";
-                        }else{
-                            likes.innerHTML="<p>THIS POST DONT HAVE A LIKES, BE THE FIRST."
+                        function showlikes() {
+                            if ({
+                                    {
+                                        page.total_likes
+                                    }
+                                } > 0) {
+                                likes.innerHTML = "<strong>Likes " + {
+                                    {
+                                        page.total_likes
+                                    }
+                                } + "<strong>";
+                            } else {
+                                likes.innerHTML = "<p>THIS POST DONT HAVE A LIKES, BE THE FIRST.</p>"
+                            }
+                            return true
                         }
-                        return true  
-                        }
-
                         showlikes()
-                        
-                        var btn = $("#btn{{page.id}}")                    
-                        btn.click(function(){
-                        var pk = $(this).attr('name');
-                                                
-                        $.ajax({    
-                            type: "POST",
-                            url: "{% url 'likes:like_button' page.id %}",
-                            data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                            dataType: "json",
-                        
-                            success: function(response){
-                                var btn = $("#btn{{page.id}}")
-                                btn.toggleClass('fa-heart fa-heart-o');
-                                $('.total_likes{{page.id}}').html("<strong>Likes "+response.likes_count+"<strong>");
-                                console.log({{page.id}})
-                            },
+                        var btn = $("#btn{{page.id}}")
+                        btn.click(function () {
+                            var pk = $(this).attr('name');
+
+                            $.ajax({
+                                type: "POST",
+                                url: "{% url 'likes:like_button' page.id %}",
+                                data: {
+                                    'pk': pk,
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                },
+                                dataType: "json",
+
+                                success: function (response) {
+                                    var btn = $("#btn{{page.id}}")
+                                    btn.toggleClass('fa-heart fa-heart-o');
+                                    $('.total_likes{{page.id}}').html("<strong>Likes " + response
+                                        .likes_count + "<strong>");
+                                    console.log({
+                                        {
+                                            page.id
+                                        }
+                                    })
+                                },
                             });
                         })
-                    </script>           
-                        <!-- End like_button-->
-                        <div class="content">
+                    </script>
+                    <!-- End like_button-->
+                    <div class="content">
                         </p>
                         <p>{{page.comment|truncatechars:"300"}}</p>
-                        <a href="{% url 'profiles:detail' page.author %}" >{{page.author|title}}</a>
+                        <a href="{% url 'profiles:detail' page.author %}">{{page.author|title}}</a>
                         <time datetime="{{page.created}}">{{page.created}}</time>
-                    </p>
-                    <!--Taggit-->
-                    {% for tag in tags  %}
+                        </p>
+                        <!--Taggit-->
+                        {% for tag in tags  %}
                         {% if tag in page.tags.all %}
                         <a href="{% url 'pages:tagged' tag.slug %}">#{{tag.name}}</a>
                         {% endif %}
-                    {% empty %}
+                        {% empty %}
                         <li>No tags</li>
-                    {% endfor %}
-                    </p>
+                        {% endfor %}
+                        </p>
                     </div>
                     <!--End Taggit-->
                     <div class="card-footer">
-                    {% if request.user.is_authenticated and page.author.user == request.user %} 
-                    <ul class="nav navbar-nav d-inline-flex">
-                        <li class="nav-item">
-                        <ul class="list-inline-mb-0">
-                            <li class="list-inline-item"><a href="{% url 'pages:update' page.id %}">Edit </a></li>
-                            <li class="list-inline-item"><a href="{% url 'pages:delete' page.id %}">Delete</a></li>          
+                        {% if request.user.is_authenticated and page.author.user == request.user %}
+                        <ul class="nav navbar-nav d-inline-flex">
+                            <li class="nav-item">
+                                <ul class="list-inline-mb-0">
+                                    <li class="list-inline-item"><a href="{% url 'pages:update' page.id %}">Edit </a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="{% url 'pages:delete' page.id %}">Delete</a>
+                                    </li>
+                                </ul>
                         </ul>
-                    </ul>
-                    {% endif %}
-                    <!-- Logic of comment likes-->
-
+                        {% endif %}
+                        <!-- Logic of comment likes-->
 
                     </div>
                 </div>
@@ -131,6 +153,6 @@
         </div>
     </div>
     <br><br>
-{% endfor %}
+    {% endfor %}
 
-{% endblock  %}
+    {% endblock  %}

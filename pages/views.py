@@ -23,6 +23,7 @@ class TagMixin(object):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tags"] = Tag.objects.all()
+
         return context
 
 
@@ -51,12 +52,13 @@ class PageCreateView(CreateView):
     form_class = PageForms
 
     def form_valid(self, form):
-        # Asing self.user.request for default to author model instance.
+        # Asing self.user.request by default on author model instance.
         form.instance.author = Profile.objects.get(user=self.request.user)
         # create action
         self.object = form.save()
         page = get_object_or_404(Page, pk=self.object.id)
         create_action(self.request.user, f'{" new post "}', page)
+
         return super().form_valid(form)
 
 
@@ -83,4 +85,5 @@ class PageDeleteView(DeleteView):
         action = Action.objects.filter(target_id=self.object.id)
         action.delete()
         self.object.delete()
+
         return HttpResponseRedirect(success_url)

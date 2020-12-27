@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-from .authkeys import FACEBOOK_KEY, FACEBOOK_SECRET
+# from .authkeys import FACEBOOK_KEY, FACEBOOK_SECRET
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -46,28 +46,36 @@ DEBUG_TOOLBAR_PANELS = [
 ]
 
 # Application definition
-INSTALLED_APPS = [
-    'registration',
+DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
-    'social_django',
+)
+
+LOCAL_APPS = (
+    'registration',
     'actions.apps.ActionsConfig',
-    'crispy_forms',
     'core',
     'contact',
     'messenger',
     'likes',
     'pages.apps.PagesConfig',
     'profiles',
+)
+
+THIRD_APPS = (
+    'debug_toolbar',
+    'social_django',
+    'crispy_forms',
     'django_cleanup.apps.CleanupConfig',
     'taggit',
     'sorl.thumbnail',
-]
+)
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_APPS
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -114,8 +122,8 @@ DATABASES = {
 
 # social_app
 
-SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_KEY  # Facebook App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_SECRET  # Facebook App Secret
+# SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_KEY  # Facebook App ID
+# SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_SECRET  # Facebook App Secret
 
 
 AUTHENTICATION_BACKENDS = [

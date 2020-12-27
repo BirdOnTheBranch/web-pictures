@@ -1,0 +1,20 @@
+{
+    "python.pythonPath": "/home/user/.virtualenvs/pictures/bin/python",
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#910202",
+        "activityBar.activeBorder": "#000000",
+        "activityBar.background": "#910202",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#000000",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "statusBar.background": "#5f0101",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#910202",
+        "titleBar.activeBackground": "#5f0101",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#5f010199",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "5F0101"
+}
