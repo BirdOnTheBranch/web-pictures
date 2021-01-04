@@ -16,5 +16,7 @@
         "titleBar.inactiveBackground": "#5f010199",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "5F0101"
+    "peacock.color": "5F0101",
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
 }
